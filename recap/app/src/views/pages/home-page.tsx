@@ -1,6 +1,6 @@
 import { MagnifyingGlassIcon } from "phosphor-react-native";
 import { ActivityIndicator, FlatList, Text, TextInput, View } from "react-native";
-import { styles } from "./home-style";
+import { styles } from "../../styles/home-style";
 import { CardMovie } from "../../components/CardMovie/card-movie-component";
 import { useHomeViewModel } from "../../viewmodels/use-home-view-model";
 
