@@ -1,12 +1,10 @@
 import { MagnifyingGlassIcon } from "phosphor-react-native";
 import { ActivityIndicator, FlatList, Text, TextInput, View } from "react-native";
-import { styles } from "./home-style";
-import { useEffect, useState } from "react";
-import { api } from "../../services/api-filmes";
 import { CardMovie } from "../../components/CardMovie/card-movie-component";
 import { useHomeViewModel } from "../../viewmodels/useHomeViewModel";
+import { styles } from "./home-style";
 
-export function HomePage() {
+export default function HomePage() {
     const { movieData, loading, empty, search, load, onSearchChange } = useHomeViewModel();
 
     return (
