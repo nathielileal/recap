@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
 import React, { useState } from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { AuthSession } from '../../../services/authService';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');
@@ -11,7 +12,7 @@ export default function SignInPage() {
   const [emailError, setEmailError] = useState('');
   const [authError, setAuthError] = useState('');
 
-  const validateAndLogin = () => {
+  const validateAndLogin = async () => {
     let valid = true;
 
     if (!email.includes('@') || !email.includes('.')) {
@@ -22,11 +23,23 @@ export default function SignInPage() {
     }
 
     if (valid) {
-      console.log('📩 Email:', email);
-      console.log('🔒 Senha:', password);
-      Alert.alert('Login realizado com sucesso!');
+      const users = await AuthSession.getUsers();
+      const matchedUser = users.find(
+        (        user: { email: string; password: string; }) =>
+          user.email.trim().toLowerCase() === email.trim().toLowerCase() &&
+          user.password === password.trim()
+      );
 
-      router.push('/(tabs)');
+      if (matchedUser) {
+        await AuthSession.setLoggedUser(matchedUser);
+        const check = await AuthSession.getLoggedUser();
+        console.log('Salvo como logado:', check);
+
+        Alert.alert('Login realizado com sucesso!');
+        router.replace('/(tabs)');
+      } else {
+        setAuthError('Email ou senha incorretos');
+      }
     }
   };
 
@@ -44,6 +57,7 @@ export default function SignInPage() {
         <Text style={{ color: '#fff', fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 24 }}>RECAP</Text>
         <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 24 }}>Entrar na conta</Text>
 
+        {/* Email */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Email</Text>
         <TextInput
           placeholder="Digite seu email..."
@@ -61,6 +75,7 @@ export default function SignInPage() {
         />
         {emailError ? <Text style={{ color: '#E50914', marginBottom: 16 }}>{emailError}</Text> : <View style={{ height: 16 }} />}
 
+        {/* Senha */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Senha</Text>
         <View style={{ marginBottom: 8 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#fff', borderRadius: 8 }}>
@@ -83,6 +98,7 @@ export default function SignInPage() {
         </View>
         {authError ? <Text style={{ color: '#E50914', marginBottom: 16 }}>{authError}</Text> : <View style={{ height: 16 }} />}
 
+        {/* Botão Entrar */}
         <TouchableOpacity
           style={{
             backgroundColor: '#E50914',
@@ -96,6 +112,7 @@ export default function SignInPage() {
           <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>ENTRAR</Text>
         </TouchableOpacity>
 
+        {/* Botão Voltar */}
         <TouchableOpacity onPress={() => router.back()} style={{ alignItems: 'center' }}>
           <Text style={{ color: '#E50914', fontSize: 16 }}>Voltar</Text>
         </TouchableOpacity>

@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
 import React, { useState } from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { AuthSession } from '../../../services/authService';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('');
@@ -15,32 +16,47 @@ export default function SignUpPage() {
   const [passwordError, setPasswordError] = useState('');
   const [usernameError, setUsernameError] = useState('');
 
-  const validateAndSubmit = () => {
-    let valid = true;
+const validateAndSubmit = async () => {
+  let valid = true;
 
-    if (!email.includes('@') || !email.includes('.')) {
-      setEmailError('Email inválido');
-      valid = false;
-    } else {
-      setEmailError('');
+  if (!email.includes('@') || !email.includes('.')) {
+    setEmailError('Email inválido');
+    valid = false;
+  } else {
+    setEmailError('');
+  }
+
+  if (username.trim().length < 3) {
+    setUsernameError('Nome de usuário muito curto');
+    valid = false;
+  } else {
+    setUsernameError('');
+  }
+
+  if (password !== confirmPassword) {
+    setPasswordError('As senhas não coincidem');
+    valid = false;
+  } else if (password.length < 6) {
+    setPasswordError('Senha deve ter pelo menos 6 caracteres');
+    valid = false;
+  } else {
+    setPasswordError('');
+  }
+
+  if (valid) {
+    const alreadyExists = await AuthSession.userExists({ email, username });
+
+    if (alreadyExists) {
+      Alert.alert('Erro', 'Email ou nome de usuário já cadastrado');
+      return;
     }
 
-    if (password !== confirmPassword) {
-      setPasswordError('As senhas não coincidem');
-      valid = false;
-    } else {
-      setPasswordError('');
-    }
+await AuthSession.setLoggedUser({ username, email, password });
+    Alert.alert('Conta criada com sucesso!');
+    router.replace('/(tabs)');
+  }
+};
 
-    if (valid) {
-      console.log('Email:', email);
-      console.log('Username:', username);
-      console.log('Senha:', password);
-      Alert.alert('Conta criada com sucesso!');
-
-      router.push('/src/views/(auth)/sign-in');
-    }
-  };
 
   return (
     <View style={{ flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center', padding: 24 }}>
@@ -56,6 +72,7 @@ export default function SignUpPage() {
         <Text style={{ color: '#fff', fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 24 }}>RECAP</Text>
         <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 24 }}>Criar uma conta</Text>
 
+        {/* Email */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Email</Text>
         <TextInput
           placeholder="Digite seu email..."
@@ -73,6 +90,7 @@ export default function SignUpPage() {
         />
         {emailError ? <Text style={{ color: '#E50914', marginBottom: 16 }}>{emailError}</Text> : <View style={{ height: 16 }} />}
 
+        {/* Nome de usuário */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Nome de usuário</Text>
         <TextInput
           placeholder="Digite seu nome de usuário..."
@@ -90,6 +108,7 @@ export default function SignUpPage() {
         />
         {usernameError ? <Text style={{ color: '#E50914', marginBottom: 8 }}>{usernameError}</Text> : <View style={{ height: 16 }} />}
 
+        {/* Senha */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Senha</Text>
         <View style={{ marginBottom: 8 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#fff', borderRadius: 8 }}>
@@ -111,8 +130,9 @@ export default function SignUpPage() {
           </View>
         </View>
 
-        <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4, marginTop: 8  }}>Confirmar senha</Text>
-        <View style={{ marginBottom: 8}}>
+        {/* Confirmar senha */}
+        <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4, marginTop: 8 }}>Confirmar senha</Text>
+        <View style={{ marginBottom: 8 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#fff', borderRadius: 8 }}>
             <TextInput
               placeholder="Confirme sua senha..."
@@ -133,6 +153,7 @@ export default function SignUpPage() {
         </View>
         {passwordError ? <Text style={{ color: '#E50914', marginBottom: 16 }}>{passwordError}</Text> : <View style={{ height: 16 }} />}
 
+        {/* Botão Criar Conta */}
         <TouchableOpacity
           style={{
             backgroundColor: '#E50914',
@@ -146,6 +167,7 @@ export default function SignUpPage() {
           <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>CRIAR CONTA</Text>
         </TouchableOpacity>
 
+        {/* Botão Voltar */}
         <TouchableOpacity onPress={() => router.back()} style={{ alignItems: 'center' }}>
           <Text style={{ color: '#E50914', fontSize: 16 }}>Voltar</Text>
         </TouchableOpacity>
