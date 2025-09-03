@@ -20,7 +20,7 @@ export default function WelcomePage() {
           width: '100%',
           alignItems: 'center',
         }}
-        onPress={() => router.push("/src/views/(auth)/sign-up")}
+        onPress={() => router.push("/(auth)/sign-up")}
       >
         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Cadastrar</Text>
       </TouchableOpacity>
@@ -34,7 +34,7 @@ export default function WelcomePage() {
           width: '100%',
           alignItems: 'center',
         }}
-        onPress={() => router.push("/src/views/(auth)/sign-in")}
+        onPress={() => router.push("/(auth)/sign-in")}
       >
         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Já tenho conta</Text>
       </TouchableOpacity>

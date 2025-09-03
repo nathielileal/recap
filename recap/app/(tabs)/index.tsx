@@ -1,4 +1,4 @@
-import HomePage from "../pages/Home/HomePage";
+import HomePage from "../src/views/Home/HomePage";
 
 export default function Index() {
   return (

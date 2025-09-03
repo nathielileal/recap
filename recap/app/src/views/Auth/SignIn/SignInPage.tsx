@@ -1,11 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import { Eye, EyeSlash } from 'phosphor-react-native';
+import { router } from 'expo-router';
+import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
 import React, { useState } from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function SignInPage() {
-  const navigation = useNavigation();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +25,8 @@ export default function SignInPage() {
       console.log('📩 Email:', email);
       console.log('🔒 Senha:', password);
       Alert.alert('Login realizado com sucesso!');
-      //PRA DIRECIONAR DPS navigation.navigate('Home'); r
+
+      router.push('/(tabs)');
     }
   };
 
@@ -78,7 +77,7 @@ export default function SignInPage() {
               }}
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={{ paddingHorizontal: 12 }}>
-              {showPassword ? <EyeSlash color="#fff" size={24} /> : <Eye color="#fff" size={24} />}
+              {showPassword ? <EyeSlashIcon color="#fff" size={24} /> : <EyeIcon color="#fff" size={24} />}
             </TouchableOpacity>
           </View>
         </View>
@@ -97,7 +96,7 @@ export default function SignInPage() {
           <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>ENTRAR</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ alignItems: 'center' }}>
+        <TouchableOpacity onPress={() => router.back()} style={{ alignItems: 'center' }}>
           <Text style={{ color: '#E50914', fontSize: 16 }}>Voltar</Text>
         </TouchableOpacity>
       </View>

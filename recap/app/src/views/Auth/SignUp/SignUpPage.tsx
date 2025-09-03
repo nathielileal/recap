@@ -1,11 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
-import { Eye, EyeSlash } from 'phosphor-react-native';
+import { router } from 'expo-router';
+import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
 import React, { useState } from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function SignUpPage() {
-  const navigation = useNavigation();
-
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -39,6 +37,8 @@ export default function SignUpPage() {
       console.log('Username:', username);
       console.log('Senha:', password);
       Alert.alert('Conta criada com sucesso!');
+
+      router.push('/src/views/(auth)/sign-in');
     }
   };
 
@@ -106,7 +106,7 @@ export default function SignUpPage() {
               }}
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={{ paddingHorizontal: 12 }}>
-              {showPassword ? <EyeSlash color="#fff" size={24} /> : <Eye color="#fff" size={24} />}
+              {showPassword ? <EyeSlashIcon color="#fff" size={24} /> : <EyeIcon color="#fff" size={24} />}
             </TouchableOpacity>
           </View>
         </View>
@@ -127,7 +127,7 @@ export default function SignUpPage() {
               }}
             />
             <TouchableOpacity onPress={() => setShowConfirm(!showConfirm)} style={{ paddingHorizontal: 12 }}>
-              {showConfirm ? <EyeSlash color="#fff" size={24} /> : <Eye color="#fff" size={24} />}
+              {showConfirm ? <EyeSlashIcon color="#fff" size={24} /> : <EyeIcon color="#fff" size={24} />}
             </TouchableOpacity>
           </View>
         </View>
@@ -146,7 +146,7 @@ export default function SignUpPage() {
           <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>CRIAR CONTA</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ alignItems: 'center' }}>
+        <TouchableOpacity onPress={() => router.back()} style={{ alignItems: 'center' }}>
           <Text style={{ color: '#E50914', fontSize: 16 }}>Voltar</Text>
         </TouchableOpacity>
       </View>
