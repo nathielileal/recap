@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import AuthButton from '../../components/Auth/AuthButton';
-import InputField from '../../components/Auth/InputField';
+import InputField from '../../../components/Fields/InputField';
+import AuthButton from '../../../components/Auth/AuthButton';
 
 export default function SignUpView({
   email,

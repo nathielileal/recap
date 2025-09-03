@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signUp } from '../services/auth-service';
+import { signUp } from '../services/authService';
 
 export function useSignUpViewModel() {
   const [email, setEmail] = useState('');
