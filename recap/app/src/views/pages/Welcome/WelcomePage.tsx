@@ -1,11 +1,8 @@
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { RootStackParamList } from '../navigation/types';
+import { useRouter } from "expo-router";
+import { Text, TouchableOpacity, View } from "react-native";
 
 export default function WelcomePage() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const router = useRouter();
 
   return (
     <View style={{ flex: 1, backgroundColor: '#121212', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 24 }}>
@@ -23,7 +20,7 @@ export default function WelcomePage() {
           width: '100%',
           alignItems: 'center',
         }}
-        onPress={() => navigation.navigate('SignUp')}
+        onPress={() => router.push("/src/views/(auth)/sign-up")}
       >
         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Cadastrar</Text>
       </TouchableOpacity>
@@ -37,7 +34,7 @@ export default function WelcomePage() {
           width: '100%',
           alignItems: 'center',
         }}
-        onPress={() => navigation.navigate('SignIn')}
+        onPress={() => router.push("/src/views/(auth)/sign-in")}
       >
         <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Já tenho conta</Text>
       </TouchableOpacity>

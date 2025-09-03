@@ -1,24 +1,8 @@
 import { MagnifyingGlassIcon } from "phosphor-react-native";
 import { ActivityIndicator, FlatList, Text, TextInput, View } from "react-native";
-<<<<<<< HEAD
-<<<<<<<< HEAD:recap/app/src/views/Home/homePage.tsx
-========
-import { styles } from "../../styles/home-style";
->>>>>>>> 33918b4 ([feat] - tab bar e navegacao implementados):recap/app/src/views/pages/home-page.tsx
-import { CardMovie } from "../../components/CardMovie/card-movie-component";
-import { useHomeViewModel } from "../../viewmodels/useHomeViewModel";
-import { styles } from "./home-style";
-=======
-<<<<<<<< HEAD:recap/app/src/views/pages/home-page.tsx
-import { styles } from "../../styles/home-style";
-import { CardMovie } from "../../components/CardMovie/card-movie-component";
-import { useHomeViewModel } from "../../viewmodels/use-home-view-model";
-========
-import { CardMovie } from "../../components/CardMovie/card-movie-component";
-import { useHomeViewModel } from "../../viewmodels/useHomeViewModel";
-import { styles } from "./home-style";
->>>>>>>> 9c56f8a8a182fa59536a8a49244f6bdf032b422e:recap/app/src/views/Home/homePage.tsx
->>>>>>> 1b2ae6e8931213cfcbf88cc06250fd16cff82ce8
+import { styles } from "./Home.styles";
+import { CardMovie } from "../../../components/CardMovie/CardMovie";
+import { useHomeViewModel } from "../../../viewmodels/useHomeViewModel";
 
 export default function HomePage() {
     const { movieData, loading, empty, search, load, onSearchChange } = useHomeViewModel();

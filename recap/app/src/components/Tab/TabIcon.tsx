@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { styles } from "../../styles/tabs-style";
+import { styles } from "../../styles/Tabs.styles";
 
 export function TabIcon({ focused, icon, title }: any) {
     return (

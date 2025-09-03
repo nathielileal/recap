@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signIn } from '../services/auth-service';
+import { signIn } from '../services/authService';
 
 export function useLoginViewModel() {
   const [username, setUsername] = useState('');

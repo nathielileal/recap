@@ -1,5 +1,5 @@
 import { Image, Pressable } from "react-native";
-import { styles } from "../../styles/card-movie-style";
+import { styles } from "./CardMovie.styles";
 
 interface Movie {
     id: number,
