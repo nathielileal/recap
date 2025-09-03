@@ -37,9 +37,13 @@
     "expo-web-browser": "~14.2.0",
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 =======
     "nativewind": "^4.1.23",
 >>>>>>> 33918b4 ([feat] - tab bar e navegacao implementados)
+=======
+    "nativewind": "^4.1.23",
+>>>>>>> 1b2ae6e8931213cfcbf88cc06250fd16cff82ce8
     "phosphor-react-native": "^3.0.0",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-image-picker": "^8.2.1",
