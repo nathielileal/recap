@@ -1,0 +1,155 @@
+import { useNavigation } from '@react-navigation/native';
+import { Eye, EyeSlash } from 'phosphor-react-native';
+import React, { useState } from 'react';
+import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+
+export default function SignUpPage() {
+  const navigation = useNavigation();
+
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+
+  const validateAndSubmit = () => {
+    let valid = true;
+
+    if (!email.includes('@') || !email.includes('.')) {
+      setEmailError('Email inválido');
+      valid = false;
+    } else {
+      setEmailError('');
+    }
+
+    if (password !== confirmPassword) {
+      setPasswordError('As senhas não coincidem');
+      valid = false;
+    } else {
+      setPasswordError('');
+    }
+
+    if (valid) {
+      console.log('Email:', email);
+      console.log('Username:', username);
+      console.log('Senha:', password);
+      Alert.alert('Conta criada com sucesso!');
+    }
+  };
+
+  return (
+    <View style={{ flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center', padding: 24 }}>
+      <View style={{
+        width: '100%',
+        maxWidth: 400,
+        borderWidth: 2,
+        borderColor: '#fff',
+        borderRadius: 12,
+        padding: 24,
+        backgroundColor: '#000'
+      }}>
+        <Text style={{ color: '#fff', fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 24 }}>RECAP</Text>
+        <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 24 }}>Criar uma conta</Text>
+
+        <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Email</Text>
+        <TextInput
+          placeholder="Digite seu email..."
+          placeholderTextColor="#aaa"
+          value={email}
+          onChangeText={setEmail}
+          style={{
+            borderWidth: 1,
+            borderColor: '#fff',
+            color: '#fff',
+            marginBottom: 2,
+            padding: 12,
+            borderRadius: 8,
+          }}
+        />
+        {emailError ? <Text style={{ color: '#E50914', marginBottom: 16 }}>{emailError}</Text> : <View style={{ height: 16 }} />}
+
+        <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Nome de usuário</Text>
+        <TextInput
+          placeholder="Digite seu nome de usuário..."
+          placeholderTextColor="#aaa"
+          value={username}
+          onChangeText={setUsername}
+          style={{
+            borderWidth: 1,
+            borderColor: '#fff',
+            color: '#fff',
+            marginBottom: 2,
+            padding: 12,
+            borderRadius: 8,
+          }}
+        />
+        {usernameError ? <Text style={{ color: '#E50914', marginBottom: 8 }}>{usernameError}</Text> : <View style={{ height: 16 }} />}
+
+        <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Senha</Text>
+        <View style={{ marginBottom: 8 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#fff', borderRadius: 8 }}>
+            <TextInput
+              placeholder="Digite sua senha..."
+              placeholderTextColor="#aaa"
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
+              style={{
+                color: '#fff',
+                flex: 1,
+                padding: 12,
+              }}
+            />
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={{ paddingHorizontal: 12 }}>
+              {showPassword ? <EyeSlash color="#fff" size={24} /> : <Eye color="#fff" size={24} />}
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4, marginTop: 8  }}>Confirmar senha</Text>
+        <View style={{ marginBottom: 8}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#fff', borderRadius: 8 }}>
+            <TextInput
+              placeholder="Confirme sua senha..."
+              placeholderTextColor="#aaa"
+              secureTextEntry={!showConfirm}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+              style={{
+                color: '#fff',
+                flex: 1,
+                padding: 12,
+              }}
+            />
+            <TouchableOpacity onPress={() => setShowConfirm(!showConfirm)} style={{ paddingHorizontal: 12 }}>
+              {showConfirm ? <EyeSlash color="#fff" size={24} /> : <Eye color="#fff" size={24} />}
+            </TouchableOpacity>
+          </View>
+        </View>
+        {passwordError ? <Text style={{ color: '#E50914', marginBottom: 16 }}>{passwordError}</Text> : <View style={{ height: 16 }} />}
+
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#E50914',
+            paddingVertical: 14,
+            borderRadius: 8,
+            alignItems: 'center',
+            marginBottom: 16,
+          }}
+          onPress={validateAndSubmit}
+        >
+          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>CRIAR CONTA</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ alignItems: 'center' }}>
+          <Text style={{ color: '#E50914', fontSize: 16 }}>Voltar</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}

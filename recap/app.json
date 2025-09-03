@@ -21,23 +21,18 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
+      "output": "expo-static",
       "favicon": "./assets/images/recap-logo.png"
     },
     "plugins": [
-      "expo-router",
       [
         "expo-splash-screen",
         {
           "image": "./assets/images/recap-logo.png",
-          "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000000"
+          "backgroundColor": "#ffffff"
         }
       ]
-    ],
-    "experiments": {
-      "typedRoutes": true
-    }
+    ]
   }
 }
