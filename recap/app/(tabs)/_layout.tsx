@@ -1,8 +1,8 @@
-import React from 'react'
-import { Tabs } from 'expo-router'
+import { Tabs } from 'expo-router';
 import { HouseIcon, ListDashesIcon, UserCircleGearIcon, UsersThreeIcon } from 'phosphor-react-native';
-import { styles } from '../src/styles/Tabs.styles';
+import React from 'react';
 import { TabIcon } from '../src/components/Tab/TabIcon';
+import { styles } from '../src/styles/Tabs.styles';
 
 const _Layout = () => {
     return (

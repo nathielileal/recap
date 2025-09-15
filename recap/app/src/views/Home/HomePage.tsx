@@ -1,11 +1,19 @@
+import { useRouter } from "expo-router";
 import { MagnifyingGlassIcon } from "phosphor-react-native";
 import { ActivityIndicator, FlatList, Text, TextInput, View } from "react-native";
-import { styles } from "./Home.styles";
 import { CardMovie } from "../../components/CardMovie/CardMovie";
+import { Movie } from "../../models/movie";
 import { useHomeViewModel } from "../../viewmodels/useHomeViewModel";
+import { styles } from "./Home.styles";
 
 export default function HomePage() {
+    const router = useRouter();
+
     const { movieData, loading, empty, search, load, onSearchChange } = useHomeViewModel();
+
+    const renderMovieItem = ({ item }: { item: Movie }) => (
+        <CardMovie data={item} onPress={() => router.push({ pathname: "/src/views/Details/DetailsPage", params: { id: item.id } })} />
+    )
 
     return (
         <View style={styles.container}>
@@ -23,7 +31,7 @@ export default function HomePage() {
                 <FlatList
                     data={movieData}
                     numColumns={3}
-                    renderItem={(item) => <CardMovie data={item.item} />}
+                    renderItem={renderMovieItem}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{ padding: 35, paddingBottom: 100 }}
                     onEndReached={() => load()}
