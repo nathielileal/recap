@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Movie } from "../models/movie";
-import { api } from "../services/movieService";
+import { api } from "../services/movie.service";
 
 export function useHomeViewModel() {
     const [movies, setMovies] = useState<Movie[]>([]);

@@ -2,7 +2,7 @@ import { router } from 'expo-router';
 import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
 import React, { useState } from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AuthSession } from '../../../services/authService';
+import { AuthSession } from '../../../services/auth.service';
 
 export default function SignInPage() {
   const [email, setEmail] = useState('');

@@ -12,7 +12,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { AuthSession } from '../../services/authService';
+import { AuthSession } from '../../services/auth.service';
 
 export default function ProfilePage() {
   const [loading, setLoading] = useState(true);

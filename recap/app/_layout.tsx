@@ -1,7 +1,7 @@
 import { Slot, useRouter, useSegments } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { AuthSession } from '../app/src/services/authService';
+import { AuthSession } from './src/services/auth.service';
 
 export default function RootLayout() {
   const [loading, setLoading] = useState(true);
