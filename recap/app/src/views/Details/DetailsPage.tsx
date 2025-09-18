@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { BookmarkSimpleIcon, CalendarBlankIcon, CaretLeftIcon, ClockIcon, StarIcon } from "phosphor-react-native";
 import { useEffect, useState } from "react";
 import { Image, TouchableOpacity, View } from "react-native";
+import { getYear } from "../../../../lib/utils";
 import { Movie } from "../../models/movie";
 import { api } from "../../services/movieService";
 import { styles } from "./Details.styles";
@@ -36,10 +37,6 @@ export default function Details() {
 
         getDetail();
     }, [id]);
-
-    function getYear(data: string) {
-        return new Date(data).getFullYear();
-    }
 
     return (
         <View style={styles.container}>
