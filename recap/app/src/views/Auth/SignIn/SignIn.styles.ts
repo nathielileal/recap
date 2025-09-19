@@ -1,5 +1,5 @@
-import { Dimensions, StyleSheet } from 'react-native';
-import { COLORS } from '../../../../../constants/colors';
+import { Dimensions, StyleSheet } from "react-native";
+import { COLORS } from "../../../../../constants/colors";
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,7 +16,8 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: width,
-        height: height * 0.99,
+        height: height * 0.9, 
+
     },
     formContent: {
         position: 'absolute',
@@ -25,10 +26,10 @@ export const styles = StyleSheet.create({
         right: 0,
         paddingHorizontal: 30,
         paddingBottom: 40,
-        paddingTop: 80,
+        paddingTop: 80, 
         backgroundColor: 'transparent',
     },
-    signUpText: {
+    signInText: {
         fontSize: 36,
         fontWeight: 'bold',
         color: COLORS.terciary,
@@ -70,28 +71,28 @@ export const styles = StyleSheet.create({
         marginBottom: 10,
         textAlign: 'center',
     },
-    signUpButton: {
+    loginButton: {
         backgroundColor: COLORS.secondary,
         paddingVertical: 15,
         borderRadius: 10,
         alignItems: 'center',
         marginBottom: 20,
     },
-    signUpButtonText: {
+    loginButtonText: {
         color: COLORS.terciary,
         fontSize: 18,
         fontWeight: 'bold',
     },
-    signInContainer: {
+    signupContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    signInTextLink: {
+    signupText: {
         color: COLORS.terciary,
         fontSize: 16,
     },
-    signInLink: {
+    signupLink: {
         color: COLORS.secondary,
         fontSize: 16,
         fontWeight: 'bold',
