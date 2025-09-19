@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { AuthService } from './auth.service';
+import { API_URL } from "../../../constants/url";
 
 // método padrão de api para enviar token de autenticação nas requisições
 export function applyAuthInterceptor(apiInstance: AxiosInstance): void {
@@ -19,9 +20,7 @@ export function applyAuthInterceptor(apiInstance: AxiosInstance): void {
   );
 }
 
-const api = axios.create({
-  baseURL: 'http://localhost:3000', //to-do: alterar depois, só funciona enquanto rodar docker localmente
-});
+const api = axios.create({ baseURL: API_URL });
 
 applyAuthInterceptor(api);
 

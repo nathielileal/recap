@@ -5,6 +5,7 @@ import { Image, TouchableOpacity, View } from "react-native";
 import { getYear } from "../../../../lib/utils";
 import { useDetailsViewModel } from "../../viewmodels/details.viewmodel";
 import { styles } from "./Details.styles";
+import { API_IMAGE } from "../../../../constants/url";
 
 export default function Details() {
     const router = useRouter();
@@ -30,9 +31,9 @@ export default function Details() {
                 <Text>Carregando imagem...</Text>
             ) : (
                 <View>
-                    <Image style={styles.image} source={{ uri: `https://image.tmdb.org/t/p/w500${detail?.backdrop_path}` }} />
+                    <Image style={styles.image} source={{ uri: `${API_IMAGE}${detail?.backdrop_path}` }} />
 
-                    <Image style={styles.poster} source={{ uri: `https://image.tmdb.org/t/p/w500${detail?.poster_path}` }} />
+                    <Image style={styles.poster} source={{ uri: `${API_IMAGE}${detail?.poster_path}` }} />
 
                     <Text style={styles.title}>{detail?.title}</Text>
 
