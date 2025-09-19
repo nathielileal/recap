@@ -3,7 +3,7 @@ import { MagnifyingGlassIcon } from "phosphor-react-native";
 import { ActivityIndicator, FlatList, Text, TextInput, View } from "react-native";
 import { CardMovie } from "../../components/CardMovie/CardMovie";
 import { Movie } from "../../models/movie";
-import { useHomeViewModel } from "../../viewmodels/useHomeViewModel";
+import { useHomeViewModel } from "../../viewmodels/home.viewmodel";
 import { styles } from "./Home.styles";
 
 export default function HomePage() {

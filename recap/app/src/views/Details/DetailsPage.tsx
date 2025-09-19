@@ -3,7 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { BookmarkSimpleIcon, CalendarBlankIcon, CaretLeftIcon, ClockIcon, StarIcon } from "phosphor-react-native";
 import { Image, TouchableOpacity, View } from "react-native";
 import { getYear } from "../../../../lib/utils";
-import { useDetailsViewModel } from "../../viewmodels/useDetailsViewModel";
+import { useDetailsViewModel } from "../../viewmodels/details.viewmodel";
 import { styles } from "./Details.styles";
 
 export default function Details() {

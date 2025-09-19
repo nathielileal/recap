@@ -1,50 +1,61 @@
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-export async function signUp(data: { email: string; username: string; password: string }) {
-  console.log('Dados de cadastro:', data);
+import axios from "axios";
+
+const API_BASE_URL = "http://localhost:3000";
+
+interface AuthResult {
+  success?: boolean;
+  token?: string;
+  error?: string;
 }
 
-export async function signIn(data: { username: string; password: string }) {
-  console.log('Dados de login:', data);
-}
+export const AuthService = {
+  async sighUp(data: { email: string; name: string; password: string }): Promise<AuthResult> {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/user/register`, data);
 
-const USERS_KEY = 'recap_users';
+      if (response.status == 201) {
+        return { success: true };
+      }
 
-export const AuthSession = {
-  async getUsers() {
-  const data = await AsyncStorage.getItem(USERS_KEY);
-  return data ? JSON.parse(data) : [];
-},
-
-async saveUser(newUser: { username: string; email: string; password: string }) {
-  const users = await AuthSession.getUsers();
-  const updatedUsers = users ? [...users, newUser] : [newUser];
-
-  await AsyncStorage.setItem('recap_users', JSON.stringify(updatedUsers));
-  await AsyncStorage.setItem('recap_user', JSON.stringify(newUser)); // define como logado
-},
-
-  async userExists({ email, username }: { email: string; username: string }) {
-    const users = await AuthSession.getUsers();
-    return users.some((user: { email: string; username: string; }) => user.email === email || user.username === username);
+      return { success: false, error: 'Ocorreu um erro inesperado no cadastro.' };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return { success: false, error: error.response?.data?.message || 'Erro no cadastro. Tente novamente.' };
+      }
+      return { success: false, error: 'Ocorreu um erro desconhecido.' };
+    }
   },
 
-  async getLoggedUser() {
-    const data = await AsyncStorage.getItem('recap_user');
-    return data ? JSON.parse(data) : null;
+  async signIn(data: { email: string; password: string }): Promise<AuthResult> {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/user/login`, { email: data.email, password: data.password });
+      const { token } = response.data;
+
+      await AsyncStorage.setItem('auth_token', token);
+
+      return { success: true, token };
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return { success: false, error: error.response?.data?.message || 'Email ou senha incorretos.' };
+      }
+      return { success: false, error: 'Ocorreu um erro desconhecido.' };
+    }
   },
 
-  async setLoggedUser(user: { username: string; email: string; password: string }) {
-  await AsyncStorage.setItem('recap_user', JSON.stringify(user));
-},
+  async getLoggedUser(): Promise<AuthResult | null> {
+    const token = await AsyncStorage.getItem('auth_token');
 
-async clearUsers() {
-  await AsyncStorage.removeItem('recap_users');
-  await AsyncStorage.removeItem('recap_user'); // limpa também o usuário logado
-},
+    return token ? { token } : null;
+  },
 
+  async getAuthToken(): Promise<string | null> {
+    console.log("token: " + await AsyncStorage.getItem('auth_token'));
+    return await AsyncStorage.getItem('auth_token');
+  },
 
   async clearSession() {
-    await AsyncStorage.removeItem('recap_user');
+    await AsyncStorage.removeItem('auth_token');
+    console.log("token saida: " + await AsyncStorage.getItem('auth_token'));
   }
 };

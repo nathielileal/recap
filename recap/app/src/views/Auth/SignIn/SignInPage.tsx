@@ -1,45 +1,20 @@
 import { router } from 'expo-router';
 import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AuthSession } from '../../../services/auth.service';
+import { useAuthViewModel } from '../../../viewmodels/auth.viewmodel';
+import { useAuthContext } from '../../../context/AuthContext';
 
 export default function SignInPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
+  const { email, setEmail, password, setPassword, authError, isLoading, showPassword, setShowPassword, getSignIn } = useAuthViewModel();
+  const { updateAuthStatus } = useAuthContext();
 
-  const [emailError, setEmailError] = useState('');
-  const [authError, setAuthError] = useState('');
+  const handleLogin = async () => {
+    const success = await getSignIn();
 
-  const validateAndLogin = async () => {
-    let valid = true;
-
-    if (!email.includes('@') || !email.includes('.')) {
-      setEmailError('Email inválido');
-      valid = false;
-    } else {
-      setEmailError('');
-    }
-
-    if (valid) {
-      const users = await AuthSession.getUsers();
-      const matchedUser = users.find(
-        (        user: { email: string; password: string; }) =>
-          user.email.trim().toLowerCase() === email.trim().toLowerCase() &&
-          user.password === password.trim()
-      );
-
-      if (matchedUser) {
-        await AuthSession.setLoggedUser(matchedUser);
-        const check = await AuthSession.getLoggedUser();
-        console.log('Salvo como logado:', check);
-
-        Alert.alert('Login realizado com sucesso!');
-        router.replace('/(tabs)');
-      } else {
-        setAuthError('Email ou senha incorretos');
-      }
+    if (success) {
+      Alert.alert('Login realizado com sucesso!');
+      await updateAuthStatus();
     }
   };
 
@@ -57,7 +32,6 @@ export default function SignInPage() {
         <Text style={{ color: '#fff', fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 24 }}>RECAP</Text>
         <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 24 }}>Entrar na conta</Text>
 
-        {/* Email */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Email</Text>
         <TextInput
           placeholder="Digite seu email..."
@@ -73,9 +47,8 @@ export default function SignInPage() {
             borderRadius: 8,
           }}
         />
-        {emailError ? <Text style={{ color: '#E50914', marginBottom: 16 }}>{emailError}</Text> : <View style={{ height: 16 }} />}
+        <View style={{ height: 16 }} />
 
-        {/* Senha */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Senha</Text>
         <View style={{ marginBottom: 8 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#fff', borderRadius: 8 }}>
@@ -98,7 +71,6 @@ export default function SignInPage() {
         </View>
         {authError ? <Text style={{ color: '#E50914', marginBottom: 16 }}>{authError}</Text> : <View style={{ height: 16 }} />}
 
-        {/* Botão Entrar */}
         <TouchableOpacity
           style={{
             backgroundColor: '#E50914',
@@ -107,12 +79,12 @@ export default function SignInPage() {
             alignItems: 'center',
             marginBottom: 16,
           }}
-          onPress={validateAndLogin}
+          onPress={handleLogin}
+          disabled={isLoading}
         >
-          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>ENTRAR</Text>
+          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{isLoading ? 'Carregando...' : 'ENTRAR'}</Text>
         </TouchableOpacity>
 
-        {/* Botão Voltar */}
         <TouchableOpacity onPress={() => router.back()} style={{ alignItems: 'center' }}>
           <Text style={{ color: '#E50914', fontSize: 16 }}>Voltar</Text>
         </TouchableOpacity>

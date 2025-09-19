@@ -16,22 +16,20 @@ export default function WelcomePage() {
         backgroundColor: '#000',
         alignItems: 'center'
       }}>
-        
+
         <Image
           source={require('../../../../assets/images/recap-logo.png')} // ← substitua com o caminho correto
-          style={{ width: 120, height: 120, marginBottom: 30, marginTop:50 }}
+          style={{ width: 120, height: 120, marginBottom: 30, marginTop: 50 }}
           resizeMode="contain"
         />
 
-      
         <Text style={{ fontSize: 28, color: '#fff', fontWeight: 'bold', marginBottom: 2, textAlign: 'center' }}>
           Bem-vindo ao RECAP
         </Text>
-        <Text style={{ fontSize: 18, color: 'gray', fontWeight: 'bold', marginBottom: 70, textAlign: 'center', fontStyle:"italic" }}>
+        <Text style={{ fontSize: 18, color: 'gray', fontWeight: 'bold', marginBottom: 70, textAlign: 'center', fontStyle: "italic" }}>
           Seu App de recomendação e gerenciamento de filmes
         </Text>
 
-     
         <TouchableOpacity
           style={{
             backgroundColor: '#E50914',
@@ -47,7 +45,6 @@ export default function WelcomePage() {
           <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Cadastrar</Text>
         </TouchableOpacity>
 
-    
         <TouchableOpacity
           style={{
             backgroundColor: '#333',

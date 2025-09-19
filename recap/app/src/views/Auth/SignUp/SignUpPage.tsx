@@ -1,62 +1,22 @@
 import { router } from 'expo-router';
 import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { AuthSession } from '../../../services/auth.service';
+import { useAuthViewModel } from '../../../viewmodels/auth.viewmodel';
+import { useAuthContext } from '../../../context/AuthContext';
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const { email, setEmail, username, setUsername, password, setPassword, confirmPassword, setConfirmPassword, emailError, usernameError, passwordError, isLoading, showPassword, setShowPassword, showConfirm, setShowConfirm, getSignUp } = useAuthViewModel();
+  const { updateAuthStatus } = useAuthContext();
 
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [usernameError, setUsernameError] = useState('');
+  const handleSignUp = async () => {
+    const success = await getSignUp();
 
-const validateAndSubmit = async () => {
-  let valid = true;
-
-  if (!email.includes('@') || !email.includes('.')) {
-    setEmailError('Email inválido');
-    valid = false;
-  } else {
-    setEmailError('');
-  }
-
-  if (username.trim().length < 3) {
-    setUsernameError('Nome de usuário muito curto');
-    valid = false;
-  } else {
-    setUsernameError('');
-  }
-
-  if (password !== confirmPassword) {
-    setPasswordError('As senhas não coincidem');
-    valid = false;
-  } else if (password.length < 6) {
-    setPasswordError('Senha deve ter pelo menos 6 caracteres');
-    valid = false;
-  } else {
-    setPasswordError('');
-  }
-
-  if (valid) {
-    const alreadyExists = await AuthSession.userExists({ email, username });
-
-    if (alreadyExists) {
-      Alert.alert('Erro', 'Email ou nome de usuário já cadastrado');
-      return;
+    if (success) {
+      Alert.alert('Conta criada com sucesso!');
+      await updateAuthStatus();
     }
-
-await AuthSession.setLoggedUser({ username, email, password });
-    Alert.alert('Conta criada com sucesso!');
-    router.replace('/(tabs)');
-  }
-};
-
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center', padding: 24 }}>
@@ -72,7 +32,6 @@ await AuthSession.setLoggedUser({ username, email, password });
         <Text style={{ color: '#fff', fontSize: 28, fontWeight: 'bold', textAlign: 'center', marginBottom: 24 }}>RECAP</Text>
         <Text style={{ color: '#ffffff', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginBottom: 24 }}>Criar uma conta</Text>
 
-        {/* Email */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Email</Text>
         <TextInput
           placeholder="Digite seu email..."
@@ -90,7 +49,6 @@ await AuthSession.setLoggedUser({ username, email, password });
         />
         {emailError ? <Text style={{ color: '#E50914', marginBottom: 16 }}>{emailError}</Text> : <View style={{ height: 16 }} />}
 
-        {/* Nome de usuário */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Nome de usuário</Text>
         <TextInput
           placeholder="Digite seu nome de usuário..."
@@ -108,7 +66,6 @@ await AuthSession.setLoggedUser({ username, email, password });
         />
         {usernameError ? <Text style={{ color: '#E50914', marginBottom: 8 }}>{usernameError}</Text> : <View style={{ height: 16 }} />}
 
-        {/* Senha */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4 }}>Senha</Text>
         <View style={{ marginBottom: 8 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#fff', borderRadius: 8 }}>
@@ -130,7 +87,6 @@ await AuthSession.setLoggedUser({ username, email, password });
           </View>
         </View>
 
-        {/* Confirmar senha */}
         <Text style={{ color: '#fff', fontSize: 14, marginBottom: 4, marginTop: 8 }}>Confirmar senha</Text>
         <View style={{ marginBottom: 8 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#fff', borderRadius: 8 }}>
@@ -153,7 +109,6 @@ await AuthSession.setLoggedUser({ username, email, password });
         </View>
         {passwordError ? <Text style={{ color: '#E50914', marginBottom: 16 }}>{passwordError}</Text> : <View style={{ height: 16 }} />}
 
-        {/* Botão Criar Conta */}
         <TouchableOpacity
           style={{
             backgroundColor: '#E50914',
@@ -162,12 +117,12 @@ await AuthSession.setLoggedUser({ username, email, password });
             alignItems: 'center',
             marginBottom: 16,
           }}
-          onPress={validateAndSubmit}
+          onPress={handleSignUp}
+          disabled={isLoading}
         >
-          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>CRIAR CONTA</Text>
+          <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>{isLoading ? 'Carregando...' : 'CRIAR CONTA'}</Text>
         </TouchableOpacity>
 
-        {/* Botão Voltar */}
         <TouchableOpacity onPress={() => router.back()} style={{ alignItems: 'center' }}>
           <Text style={{ color: '#E50914', fontSize: 16 }}>Voltar</Text>
         </TouchableOpacity>

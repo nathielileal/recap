@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Movie } from "../models/movie";
-import { api } from "../services/movie.service";
+import { movieApi } from "../services/movie.service";
 
 export function useHomeViewModel() {
     const [movies, setMovies] = useState<Movie[]>([]);
@@ -18,7 +18,7 @@ export function useHomeViewModel() {
         setLoading(true);
 
         try {
-            const response = await api.get("/movie/popular", { params: { page } });
+            const response = await movieApi.get("/movie/popular", { params: { page } });
 
             setMovies(prev => [...prev, ...response.data.results]);
             setPage(prev => prev + 1);
@@ -31,7 +31,7 @@ export function useHomeViewModel() {
         setLoading(true);
 
         try {
-            const response = await api.get("/search/movie", { params: { query } });
+            const response = await movieApi.get("/search/movie", { params: { query } });
 
             if (response.data.results.length === 0) {
                 setEmpty(true);

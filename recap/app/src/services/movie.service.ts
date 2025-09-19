@@ -1,4 +1,5 @@
 import axios from "axios";
+import { applyAuthInterceptor } from "./api.service";
 
 export const movieApi = axios.create({
     baseURL: "https://api.themoviedb.org/3",
@@ -8,3 +9,5 @@ export const movieApi = axios.create({
         content_adult: false,
     },
 });
+
+applyAuthInterceptor(movieApi);

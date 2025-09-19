@@ -1,33 +1,41 @@
 import { Slot, useRouter, useSegments } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import { AuthSession } from './src/services/auth.service';
+import SafeScreen from './src/components/SafeScreen/SafeScreen';
+import { AuthProvider, useAuthContext } from './src/context/AuthContext';
 
 export default function RootLayout() {
-  const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  return (
+    <AuthProvider>
+      <AuthRedirector />
+    </AuthProvider>
+  );
+}
+
+function AuthRedirector() {
+  const { isAuthenticated, isLoading } = useAuthContext();
   const segments = useSegments();
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const user = await AuthSession.getLoggedUser();
-      setIsAuthenticated(!!user);
-      setLoading(false);
-    };
-    checkAuth();
-  }, []);
+    if (!isLoading && isAuthenticated !== null) {
+      const inAuthGroup = segments[0] === '(auth)';
 
-  useEffect(() => {
-    if (!loading) {
-      const isAuthRoute = segments[0] === '(auth)';
-      if (!isAuthenticated && !isAuthRoute) {
-        router.replace('/auth/sign-in');
+      if (isAuthenticated) {
+        if (inAuthGroup) {
+          router.replace('/(tabs)');
+        }
+      }
+
+      else {
+        if (!inAuthGroup) {
+          router.replace('/(auth)');
+        }
       }
     }
-  }, [segments, isAuthenticated, loading]);
+  }, [segments, isAuthenticated, isLoading, router]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <View style={{ flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color="#fff" />
@@ -35,5 +43,9 @@ export default function RootLayout() {
     );
   }
 
-  return <Slot />;
+  return (
+    // <SafeScreen>
+      <Slot />
+    // </SafeScreen>
+  );
 }
