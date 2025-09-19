@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { AuthService } from './auth.service';
 
-
 // método padrão de api para enviar token de autenticação nas requisições
 export function applyAuthInterceptor(apiInstance: AxiosInstance): void {
   apiInstance.interceptors.request.use(

@@ -1,7 +1,6 @@
 import { Slot, useRouter, useSegments } from 'expo-router';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
-import SafeScreen from './src/components/SafeScreen/SafeScreen';
 import { AuthProvider, useAuthContext } from './src/context/AuthContext';
 
 export default function RootLayout() {
@@ -43,9 +42,5 @@ function AuthRedirector() {
     );
   }
 
-  return (
-    // <SafeScreen>
-      <Slot />
-    // </SafeScreen>
-  );
+  return <Slot />;
 }

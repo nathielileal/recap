@@ -24,7 +24,7 @@ export const useAuthViewModel = () => {
     if (!email.includes('@') || !email.includes('.')) {
       setAuthError('Email inválido.');
       setIsLoading(false);
-      
+
       return false;
     }
 
@@ -41,7 +41,7 @@ export const useAuthViewModel = () => {
   const getSignUp = async () => {
     let isValid = true;
     setIsLoading(true);
-    setAuthError(''); 
+    setAuthError('');
 
     if (!email.includes('@') || !email.includes('.')) {
       setEmailError('Email inválido');
@@ -69,7 +69,7 @@ export const useAuthViewModel = () => {
 
     if (!isValid) {
       setIsLoading(false);
-      
+
       return false;
     }
 
@@ -78,7 +78,7 @@ export const useAuthViewModel = () => {
     if (!signUpResult?.success) {
       Alert.alert('Erro no Cadastro', signUpResult?.error || 'Não foi possível criar a conta.');
       setIsLoading(false);
-      
+
       return false;
     }
 
@@ -89,12 +89,12 @@ export const useAuthViewModel = () => {
     if (!signInResult?.success) {
       Alert.alert('Erro no Login Automático', signInResult?.error || 'Conta criada, mas o login automático falhou.');
       setIsLoading(false);
-      
+
       return false;
     }
 
     setIsLoading(false);
-    
+
     return true;
   };
 
