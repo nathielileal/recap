@@ -19,11 +19,10 @@ export const styles = StyleSheet.create({
     },
     input: {
         backgroundColor: "#585858",
-        height: 42,
+        height: 40,
         padding: 10,
         borderRadius: 16,
-        marginTop: 24,
-        marginBottom: 20,
+        marginTop: 5,
         alignItems: "center",
         justifyContent: "space-between",
         flexDirection: "row"
@@ -41,7 +40,12 @@ export const styles = StyleSheet.create({
     },
     list: {
         width: width,
-        alignItems: "center",
-        justifyContent: "center",
+    },
+    categoryTitle: {
+        fontSize: 20,
+        color: '#ffffff',
+        fontWeight: 'bold',
+        marginBottom: 10,
+        marginTop: 20,
     }
 });
