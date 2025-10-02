@@ -1,10 +1,10 @@
 import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import CreateListModal from "../../components/CreateListModal";
 import FilterTabs from "../../components/FilterTabs";
 import ListCard from "../../components/ListCard";
 import { useListsViewModel } from "../../viewmodels/list.viewmodel";
 import { styles } from "./Lists.style";
+import CreateListModal from "../../components/Modal/CreateListModal";
 
 const ListsPage = () => {
   const {

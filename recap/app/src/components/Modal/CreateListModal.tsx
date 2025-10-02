@@ -3,18 +3,18 @@
 import * as ImagePicker from "expo-image-picker";
 import React, { useEffect, useState } from "react";
 import {
-    ActivityIndicator,
-    FlatList,
-    Image,
-    Modal,
-    Switch,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Modal,
+  Switch,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { movieApi } from "../services/movie.service";
-import { styles } from "../views/Lists/Lists.style";
+import { movieApi } from "../../services/movie.service";
+import { styles } from "../../views/Lists/Lists.style";
 
 interface Props {
   onClose: () => void;

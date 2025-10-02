@@ -1,23 +1,33 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "../../../../constants/colors";
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // justifyContent: "center",
-        // alignItems: "center",
-        backgroundColor: "#000000"
+        backgroundColor: COLORS.primary
     },
     header: {
         paddingTop: 30,
         height: 115,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-around"
+        justifyContent: "space-between",
+        paddingHorizontal: 20,
     },
     headerTitle: {
-        color: "#FFFFFF",
+        color: COLORS.terciary,
         fontWeight: "700",
         fontSize: 18,
+        position: "absolute",
+        left: 0,
+        right: 0,
+        textAlign: "center",
+        top: 55,
+        lineHeight: 32,
+    },
+    functions: {
+        flexDirection: "row",
+        alignItems: "center",
     },
     image: {
         position: "absolute",
@@ -38,7 +48,7 @@ export const styles = StyleSheet.create({
         left: 140,
         right: 32,
         top: 240,
-        color: "#FFFFFF",
+        color: COLORS.terciary,
         fontSize: 18,
         lineHeight: 20,
         fontWeight: "700"
@@ -48,7 +58,7 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        marginTop: 170,
+        marginTop: 160,
     },
     descriptionGroup: {
         flexDirection: "row",
@@ -57,17 +67,41 @@ export const styles = StyleSheet.create({
     },
     descriptionText: {
         marginRight: 10,
-        color: "#FFFFFF"
+        color: COLORS.terciary
     },
     descriptionTextHighScore: {
         marginRight: 10,
-        color: "#FF8700"
+        color: COLORS.orange
     },
     about: {
         padding: 20
     },
     aboutText: {
-        color: "#FFFFFF",
+        color: COLORS.terciary,
         textAlign: "justify"
+    },
+    options: {
+        alignItems: "flex-start",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        padding: 0,
+        margin: 0,
+    },
+    option: {
+        color: COLORS.terciary,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    optionSelected: {
+        paddingBottom: 5,
+        paddingHorizontal: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.terciary,
+    },
+    reviews: {
+        // paddingBottom: 100, 
+    },
+    btn: {
+        backgroundColor: COLORS.secondary
     }
 });

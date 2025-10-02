@@ -1,6 +1,6 @@
 import axios from "axios";
+import { API_KEY, API_TMDB } from "../../../constants/url";
 import { applyAuthInterceptor } from "./api.service";
-import { API_TMDB, API_KEY } from "../../../constants/url";
 
 export const movieApi = axios.create({
     baseURL: API_TMDB,
@@ -12,3 +12,7 @@ export const movieApi = axios.create({
 });
 
 applyAuthInterceptor(movieApi);
+
+// export const movieBackApi = axios.create({baseURL: API_URL});
+
+// applyAuthInterceptor(movieBackApi);

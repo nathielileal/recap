@@ -7,3 +7,33 @@ export function getDDMMYYYY(data) {
 export function getYear(data) {
     return new Date(data).getFullYear();
 }
+
+export function getTimeAgo(dateString) {
+    const now = new Date();
+    const date = new Date(dateString);
+
+    const diff = Math.abs(now.getTime() - date.getTime());
+
+    const units = [
+        { name: 'ano', divisor: 365 * 24 * 60 * 60 * 1000 },
+        { name: 'mês', divisor: 30 * 24 * 60 * 60 * 1000 },
+        { name: 'dia', divisor: 24 * 60 * 60 * 1000 },
+        { name: 'hora', divisor: 60 * 60 * 1000 },
+        { name: 'minuto', divisor: 60 * 1000 },
+    ];
+
+    for (let i = 0; i < units.length; i++) {
+        const { name, divisor } = units[i];
+
+        if (diff >= divisor) {
+            const timeAgo = Math.floor(diff / divisor);
+
+            const plural = timeAgo > 1 ? 's' : '';
+            const unitPlural = name === 'mês' && timeAgo > 1 ? 'meses' : `${name}${plural}`;
+
+            return `há ${timeAgo} ${unitPlural}`;
+        }
+    }
+
+    return "agora mesmo";
+}
