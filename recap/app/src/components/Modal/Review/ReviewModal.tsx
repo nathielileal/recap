@@ -1,22 +1,43 @@
-import { XIcon } from "phosphor-react-native";
-import { useState } from "react";
+import { Checkbox } from 'expo-checkbox';
+import { BookmarkSimpleIcon, PlusSquareIcon, XIcon } from "phosphor-react-native";
 import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../../../../../constants/colors";
+import { useReviewViewModel } from '../../../viewmodels/review.viewmodel';
 import { StarRating } from "../../StarRating/StarRating";
 import { styles } from "./ReviewModal.styles";
 
 interface Props {
-    movie: string,
+    id_movie: string;
     onClosed: () => void,
 }
 
 const stars = Array.from({ length: 5 });
 
-export function ReviewModal({ movie, onClosed }: Props) {
-    const [rating, setRating] = useState(0);
+export function ReviewModal({ id_movie, onClosed }: Props) {
+    const { rating, setRating, title, setTitle, description, setDescription, isChecked, setChecked, tags, setTags, tag, setTag, saveReview, clearForm } = useReviewViewModel(id_movie);
 
     const handleRatingChange = (value: number) => {
         setRating(value);
+    };
+
+    const handleAddTags = () => {
+        const list = tag.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0 && !tags.includes(tag));
+
+        setTags(prev => [...prev, ...list]);
+        setTag('');
+    };
+
+    const handleSave = async () => {
+        const success = await saveReview();
+
+        if (success) {
+            clearForm();
+            onClosed();
+
+            alert("Avaliação salva com sucesso!");
+        } else {
+            alert("Erro ao salvar avaliação. Tente novamente.");
+        }
     };
 
     return (
@@ -27,7 +48,7 @@ export function ReviewModal({ movie, onClosed }: Props) {
                         <Text style={styles.headerTitle}>Avaliar filme</Text>
 
                         <TouchableOpacity onPress={() => onClosed()}>
-                            <XIcon color={COLORS.secondary} size={32} weight="thin" style={styles.closeBtn}></XIcon>
+                            <XIcon color={COLORS.secondary} size={25} weight="thin" style={styles.closeBtn}></XIcon>
                         </TouchableOpacity>
                     </View>
 
@@ -35,11 +56,48 @@ export function ReviewModal({ movie, onClosed }: Props) {
                         {stars.map((_, index) => (<StarRating size={20} key={index + 1} index={index + 1} rate={rating} readonly={false} onPress={handleRatingChange}></StarRating>))}
                     </View>
 
-                    <View style={styles.form}>
-                        <Text style={styles.title}>DATA:</Text>
+                    <View>
+                        <Text style={styles.title}>TÍTULO:</Text>
+                        <TextInput value={title} onChangeText={setTitle} style={styles.input} autoCapitalize="none" placeholder="Insira o título da sua avaliação" placeholderTextColor={COLORS.grey}></TextInput>
 
-                        <TouchableOpacity style={styles.input}>
-                            <TextInput />
+                        <Text style={styles.title}>DESCRIÇÃO:</Text>
+                        <TextInput value={description} onChangeText={setDescription} style={styles.multiline} autoCapitalize="none" multiline={true} placeholder="Insira a descrição da sua avaliação" placeholderTextColor={COLORS.grey}></TextInput>
+
+                        <View style={styles.form}>
+                            <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked}></Checkbox>
+                            <Text style={styles.inputText}>Contém spoiler</Text>
+                        </View>
+
+                        <Text style={styles.title}>TAG:</Text>
+                        <View style={styles.inputTagView}>
+                            <TextInput value={tag} onChangeText={setTag} style={styles.inputTag} autoCapitalize="none" placeholder="Inisra uma nova TAG para sua avaliação" placeholderTextColor={COLORS.grey} maxLength={25}></TextInput>
+                            <TouchableOpacity onPress={handleAddTags}>
+                                <PlusSquareIcon color={COLORS.secondary} size={15}></PlusSquareIcon>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+
+                    <View style={styles.tags}>
+                        <TouchableOpacity>
+                            <View style={styles.tagsHeader}>
+                                <BookmarkSimpleIcon color={COLORS.secondary} size={15} />
+
+                                <Text style={styles.text}>TAGS:</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <View style={styles.list}>
+                            {tags.map((item, index) => (
+                                <View key={index} style={styles.tag}>
+                                    <Text style={styles.tagText}>{item}</Text>
+                                </View>
+                            ))}
+                        </View>
+                    </View>
+
+                    <View style={styles.btnView}>
+                        <TouchableOpacity style={styles.btn} onPress={handleSave}>
+                            <Text style={styles.btnText}>SALVAR</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

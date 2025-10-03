@@ -14,7 +14,12 @@ export default function Details() {
     const router = useRouter();
     const { id } = useLocalSearchParams();
 
-    const { detail, loading, option, reviews, handleOption, modal, handleModal } = useDetailsViewModel(id);
+    const { detail, loading, option, handleOption, modal, handleModal, reviews, getReviews } = useDetailsViewModel(id);
+
+    const closeModal = async () => {
+        handleModal();
+        await getReviews();
+    };
 
     const showReviews = ({ item }: { item: Review }) => {
         return (<CardReview data={item}></CardReview>);
@@ -28,8 +33,8 @@ export default function Details() {
                         data={reviews}
                         renderItem={showReviews}
                         keyExtractor={(item) => String(item.id_user)}
-                        // contentContainerStyle={styles.reviews} 
                         scrollEnabled={false}
+                        ListEmptyComponent={<Text style={styles.aboutText}>Esse filme ainda não possui nenhuma avaliação.</Text>}
                     />
                 );
             case 'S':
@@ -52,7 +57,7 @@ export default function Details() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => router.back()}>
+                <TouchableOpacity onPress={() => router.back()} style={{ zIndex: 10 }}>
                     <CaretLeftIcon color="#FFFFFF" size={32} weight="thin" />
                 </TouchableOpacity>
 
@@ -70,7 +75,7 @@ export default function Details() {
             </View>
 
             {modal && (
-                <ReviewModal movie={detail?.title ?? ''} onClosed={handleModal} ></ReviewModal>
+                <ReviewModal id_movie={id.toString()} onClosed={closeModal} ></ReviewModal>
             )}
 
             <ScrollView style={{ flex: 1 }}>

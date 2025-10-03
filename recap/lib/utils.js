@@ -4,6 +4,17 @@ export function getDDMMYYYY(data) {
     return date.toLocaleDateString("pt-BR", { year: "numeric", month: "numeric", day: "numeric" });
 }
 
+export function getYYYYMMDDHHMI(data) {
+    if (data === '' || data === null) {
+        return '';
+    }
+    
+    const dparts = data.toISOString().split('T')[0];
+    const tparts = data.toTimeString().split(' ')[0];
+
+    return `${dparts} ${tparts.substring(0, 5)}`;
+};
+
 export function getYear(data) {
     return new Date(data).getFullYear();
 }

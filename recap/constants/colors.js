@@ -5,6 +5,7 @@ const darkTheme = {
     terciary: "#FFFFFF",
     orange: "#FF8700",
     yellow: "#FFD700",
+    grey: "#A9A9A9",
     primaryOpacity: "rgba(0,0,0,0.8)",
 };
 
