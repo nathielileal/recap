@@ -1,23 +1,24 @@
 import { BlurView } from 'expo-blur';
+import { router } from 'expo-router';
 import { ChatCircleIcon, HeartIcon, UserCircleIcon, WarningIcon } from "phosphor-react-native";
-import { useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../../../../constants/colors";
 import { getTimeAgo } from "../../../../lib/utils";
 import { Review } from "../../models/review";
+import { useReviewViewModel } from '../../viewmodels/review.viewmodel';
 import { StarRating } from "../StarRating/StarRating";
 import { styles } from "./CardReview.styles";
 
 interface Props {
     data: Review;
+    spoiler?: boolean;
 }
 
 const stars = Array.from({ length: 5 });
 const max_char = 220;
 
-export function CardReview({ data }: Props) {
-    const [isExpanded, setIsExpanded] = useState(false);
-    const [blur, setBlur] = useState(data.spoiler);
+export function CardReview({ data, spoiler }: Props) {
+    const { isExpanded, setIsExpanded, blur, setBlur, isLiked, setIsLiked, likes, setLikes, updateLikeReview } = useReviewViewModel(data.id_review, spoiler ?? data.spoiler, data.likes);
 
     const handleExpansion = () => {
         setIsExpanded(prev => !prev);
@@ -30,6 +31,21 @@ export function CardReview({ data }: Props) {
 
     const truncatedText = data.description.length > max_char ? data.description.substring(0, max_char).trim() + "..." : data.description;
 
+    const handleLikeClick = async () => {
+        const sucesso = await updateLikeReview(); 
+
+        if (sucesso) {
+            setIsLiked(prev => !prev); 
+            setLikes(prev => !isLiked ? (prev ?? 0) + 1 : (prev ?? 0) - 1); 
+        } else {
+            Alert.alert('Erro', 'Erro ao curtir essa avaliação. Por favor, tente novamente!');
+        }
+    }
+
+    const showComments = () => {
+        router.push({ pathname: "/src/views/Comment/CommentPage", params: { id: data.id_review } });
+    }
+
     return (
         <View style={styles.card}>
             <View style={styles.header}>
@@ -38,7 +54,7 @@ export function CardReview({ data }: Props) {
                 <View style={styles.info}>
                     <View style={styles.infoUser}>
                         <Text style={styles.title}>{data.user}</Text>
-                        <Text style={styles.time}>{getTimeAgo(data.date)}</Text>
+                        <Text style={styles.time}>{getTimeAgo(data.date_created)}</Text>
                     </View>
 
                     <View style={styles.stars}>
@@ -65,16 +81,16 @@ export function CardReview({ data }: Props) {
 
             <View style={styles.options}>
                 <View>
-                    <TouchableOpacity style={styles.option}>
-                        <HeartIcon color={COLORS.secondary} size={10} />
-                        <Text style={styles.icon}>{data.likes}</Text>
+                    <TouchableOpacity style={styles.option} onPress={handleLikeClick}>
+                        <HeartIcon color={COLORS.secondary} size={10} weight={isLiked ? "fill" : "regular"} />
+                        <Text style={styles.icon}>{`${likes} ${likes === 1 ? 'curtida' : 'curtidas'}`}</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View>
-                    <TouchableOpacity style={styles.option}>
+                    <TouchableOpacity style={styles.option} onPress={() => showComments()}>
                         <ChatCircleIcon color={COLORS.orange} size={10} />
-                        <Text style={styles.icon}>{data.comments}</Text>
+                        <Text style={styles.icon}>{`${data.comments} ${data.comments === 1 ? 'comentário' : 'comentários'}`}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

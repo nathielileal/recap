@@ -1,5 +1,5 @@
 import { Text } from "@react-navigation/elements";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { BookmarkSimpleIcon, CalendarBlankIcon, CaretLeftIcon, ClockIcon, NotePencilIcon, StarIcon } from "phosphor-react-native";
 import { FlatList, Image, ScrollView, TouchableOpacity, View } from "react-native";
 import { API_IMAGE } from "../../../../constants/url";
@@ -11,7 +11,6 @@ import { useDetailsViewModel } from "../../viewmodels/details.viewmodel";
 import { styles } from "./Details.styles";
 
 export default function Details() {
-    const router = useRouter();
     const { id } = useLocalSearchParams();
 
     const { detail, loading, option, handleOption, modal, handleModal, reviews, getReviews } = useDetailsViewModel(id);

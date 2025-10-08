@@ -1,9 +1,12 @@
 
 export interface Comment {
-    id_review: number,
-    id_user: number,
+    id_comment: string,
+    id_comment_ref: string,
+    id_review: string,
+    id_user: string,
     user: string,
-    date: string,
+    date_created: string,
+    date_modified: string,
     description: string,
-    spoiler: boolean,
+    likes: number,
 }

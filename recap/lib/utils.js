@@ -8,7 +8,7 @@ export function getYYYYMMDDHHMI(data) {
     if (data === '' || data === null) {
         return '';
     }
-    
+
     const dparts = data.toISOString().split('T')[0];
     const tparts = data.toTimeString().split(' ')[0];
 
@@ -38,7 +38,6 @@ export function getTimeAgo(dateString) {
 
         if (diff >= divisor) {
             const timeAgo = Math.floor(diff / divisor);
-
             const plural = timeAgo > 1 ? 's' : '';
             const unitPlural = name === 'mês' && timeAgo > 1 ? 'meses' : `${name}${plural}`;
 
@@ -47,4 +46,21 @@ export function getTimeAgo(dateString) {
     }
 
     return "agora mesmo";
+}
+
+export function getRate(rate) {
+    switch (rate) {
+        case 0:
+            return "Nem merece nota";
+        case 1:
+            return "Muito ruim";
+        case 2:
+            return "Ruim";
+        case 3:
+            return "Bom";
+        case 4:
+            return "Muito bom";
+        case 5:
+            return "Perfeito";
+    }
 }

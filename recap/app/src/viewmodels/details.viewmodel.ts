@@ -36,7 +36,7 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
 
     const getReviews = async () => {
         try {
-            const data = await ReviewService.getMovieReviews(id?.toString() ?? '');
+            const data = await ReviewService.getReviewByIdMovie(id?.toString() ?? '');
             
             setReviews(data);
         } catch (error) {

@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         paddingHorizontal: 15,
-        paddingVertical: 8,
+        paddingVertical: 3,
         borderRadius: 5,
     },
     spoiler: {
