@@ -1,40 +1,39 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#121212",
+  },
+
   scroll: {
     flexGrow: 1,
     backgroundColor: "#121212",
-    padding: 24,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 12,
   },
 
   title: {
     color: "#fff",
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 16,
+    fontSize: 28,
     textAlign: "center",
-  },
-
-  addButton: {
-    backgroundColor: "#E50914",
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: "center",
-    marginBottom: 24,
-  },
-
-  addButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
+    marginBottom: 20,
   },
 
   container: {
+    width: "100%",
+    maxWidth: 660,
+    height: 800, // tamanho fixo, igual ao Profile
     backgroundColor: "#121212",
-    borderRadius: 16,
-    padding: 24,
+    borderRadius: 12,
     borderWidth: 2,
     borderColor: "#fff",
+    paddingVertical: 28,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    marginBottom: 76,
   },
 
   tabsContainer: {
@@ -42,6 +41,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 24,
     backgroundColor: "#121212",
+    borderRadius: 12,
   },
 
   tabItem: {
@@ -69,7 +69,9 @@ export const styles = StyleSheet.create({
   },
 
   listContainer: {
+    width: "100%",
     gap: 16,
+    flexGrow: 1,
   },
 
   card: {
@@ -128,6 +130,22 @@ export const styles = StyleSheet.create({
     color: "#888",
   },
 
+  addButton: {
+    backgroundColor: "#E50914",
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    width: "100%",
+  },
+
+  addButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
   modalOverlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -144,8 +162,14 @@ export const styles = StyleSheet.create({
     borderColor: "#fff",
   },
 
+  /* ===== Adicionados para CreateListModal ===== */
+
   imagePicker: {
     width: "100%",
+    height: 160,
+    backgroundColor: "#333",
+    borderRadius: 12,
+    justifyContent: "center",
     alignItems: "center",
     marginBottom: 16,
   },
@@ -154,37 +178,39 @@ export const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
     marginBottom: 4,
-    alignSelf: "flex-start",
   },
 
   input: {
     width: "100%",
-    borderWidth: 1,
-    borderColor: "#fff",
+    backgroundColor: "#1c1c1c",
     color: "#fff",
-    padding: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     borderRadius: 8,
-    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "#444",
+    marginBottom: 12,
   },
 
   fieldRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
-    gap: 12,
+    justifyContent: "space-between",
+    width: "100%",
+    marginBottom: 12,
   },
 
   suggestionsList: {
     maxHeight: 150,
     marginBottom: 8,
+    width: "100%",
   },
 
   suggestionItem: {
     paddingVertical: 8,
     paddingHorizontal: 12,
-    backgroundColor: "#222",
     borderBottomWidth: 1,
-    borderBottomColor: "#444",
+    borderBottomColor: "#333",
   },
 
   suggestionText: {
@@ -194,15 +220,15 @@ export const styles = StyleSheet.create({
 
   movieItem: {
     backgroundColor: "#333",
-    padding: 8,
-    borderRadius: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
     marginRight: 8,
-    marginBottom: 8,
   },
 
   movieText: {
     color: "#fff",
-    fontSize: 12,
+    fontSize: 14,
   },
 
   saveButton: {
@@ -210,16 +236,20 @@ export const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: "center",
-    marginBottom: 24,
+    justifyContent: "center",
+    marginTop: 12,
     width: "100%",
   },
 
   logoutButton: {
+    paddingVertical: 12,
     alignItems: "center",
+    marginTop: 8,
   },
 
   cancelText: {
-    color: "#fff",
-    fontSize: 14,
+    color: "#E50914",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

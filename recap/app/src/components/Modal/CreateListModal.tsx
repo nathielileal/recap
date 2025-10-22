@@ -1,12 +1,12 @@
-// src/components/CreateListModal.tsx
-
 import * as ImagePicker from "expo-image-picker";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
   Image,
+  KeyboardAvoidingView,
   Modal,
+  Platform,
   Switch,
   Text,
   TextInput,
@@ -20,11 +20,16 @@ interface Props {
   onClose: () => void;
   onCreate: (
     name: string,
-    desc: string,
+    description: string,
     image?: string,
     items?: string[],
     isPublic?: boolean
   ) => void;
+  name?: string;
+  description?: string;
+  image?: string;
+  items?: string[];
+  isPublic?: boolean;
 }
 
 interface MovieSuggestion {
@@ -32,15 +37,23 @@ interface MovieSuggestion {
   title: string;
 }
 
-const CreateListModal: React.FC<Props> = ({ onClose, onCreate }) => {
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [image, setImage] = useState<string>();
-  const [isPublic, setIsPublic] = useState(false);
+const CreateListModal: React.FC<Props> = ({
+  onClose,
+  onCreate,
+  name: initialName,
+  description: initialDescription,
+  image: initialImage,
+  items: initialItems,
+  isPublic: initialIsPublic,
+}) => {
+  const [name, setName] = useState(initialName || "");
+  const [description, setDescription] = useState(initialDescription || "");
+  const [image, setImage] = useState<string | undefined>(initialImage);
+  const [isPublic, setIsPublic] = useState(initialIsPublic || false);
 
   const [movieSearch, setMovieSearch] = useState("");
   const [suggestions, setSuggestions] = useState<MovieSuggestion[]>([]);
-  const [movies, setMovies] = useState<string[]>([]);
+  const [movies, setMovies] = useState<string[]>(initialItems || []);
   const [loading, setLoading] = useState(false);
 
   // Pede permissão para acessar a galeria
@@ -85,15 +98,17 @@ const CreateListModal: React.FC<Props> = ({ onClose, onCreate }) => {
   }, [movieSearch]);
 
   const pickImage = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
-    });
-    const canceled =
-      "canceled" in result ? (result as any).canceled : (result as any).cancelled;
-    const assets = (result as any).assets || [];
-    if (!canceled && assets.length > 0) {
-      setImage(assets[0].uri);
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+      });
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        setImage(result.assets[0].uri);
+      }
+    } catch (err) {
+      console.warn("Erro ao selecionar imagem:", err);
     }
   };
 
@@ -106,107 +121,110 @@ const CreateListModal: React.FC<Props> = ({ onClose, onCreate }) => {
   };
 
   return (
-    <Modal visible transparent animationType="slide">
-      <View style={styles.modalOverlay}>
-        <View style={styles.modalContainer}>
-          <Text style={styles.title}>Criar nova lista</Text>
+    <Modal visible transparent animationType="slide" statusBarTranslucent>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.title}>Criar nova lista</Text>
 
-          <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
-            {image ? (
-              <Image
-                source={{ uri: image }}
-                style={styles.cardImage}
-                resizeMode="cover"
-              />
-            ) : (
-              <Text style={styles.label}>Exportar imagem</Text>
-            )}
-          </TouchableOpacity>
+            <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
+              {image ? (
+                <Image
+                  source={{ uri: image }}
+                  style={styles.cardImage}
+                  resizeMode="cover"
+                />
+              ) : (
+                <Text style={styles.label}>Exportar imagem</Text>
+              )}
+            </TouchableOpacity>
 
-          <Text style={styles.label}>Título</Text>
-          <TextInput
-            style={styles.input}
-            value={name}
-            onChangeText={setName}
-            placeholder="Nome da lista"
-            placeholderTextColor="#888"
-          />
-
-          <View style={styles.fieldRow}>
-            <Text style={styles.label}>Pública</Text>
-            <Switch value={isPublic} onValueChange={setIsPublic} />
-          </View>
-
-          <Text style={styles.label}>Descrição</Text>
-          <TextInput
-            style={[styles.input, { height: 80 }]}
-            value={desc}
-            onChangeText={setDesc}
-            placeholder="Descrição"
-            placeholderTextColor="#888"
-            multiline
-          />
-
-          <Text style={styles.label}>Filmes</Text>
-          <TextInput
-            style={[styles.input, { marginBottom: 8 }]}
-            value={movieSearch}
-            onChangeText={setMovieSearch}
-            placeholder="Procurar filme..."
-            placeholderTextColor="#888"
-          />
-
-          {loading && (
-            <ActivityIndicator
-              color="#E50914"
-              style={{ marginVertical: 8 }}
+            <Text style={styles.label}>Título</Text>
+            <TextInput
+              style={styles.input}
+              value={name}
+              onChangeText={setName}
+              placeholder="Nome da lista"
+              placeholderTextColor="#888"
             />
-          )}
 
-          <FlatList
-            data={suggestions}
-            keyExtractor={(item) => item.id.toString()}
-            style={styles.suggestionsList}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => addSuggestion(item.title)}
-                style={styles.suggestionItem}
-              >
-                <Text style={styles.suggestionText}>{item.title}</Text>
-              </TouchableOpacity>
+            <View style={styles.fieldRow}>
+              <Text style={styles.label}>Pública</Text>
+              <Switch value={isPublic} onValueChange={setIsPublic} />
+            </View>
+
+            <Text style={styles.label}>Descrição</Text>
+            <TextInput
+              style={[styles.input, { height: 80 }]}
+              value={description}
+              onChangeText={setDescription}
+              placeholder="Descrição"
+              placeholderTextColor="#888"
+              multiline
+            />
+
+            <Text style={styles.label}>Filmes</Text>
+            <TextInput
+              style={[styles.input, { marginBottom: 8 }]}
+              value={movieSearch}
+              onChangeText={setMovieSearch}
+              placeholder="Procurar filme..."
+              placeholderTextColor="#888"
+            />
+
+            {loading && (
+              <ActivityIndicator
+                color="#E50914"
+                style={{ marginVertical: 8 }}
+              />
             )}
-          />
 
-          <FlatList
-            data={movies}
-            keyExtractor={(item, i) => `${item}-${i}`}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={styles.movieItem}>
-                <Text style={styles.movieText}>{item}</Text>
-              </View>
-            )}
-          />
+            <FlatList
+              data={suggestions}
+              keyExtractor={(item) => item.id.toString()}
+              style={styles.suggestionsList}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => addSuggestion(item.title)}
+                  style={styles.suggestionItem}
+                >
+                  <Text style={styles.suggestionText}>{item.title}</Text>
+                </TouchableOpacity>
+              )}
+            />
 
-          <TouchableOpacity
-            style={styles.saveButton}
-            onPress={() => {
-              onCreate(name, desc, image, movies, isPublic);
-              onClose();
-            }}
-          >
-            <Text style={styles.addButtonText}>Salvar</Text>
-          </TouchableOpacity>
+            <FlatList
+              data={movies}
+              keyExtractor={(item, i) => `${item}-${i}`}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={{ marginVertical: 8 }}
+              renderItem={({ item }) => (
+                <View style={styles.movieItem}>
+                  <Text style={styles.movieText}>{item}</Text>
+                </View>
+              )}
+            />
 
-          <TouchableOpacity
-            style={styles.logoutButton}
-            onPress={onClose}
-          >
-            <Text style={styles.cancelText}>Cancelar</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.saveButton}
+              onPress={() => {
+                onCreate(name, description, image, movies, isPublic);
+                onClose();
+              }}
+            >
+              <Text style={styles.addButtonText}>Salvar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.logoutButton} onPress={onClose}>
+              <Text style={styles.cancelText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };

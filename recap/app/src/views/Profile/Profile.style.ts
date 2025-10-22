@@ -1,41 +1,65 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#121212",
+  },
   scroll: {
     flex: 1,
     backgroundColor: "#121212",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 24,
   },
+   scrollContent: {
+    flexGrow: 1,
+    justifyContent: "center", 
+    alignItems: "center",
+    paddingHorizontal: 12,
+    paddingBottom: 100, 
+  },
+
   card: {
     width: "100%",
-    maxWidth: 400,
+    maxWidth: 660,
+    height: 800, 
     borderWidth: 2,
     borderColor: "#fff",
     borderRadius: 12,
-    padding: 24,
+    paddingVertical: 28,
+    paddingHorizontal: 20,
     backgroundColor: "#121212",
+    alignItems: "center",
+    justifyContent: "flex-start", 
+    marginBottom: 20, 
+    marginTop: 10, 
   },
+
+  contentContainer: {
+    width: "100%",
+    paddingBottom: 20, 
+  },
+
   title: {
     color: "#fff",
     fontSize: 28,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 24,
+    marginBottom: 8, 
   },
+
   subtitle: {
     color: "#fff",
     fontSize: 20,
-    fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 24,
+    marginBottom: 28,
+    marginTop: 28,
   },
+
   label: {
     color: "#fff",
     fontSize: 14,
-    marginBottom: 4,
+    marginBottom: 6,
   },
+
   input: {
     borderWidth: 1,
     borderColor: "#fff",
@@ -43,28 +67,77 @@ export const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     flex: 1,
+    marginBottom: 26,
+
   },
+
   fieldRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-    gap: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between", 
+    marginBottom: 12,
+  },
+
+  editIcon: {
+    marginLeft: 8,
+    marginTop: 2, 
   },
   error: {
     color: "#E50914",
-    marginBottom: 16,
+    marginBottom: 12,
   },
+
   saveButton: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#E50914",
-    paddingVertical: 14,
+    paddingVertical: 12,
     borderRadius: 8,
     justifyContent: "center",
-    marginBottom: 24,
+    marginTop: 12,
+    marginBottom: 20,
   },
+
   logoutButton: {
     alignItems: "center",
     marginTop: 8,
+  },
+
+  tabSelector: {
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "#1a1a1a",
+    borderRadius: 12,
+    marginBottom: 12,
+    marginTop: 6,
+    width: "100%",
+  },
+
+  tabButton: {
+    flex: 1,
+    paddingVertical: 10,
+    alignItems: "center",
+    borderRadius: 12,
+  },
+
+  tabActive: {
+    backgroundColor: "#E50914",
+  },
+
+  tabText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+
+  configRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+
+  configText: {
+    color: "#fff",
+    fontSize: 16,
   },
 });

@@ -26,7 +26,7 @@ export const useListsViewModel = () => {
     const newList: MovieList = {
       id: Date.now().toString(),
       name,
-      createdBy: "mattheaa",
+      createdBy: "mattheaa", // usuário atual
       description,
       date: new Date().toLocaleDateString("pt-BR"),
       items,
@@ -36,15 +36,39 @@ export const useListsViewModel = () => {
     setLists((prev) => [newList, ...prev]);
   };
 
-  const filteredLists = lists.filter((list) =>
-    filter === "public" ? list.isPublic : !list.isPublic
-  );
+  const updateList = (
+    id: string,
+    updated: Partial<Omit<MovieList, "id" | "createdBy" | "date">>
+  ) => {
+    setLists((prev) =>
+      prev.map((list) =>
+        list.id === id
+          ? { ...list, ...updated } // mantém id, createdBy e date
+          : list
+      )
+    );
+  };
+
+  const deleteList = (id: string) => {
+    setLists((prev) => prev.filter((list) => list.id !== id));
+  };
+
+  // Filtra listas de acordo com a aba selecionada
+  const filteredLists = lists.filter((list) => {
+    if (filter === "public") {
+      return list.isPublic; // Todas as listas públicas
+    } else {
+      return list.createdBy === "mattheaa"; // Todas as listas criadas pelo usuário
+    }
+  });
 
   return {
     lists: filteredLists,
     isModalOpen,
     setIsModalOpen,
     createList,
+    updateList,
+    deleteList,
     filter,
     setFilter,
   };
