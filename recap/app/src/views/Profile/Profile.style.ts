@@ -8,44 +8,30 @@ export const styles = StyleSheet.create({
   scroll: {
     flex: 1,
     backgroundColor: "#121212",
-  },
-   scrollContent: {
-    flexGrow: 1,
-    justifyContent: "center", 
+    justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 12,
-    paddingBottom: 100, 
   },
-
   card: {
+    flex: 1,
     width: "100%",
-    maxWidth: 660,
-    height: 800, 
-    borderWidth: 2,
-    borderColor: "#fff",
-    borderRadius: 12,
-    paddingVertical: 28,
-    paddingHorizontal: 20,
-    backgroundColor: "#121212",
     alignItems: "center",
-    justifyContent: "flex-start", 
-    marginBottom: 20, 
-    marginTop: 10, 
+    justifyContent: "flex-start"
   },
-
+  innerScroll: {
+    flex: 1,
+    width: '100%',
+  },
   contentContainer: {
     width: "100%",
-    paddingBottom: 20, 
+    paddingBottom: 20,
   },
-
   title: {
     color: "#fff",
     fontSize: 28,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 8, 
+    marginBottom: 8,
   },
-
   subtitle: {
     color: "#fff",
     fontSize: 20,
@@ -53,40 +39,35 @@ export const styles = StyleSheet.create({
     marginBottom: 28,
     marginTop: 28,
   },
-
   label: {
     color: "#fff",
     fontSize: 14,
     marginBottom: 6,
   },
-
   input: {
     borderWidth: 1,
     borderColor: "#fff",
     color: "#fff",
-    padding: 12,
+    padding: 10,
     borderRadius: 8,
     flex: 1,
     marginBottom: 26,
-
+    marginRight: 10,
   },
-
   fieldRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between", 
+    justifyContent: "space-between",
     marginBottom: 12,
   },
-
   editIcon: {
     marginLeft: 8,
-    marginTop: 2, 
+    marginTop: 2,
   },
   error: {
     color: "#E50914",
     marginBottom: 12,
   },
-
   saveButton: {
     flexDirection: "row",
     alignItems: "center",
@@ -97,12 +78,10 @@ export const styles = StyleSheet.create({
     marginTop: 12,
     marginBottom: 20,
   },
-
   logoutButton: {
     alignItems: "center",
     marginTop: 8,
   },
-
   tabSelector: {
     flexDirection: "row",
     justifyContent: "center",
@@ -112,30 +91,25 @@ export const styles = StyleSheet.create({
     marginTop: 6,
     width: "100%",
   },
-
   tabButton: {
     flex: 1,
     paddingVertical: 10,
     alignItems: "center",
     borderRadius: 12,
   },
-
   tabActive: {
     backgroundColor: "#E50914",
   },
-
   tabText: {
     color: "#fff",
     fontSize: 16,
   },
-
   configRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginVertical: 10,
   },
-
   configText: {
     color: "#fff",
     fontSize: 16,

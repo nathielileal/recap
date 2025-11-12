@@ -11,6 +11,7 @@ export const useProfileViewModel = () => {
   const [editPassword, setEditPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [filter, setFilter] = useState<"public" | "private">("public");
 
   useEffect(() => {
     const loadUser = async () => {
@@ -76,5 +77,7 @@ export const useProfileViewModel = () => {
     passwordError,
     validateAndSave,
     logout,
+    filter, 
+    setFilter
   };
 };

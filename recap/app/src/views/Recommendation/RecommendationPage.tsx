@@ -1,27 +1,13 @@
 import React from "react";
-import {
-    SafeAreaView,
-    ScrollView,
-    Text,
-    View
-} from "react-native";
+import { Text } from "react-native";
+import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { styles } from "./Recommendation.style";
 
-
-const RecommendationPage = () => {
-
+export default function RecommendationPage() {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
-          <Text style={styles.title}>Recomendações</Text>
-
-          
-
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <CamLenseScreen title="Recomendação">
+      <Text style={styles.empty}>Não é possível pedir uma recomendação personalizada no momento.</Text>
+    </CamLenseScreen>
   );
 };
 
-export default RecommendationPage;

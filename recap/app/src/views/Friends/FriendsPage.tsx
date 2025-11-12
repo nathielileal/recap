@@ -1,22 +1,9 @@
 import React, { useState } from "react";
-import {
-    FlatList,
-    Image,
-    SafeAreaView,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from "react-native";
+import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
+import { FilterTabs } from "../../components/FilterTabs/FilterTabs";
+import { Friend } from "../../models/friend";
 import { styles } from "./Friends.style";
-
-interface Friend {
-  id: string;
-  name: string;
-  username: string;
-  avatar?: string; 
-}
 
 // (mock)
 const allUsers: Friend[] = [
@@ -27,9 +14,9 @@ const allUsers: Friend[] = [
   { id: "5", name: "Eva Lima", username: "eval", avatar: undefined },
 ];
 
-const FriendsPage = () => {
+export default function FriendsPage() {
   const [friends, setFriends] = useState<Friend[]>([allUsers[0], allUsers[1]]);
-  const [tab, setTab] = useState<"friends" | "all">("friends");
+  const [filter, setFilter] = useState<"public" | "private">("private");
   const [search, setSearch] = useState("");
 
   const handleRemoveFriend = (id: string) => {
@@ -80,67 +67,34 @@ const FriendsPage = () => {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView
-        contentContainerStyle={styles.scroll}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.container}>
-          <Text style={styles.title}>Amigos</Text>
+    <CamLenseScreen title="Amigos">
+      <FilterTabs firstOption="Todos os amigos" secondOption="Seus amigos" filter={filter} setFilter={setFilter} />
 
-          <View style={styles.tabsContainer}>
-            <TouchableOpacity
-              style={styles.tabItem}
-              onPress={() => setTab("friends")}
-            >
-              <Text
-                style={tab === "friends" ? styles.tabActiveText : styles.tabText}
-              >
-                Seus Amigos
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.tabItem}
-              onPress={() => setTab("all")}
-            >
-              <Text
-                style={tab === "all" ? styles.tabActiveText : styles.tabText}
-              >
-                Todos os Usuários
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          {tab === "friends" ? (
-            <View style={styles.listContainer}>
-              {friends.length === 0 ? (
-                <Text style={styles.emptyText}>Você ainda não adicionou amigos</Text>
-              ) : (
-                friends.map((item) => renderCard(item, true))
-              )}
-            </View>
+      {filter === "public" ? (
+        <View style={styles.listContainer}>
+          {friends.length === 0 ? (
+            <Text style={styles.emptyText}>Você ainda não adicionou amigos</Text>
           ) : (
-            <View style={{ width: "100%" }}>
-              <TextInput
-                style={styles.input}
-                placeholder="Buscar usuário..."
-                placeholderTextColor="#888"
-                value={search}
-                onChangeText={setSearch}
-              />
-              <FlatList
-                data={filteredUsers}
-                keyExtractor={(item) => item.id}
-                style={styles.listContainer}
-                renderItem={({ item }) => renderCard(item, false)}
-              />
-            </View>
+            friends.map((item) => renderCard(item, true))
           )}
         </View>
-      </ScrollView>
-    </SafeAreaView>
+      ) : (
+        <View style={{ width: "100%" }}>
+          <TextInput
+            style={styles.input}
+            placeholder="Buscar usuário..."
+            placeholderTextColor="#888"
+            value={search}
+            onChangeText={setSearch}
+          />
+          <FlatList
+            data={filteredUsers}
+            keyExtractor={(item) => item.id}
+            style={styles.listContainer}
+            renderItem={({ item }) => renderCard(item, false)}
+          />
+        </View>
+      )}
+    </CamLenseScreen>
   );
 };
-
-export default FriendsPage;

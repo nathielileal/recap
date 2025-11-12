@@ -6,7 +6,9 @@ const darkTheme = {
     orange: "#FF8700",
     yellow: "#FFD700",
     grey: "#A9A9A9",
+    darkGrey: "#585858",
     primaryOpacity: "rgba(0,0,0,0.8)",
+    secondaryOpacity: "rgba(229, 9, 20, 0.8)"
 };
 
 const lightTheme = {

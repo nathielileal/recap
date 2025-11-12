@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
+import { COLORS } from "../../../../constants/colors";
 
 const { width } = Dimensions.get("window");
 
@@ -6,44 +7,39 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: width,
-        backgroundColor: "#000000",
+        backgroundColor: COLORS.primary,
     },
     header: {
-        padding: 25,
-    },
-    title: {
-        marginTop: 30,
-        fontSize: 24,
-        lineHeight: 45,
-        color: '#ffffff',
+        paddingBottom: 10,
     },
     input: {
-        backgroundColor: "#585858",
         height: 40,
         padding: 10,
-        borderRadius: 16,
         marginTop: 5,
+        borderRadius: 16,
         alignItems: "center",
+        flexDirection: "row",
         justifyContent: "space-between",
-        flexDirection: "row"
+        backgroundColor: COLORS.darkGrey,
     },
     textInput: {
-        color: "#ffffff",
         width: "80%",
         paddingLeft: 15,
+        color: COLORS.terciary,
     },
     empty: {
-        color: "#ffffff",
         fontSize: 18,
-        textAlign: "center",
         marginVertical: 20,
+        textAlign: "center",
+        color: COLORS.terciary,
     },
     list: {
+        flex: 1,
         width: width,
     },
     categoryTitle: {
         fontSize: 20,
-        color: '#ffffff',
+        color: COLORS.terciary,
         fontWeight: 'bold',
         marginBottom: 10,
         marginTop: 20,

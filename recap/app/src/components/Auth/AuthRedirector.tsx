@@ -1,6 +1,7 @@
 import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
+import { COLORS } from "../../../../constants/colors";
 import { useAuthContext } from "../../context/AuthContext";
 
 export function AuthRedirector() {
@@ -28,8 +29,8 @@ export function AuthRedirector() {
 
     if (isLoading) {
         return (
-            <View style={{ flex: 1, backgroundColor: '#000', justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size="large" color="#fff" />
+            <View style={{ flex: 1, backgroundColor: COLORS.primary, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color={COLORS.terciary} />
             </View>
         );
     }

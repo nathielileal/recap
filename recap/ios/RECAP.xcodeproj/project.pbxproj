@@ -14,6 +14,8 @@
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		CBFF49544321B7AA9AD622CE /* libPods-RECAP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2B8AF170FAC3CC8B8CD2888 /* libPods-RECAP.a */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
+		7231A7587DDE4FF4A0BD6495 /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60AD644C65EE4B0790991AD5 /* IBMPlexMono-Regular.ttf */; };
+		7B5FFC66E9D446E18C3AC158 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D87A2D140E4E414294E2C7A6 /* SpaceMono-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = RECAP/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* RECAP-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "RECAP-Bridging-Header.h"; path = "RECAP/RECAP-Bridging-Header.h"; sourceTree = "<group>"; };
+		60AD644C65EE4B0790991AD5 /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; name = "IBMPlexMono-Regular.ttf"; path = "../assets/fonts/IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D87A2D140E4E414294E2C7A6 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; name = "SpaceMono-Regular.ttf"; path = "../assets/fonts/SpaceMono-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				E7E3DC5EF0395B93CD2B54CA /* Pods */,
 				168A1B5A9B3311F3B019F175 /* ExpoModulesProviders */,
+				BE7FF1A89A0549D4AF2A7A47 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -131,6 +136,16 @@
 			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		BE7FF1A89A0549D4AF2A7A47 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				60AD644C65EE4B0790991AD5 /* IBMPlexMono-Regular.ttf */,
+				D87A2D140E4E414294E2C7A6 /* SpaceMono-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -197,6 +212,8 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				445D3900EC55BCF117856C21 /* PrivacyInfo.xcprivacy in Resources */,
+				7231A7587DDE4FF4A0BD6495 /* IBMPlexMono-Regular.ttf in Resources */,
+				7B5FFC66E9D446E18C3AC158 /* SpaceMono-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

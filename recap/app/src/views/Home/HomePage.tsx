@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import { MagnifyingGlassIcon } from "phosphor-react-native";
 import { ActivityIndicator, FlatList, Text, TextInput, View } from "react-native";
+import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { CardMovie } from "../../components/CardMovie/CardMovie";
 import { Movie } from "../../models/movie";
 import { Category, useHomeViewModel } from "../../viewmodels/home.viewmodel";
@@ -29,10 +30,8 @@ export default function HomePage() {
     );
 
     return (
-        <View style={styles.container}>
+        <CamLenseScreen title="Filmes">
             <View style={styles.header}>
-                <Text style={styles.title}>Filmes</Text>
-
                 <View style={styles.input}>
                     <TextInput placeholder="Buscar" placeholderTextColor="#ffffff" style={styles.textInput} value={search} onChangeText={onSearchChange} />
                     <MagnifyingGlassIcon color="#ffffff" size={25} weight="light"></MagnifyingGlassIcon>
@@ -61,6 +60,6 @@ export default function HomePage() {
                     />
                 )}
             </View>
-        </View>
+        </CamLenseScreen>
     );
 }

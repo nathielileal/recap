@@ -1,4 +1,3 @@
-
 export interface Comment {
     id_comment: string,
     id_comment_ref: string,

@@ -35,39 +35,6 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-start",
     marginBottom: 76,
   },
-
-  tabsContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 24,
-    backgroundColor: "#121212",
-    borderRadius: 12,
-  },
-
-  tabItem: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-  },
-
-  tabText: {
-    color: "#aaa",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-
-  tabActiveText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-
-  tabUnderline: {
-    height: 2,
-    backgroundColor: "#E50914",
-    marginTop: 4,
-    borderRadius: 2,
-  },
-
   listContainer: {
     width: "100%",
     gap: 16,
