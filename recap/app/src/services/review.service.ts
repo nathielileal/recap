@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Review } from "../review";
+import { Review } from "../models/review";
 
 const REVIEW_KEY = "review";
 const LIKED_REVIEWS_KEY = "liked_reviews";

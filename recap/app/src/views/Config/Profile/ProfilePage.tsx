@@ -66,7 +66,7 @@ export default function ProfilePage() {
           <CaretRightIcon color={COLORS.terciary} size={20} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => handleLogout} style={[styles.btn, { backgroundColor: COLORS.secondary }]}>
+        <TouchableOpacity onPress={handleLogout} style={[styles.btn, { backgroundColor: COLORS.secondary }]}>
           <UserIcon color={COLORS.terciary} size={20} />
 
           <Text style={styles.optionText}>Sair</Text>

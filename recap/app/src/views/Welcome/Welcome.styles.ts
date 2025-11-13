@@ -31,14 +31,16 @@ export const styles = StyleSheet.create({
     },
     title: {
         fontSize: 36,
+        marginBottom: 5,
         fontWeight: 'bold',
         color: COLORS.terciary,
-        marginBottom: 5,
+        fontFamily: 'IBMPlexMono_400Regular',
     },
     subtitle: {
-        fontSize: 16,
-        color: COLORS.terciary,
+        fontSize: 14,
         lineHeight: 22,
+        color: COLORS.terciary,
+        fontFamily: 'IBMPlexMono_400Regular',
     },
     button: {
         position: 'absolute',

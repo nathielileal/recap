@@ -1,14 +1,15 @@
 import { router } from 'expo-router';
 import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
 import React from 'react';
-import { Alert, Text, TextInput, TouchableOpacity, View, ImageBackground } from 'react-native';
+import { Alert, ImageBackground, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-import { useAuthViewModel } from '../../../viewmodels/auth.viewmodel';
+import { COLORS } from '../../../../../constants/colors';
 import { useAuthContext } from '../../../context/AuthContext';
+import { useAuthViewModel } from '../../../viewmodels/auth.viewmodel';
 import { styles } from './SignUp.styles';
 
 export default function SignUpPage() {
-  const { email, setEmail, username, setUsername, password, setPassword, confirmPassword, setConfirmPassword, emailError, usernameError, passwordError, isLoading, showPassword, setShowPassword, showConfirm, setShowConfirm, getSignUp } = useAuthViewModel();
+  const { email, setEmail, username, setUsername, password, setPassword, confirmPassword, setConfirmPassword, passwordError, authError, isLoading, showPassword, setShowPassword, showConfirm, setShowConfirm, getSignUp } = useAuthViewModel();
   const { updateAuthStatus } = useAuthContext();
 
   const handleSignUp = async () => {
@@ -22,38 +23,32 @@ export default function SignUpPage() {
 
   return (
     <View style={styles.container}>
-      {/* Use ImageBackground to set the background and layers. */}
-      <ImageBackground
-        source={require('../../../../../assets/images/recap-screen.png')}
-        style={styles.backgroundImage}
-        resizeMode="cover"
-      >
+      <ImageBackground source={require('../../../../../assets/images/recap-screen.png')} style={styles.backgroundImage} resizeMode="cover">
         <Svg style={styles.svgShape} viewBox="0 0 100 100" preserveAspectRatio="none">
-          <Path
-            d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z"
-            fill="#000"
-          />
+          <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill={COLORS.primary} />
         </Svg>
 
         <View style={styles.formContent}>
-          <Text style={styles.signUpText}>Sign up</Text>
+          <Text style={styles.signUpText}>Cadastrar</Text>
 
           <Text style={styles.label}>Email</Text>
           <TextInput
             placeholder="exemplo@domain.com"
-            placeholderTextColor="#aaa"
+            placeholderTextColor={COLORS.grey}
             value={email}
             onChangeText={setEmail}
             style={styles.input}
+            autoCapitalize='none'
           />
 
           <Text style={styles.label}>Nome de usuário</Text>
           <TextInput
-            placeholder="Digite o usuário"
-            placeholderTextColor="#aaa"
+            placeholder="Digite o nome de usuário"
+            placeholderTextColor={COLORS.grey}
             value={username}
             onChangeText={setUsername}
             style={styles.input}
+            autoCapitalize='none'
           />
 
           <View style={styles.passwordContainer}>
@@ -61,47 +56,46 @@ export default function SignUpPage() {
             <View style={styles.inputWrapper}>
               <TextInput
                 placeholder="Digite sua senha"
-                placeholderTextColor="#aaa"
+                placeholderTextColor={COLORS.grey}
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}
                 style={styles.inputPassword}
+                autoCapitalize='none'
               />
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
-                {showPassword ? <EyeSlashIcon color="#aaa" size={24} /> : <EyeIcon color="#aaa" size={24} />}
+                {showPassword ? <EyeSlashIcon color={COLORS.grey} size={24} /> : <EyeIcon color={COLORS.grey} size={24} />}
               </TouchableOpacity>
             </View>
           </View>
-          
+
           <View style={styles.passwordContainer}>
             <Text style={styles.label}>Confirmar senha</Text>
             <View style={styles.inputWrapper}>
               <TextInput
-                placeholder="Digite sua senha"
-                placeholderTextColor="#aaa"
+                placeholder="Confirme sua senha"
+                placeholderTextColor={COLORS.grey}
                 secureTextEntry={!showConfirm}
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 style={styles.inputPassword}
+                autoCapitalize='none'
               />
               <TouchableOpacity onPress={() => setShowConfirm(!showConfirm)} style={styles.eyeIcon}>
-                {showConfirm ? <EyeSlashIcon color="#aaa" size={24} /> : <EyeIcon color="#aaa" size={24} />}
+                {showConfirm ? <EyeSlashIcon color={COLORS.grey} size={24} /> : <EyeIcon color={COLORS.grey} size={24} />}
               </TouchableOpacity>
             </View>
           </View>
 
-          {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : <View style={{ height: 16 }} />}
+          {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : authError ? <Text style={styles.errorText}>{authError}</Text> : <View style={{ height: 16 }} />}
 
-          <TouchableOpacity
-            style={styles.signUpButton}
-            onPress={handleSignUp}
-            disabled={isLoading}
-          >
-            <Text style={styles.signUpButtonText}>{isLoading ? 'Loading...' : 'Sign up'}</Text>
+          <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp} disabled={isLoading}>
+            <Text style={styles.signUpButtonText}>{isLoading ? 'Carregando...' : 'Cadastrar'}</Text>
           </TouchableOpacity>
 
           <View style={styles.signInContainer}>
             <Text style={styles.signInTextLink}>Já tem uma conta? </Text>
+
             <TouchableOpacity onPress={() => router.replace('(auth)/sign-in')}>
               <Text style={styles.signInLink}> Entrar</Text>
             </TouchableOpacity>

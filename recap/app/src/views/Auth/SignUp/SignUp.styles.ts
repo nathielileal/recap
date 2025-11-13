@@ -30,9 +30,10 @@ export const styles = StyleSheet.create({
     },
     signUpText: {
         fontSize: 36,
+        marginBottom: 20,
         fontWeight: 'bold',
         color: COLORS.terciary,
-        marginBottom: 20,
+        fontFamily: 'IBMPlexMono_400Regular',
     },
     label: {
         fontSize: 16,

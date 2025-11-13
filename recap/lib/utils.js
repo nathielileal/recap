@@ -1,3 +1,26 @@
+import { API_URL } from "../constants/url";
+
+const SERVICE_PORTS = {
+  auth: 3001,
+  user: 3002,
+  movies: 3003,
+  catalog: 3004, 
+  lists: 3004,
+  rating: 3005,   
+  social: 3006, 
+};
+
+export function getApiUrl(serviceName) {
+  const port = SERVICE_PORTS[serviceName];
+
+  if (!port) {
+    console.error(`Porta não encontrada para o serviço: ${serviceName}`);
+    return API_URL; 
+  }
+
+  return `http://localhost:${port}`;
+}
+
 export function getDDMMYYYY(data) {
     const date = new Date(data);
 
@@ -16,7 +39,8 @@ export function getYYYYMMDDHHMI(data) {
 };
 
 export function getYear(data) {
-    return new Date(data).getFullYear();
+    return new Date(data).getFullYear
+    ();
 }
 
 export function getTimeAgo(dateString) {

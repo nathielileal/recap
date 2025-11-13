@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Movie } from "../models/movie";
 import { Review } from "../models/review";
-import { movieApi } from "../models/services/movie.service";
-import { ReviewService } from "../models/services/review.service";
+import { movieApi } from "../services/movie.service";
+import { ReviewService } from "../services/review.service";
 
 export function useDetailsViewModel(id: string | string[] | undefined) {
     const [reviews, setReviews] = useState<Review[]>([]);

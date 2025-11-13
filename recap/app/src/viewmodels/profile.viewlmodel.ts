@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { AuthService } from '../models/services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 export const useProfileViewModel = () => {
   const [filter, setFilter] = useState<"public" | "private">("public");

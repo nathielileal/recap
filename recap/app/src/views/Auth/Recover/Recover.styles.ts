@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     },
     signInText: {
         fontSize: 36,
-        marginBottom: 20,
+        marginBottom: 30,
         fontWeight: 'bold',
         color: COLORS.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
@@ -46,49 +46,25 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         paddingHorizontal: 15,
         paddingVertical: 12,
-        marginBottom: 20,
+        marginBottom: 30,
         fontSize: 16,
-    },
-    passwordContainer: {
-        marginBottom: 20,
-    },
-    inputWrapper: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: COLORS.terciary,
-        borderRadius: 10,
-        paddingHorizontal: 15,
-    },
-    inputPassword: {
-        flex: 1,
-        paddingVertical: 12,
-        fontSize: 16,
-    },
-    eyeIcon: {
-        paddingLeft: 10,
     },
     errorText: {
         color: 'red',
         marginBottom: 10,
         textAlign: 'center',
     },
-    loginButton: {
+    btn: {
         backgroundColor: COLORS.secondary,
         paddingVertical: 15,
         borderRadius: 10,
         alignItems: 'center',
         marginBottom: 20,
     },
-    loginButtonText: {
+    btnText: {
         color: COLORS.terciary,
         fontSize: 18,
         fontWeight: 'bold',
-    },
-    forgotContainer: {
-        marginTop: 10,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-end',
     },
     signupContainer: {
         flexDirection: 'row',

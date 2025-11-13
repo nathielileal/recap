@@ -1,7 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, KeyboardAvoidingView, Modal, Platform, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { movieApi } from "../../models/services/movie.service";
+import { movieApi } from "../../services/movie.service";
 import { styles } from "../../views/Lists/Lists.style";
 import { BtnSwitch } from "../Switch/Switch";
 

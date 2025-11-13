@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Alert } from 'react-native';
-import { AuthService } from '../models/services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
@@ -43,6 +42,7 @@ export const useAuthViewModel = () => {
     setIsLoading(true);
     setAuthError('');
 
+    // validações locais
     if (!email.includes('@') || !email.includes('.')) {
       setEmailError('Email inválido');
       isValid = false;
@@ -51,7 +51,7 @@ export const useAuthViewModel = () => {
     }
 
     if (username.trim().length < 3) {
-      setUsernameError('Nome de usuário muito curto');
+      setUsernameError('Nome de usuário deve conter pelo menos 3 caracteres');
       isValid = false;
     } else {
       setUsernameError('');
@@ -61,7 +61,7 @@ export const useAuthViewModel = () => {
       setPasswordError('As senhas não coincidem');
       isValid = false;
     } else if (password.length < 6) {
-      setPasswordError('Senha deve ter pelo menos 6 caracteres');
+      setPasswordError('Senha deve conter pelo menos 6 caracteres');
       isValid = false;
     } else {
       setPasswordError('');
@@ -73,10 +73,16 @@ export const useAuthViewModel = () => {
       return false;
     }
 
+    // validações da api
+    setEmailError('');
+    setUsernameError('');
+    setPasswordError('');
+
     const signUpResult = await AuthService.sighUp({ email, name: username, password });
 
     if (!signUpResult?.success) {
-      Alert.alert('Erro no Cadastro', signUpResult?.error || 'Não foi possível criar a conta.');
+      setAuthError(signUpResult?.error || 'Não foi possível criar a conta. Tente novamente.');
+
       setIsLoading(false);
 
       return false;
@@ -87,7 +93,8 @@ export const useAuthViewModel = () => {
     const signInResult = await AuthService.signIn({ email, password });
 
     if (!signInResult?.success) {
-      Alert.alert('Erro no Login Automático', signInResult?.error || 'Conta criada, mas o login automático falhou.');
+      setAuthError(signInResult?.error || 'Conta criada, mas o login automático falhou.');
+      
       setIsLoading(false);
 
       return false;
@@ -98,16 +105,41 @@ export const useAuthViewModel = () => {
     return true;
   };
 
+  const getRecover = async () => {
+    setIsLoading(true);
+    setAuthError('');
+
+    if (!email.includes('@') || !email.includes('.')) {
+      setAuthError('Email inválido.');
+      setIsLoading(false);
+
+      return false;
+    }
+
+    const result = await AuthService.recover({ email });
+
+    if (!result?.success) {
+      setAuthError(result?.error || 'Email incorreto.');
+    }
+
+    setIsLoading(false);
+    return result?.success;
+  };
+
   return {
     email, setEmail,
     username, setUsername,
     password, setPassword,
     confirmPassword, setConfirmPassword,
-    emailError, usernameError, passwordError, authError,
+    emailError, 
+    usernameError, 
+    passwordError, 
+    authError,
     isLoading,
     showPassword, setShowPassword,
     showConfirm, setShowConfirm,
     getSignIn,
     getSignUp,
+    getRecover
   };
 };

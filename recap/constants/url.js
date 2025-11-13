@@ -1,4 +1,3 @@
-// api
 export const API_URL = 'http://localhost:3000'; //to-do: alterar depois, só funciona enquanto rodar docker localmente
 
 // tmdb

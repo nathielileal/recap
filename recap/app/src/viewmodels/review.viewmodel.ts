@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getYYYYMMDDHHMI } from "../../../lib/utils";
-import { ReviewService } from "../models/services/review.service";
+import { ReviewService } from "../services/review.service";
 
 export function useReviewViewModel(id: string, spoiler? : boolean, like?: number,) {
     // new review

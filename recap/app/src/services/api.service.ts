@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { API_URL } from "../../../../constants/url";
+import { getApiUrl } from '../../../lib/utils';
 import { AuthService } from './auth.service';
 
 // método padrão de api para enviar token de autenticação nas requisições
@@ -20,8 +20,13 @@ export function applyAuthInterceptor(apiInstance: AxiosInstance): void {
   );
 }
 
-const api = axios.create({ baseURL: API_URL });
+// cria a api com token
+export function createApiInstance(serviceName: string): AxiosInstance {
+  const baseURL = getApiUrl(serviceName);
 
-applyAuthInterceptor(api);
+  const api = axios.create({ baseURL });
 
-export default api;
+  applyAuthInterceptor(api);
+
+  return api;
+}
