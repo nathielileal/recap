@@ -1,10 +1,10 @@
 export interface Movie {
-    id: number;
+    tmdbId: string;
     title: string;
-    poster_path: string;
+    posterPath: string;
     overview: string;
-    backdrop_path: string;
-    runtime: string;
-    release_date: string;
-    vote_average: number;
+    backdropPath?: string; // to-do: ainda não tem na api
+    runtime?: string; // to-do: ainda não tem na api
+    releaseDate: string;
+    average?: number; // to-do: vem separado, na api de rating
 }

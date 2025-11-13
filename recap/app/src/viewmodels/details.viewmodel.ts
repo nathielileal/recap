@@ -25,7 +25,7 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
         try {
             setLoading(true);
             // const response = await movieBackApi.get(`/movies/${id}`);
-            const response = await movieApi.get(`/movie/${id}`);
+            const response = await movieApi.get(`/movies/${id}`);
             setDetail(response.data);
         } catch (error) {
             console.error("Erro ao buscar detalhes do filme:", error);

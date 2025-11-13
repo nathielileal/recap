@@ -87,9 +87,9 @@ export default function Details() {
                     <Text>Carregando imagem...</Text>
                 ) : (
                     <View>
-                        <Image style={styles.image} source={{ uri: `${API_IMAGE}${detail?.backdrop_path}` }} />
+                        <Image style={styles.image} source={{ uri: `${API_IMAGE}${detail?.backdropPath ?? detail?.posterPath}` }} resizeMode="cover" />
 
-                        <Image style={styles.poster} source={{ uri: `${API_IMAGE}${detail?.poster_path}` }} />
+                        <Image style={styles.poster} source={{ uri: `${API_IMAGE}${detail?.posterPath}` }} />
 
                         <Text style={styles.title}>{detail?.title}</Text>
 
@@ -97,19 +97,19 @@ export default function Details() {
                             <View style={styles.descriptionGroup}>
                                 <CalendarBlankIcon color={COLORS.grey} size={25} weight="thin" />
 
-                                <Text style={styles.descriptionText}>{getYear(detail?.release_date ?? "")}</Text>
+                                <Text style={styles.descriptionText}>{getYear(detail?.releaseDate ?? "")}</Text>
                             </View>
 
                             <View style={styles.descriptionGroup}>
                                 <ClockIcon color={COLORS.grey} size={25} weight="thin" />
 
-                                <Text style={styles.descriptionText}>{`${detail?.runtime} minutos`}</Text>
+                                <Text style={styles.descriptionText}>{`${detail?.runtime ?? "0"} minutos`}</Text>
                             </View>
 
                             <View style={styles.descriptionGroup}>
-                                <StarIcon color={(detail?.vote_average ?? 0) >= 7 ? COLORS.orange : COLORS.grey} size={20} weight={(detail?.vote_average ?? 0) >= 7 ? "duotone" : "thin"} />
+                                <StarIcon color={(detail?.average ?? 0) >= 7 ? COLORS.orange : COLORS.grey} size={20} weight={(detail?.average ?? 0) >= 7 ? "duotone" : "thin"} />
 
-                                <Text style={[(detail?.vote_average ?? 0) >= 7 ? styles.descriptionTextHighScore : styles.descriptionText]}>{(detail?.vote_average ?? 0).toFixed(1)}</Text>
+                                <Text style={[(detail?.average ?? 0) >= 7 ? styles.descriptionTextHighScore : styles.descriptionText]}>{(detail?.average ?? 0).toFixed(1)}</Text>
                             </View>
                         </View>
                     </View>

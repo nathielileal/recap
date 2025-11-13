@@ -1,12 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import { getApiUrl } from '../../../lib/utils';
-
-interface AuthResult {
-  success?: boolean;
-  token?: string;
-  error?: string;
-}
+import { ApiResponse } from '../models/api-response';
+import { User } from '../models/user';
 
 const AUTH_URL = getApiUrl('auth');
 
@@ -22,9 +18,13 @@ const translated = (message: string): string => {
 };
 
 export const AuthService = {
-  async sighUp(data: { email: string; name: string; password: string }): Promise<AuthResult> {
+  async sighUp(data: { email: string; name: string; password: string }): Promise<ApiResponse<User>> {
     try {
       const response = await axios.post(`${AUTH_URL}/user/register`, data);
+      const { uid, email } = response.data;
+
+      await AsyncStorage.setItem('id_user', uid);
+      await AsyncStorage.setItem('email_user', email);
 
       if (response.status == 201 || response.status == 200) {
         return { success: true };
@@ -42,7 +42,7 @@ export const AuthService = {
     }
   },
 
-  async signIn(data: { email: string; password: string }): Promise<AuthResult> {
+  async signIn(data: { email: string; password: string }): Promise<ApiResponse<User>> {
     try {
       const response = await axios.post(`${AUTH_URL}/user/login`, { email: data.email, password: data.password });
       const { token } = response.data;
@@ -61,7 +61,7 @@ export const AuthService = {
     }
   },
 
-  async recover(data: { email: string }): Promise<AuthResult> {
+  async recover(data: { email: string }): Promise<ApiResponse<User>> {
     try {
       const response = await axios.post(`${AUTH_URL}/user/recover`, { email: data.email });
 
@@ -81,7 +81,7 @@ export const AuthService = {
     }
   },
 
-  async getLoggedUser(): Promise<AuthResult | null> {
+  async getLoggedUser(): Promise<ApiResponse<User> | null> {
     const token = await AsyncStorage.getItem('auth_token');
 
     return token ? { token } : null;
@@ -90,8 +90,14 @@ export const AuthService = {
   async getAuthToken(): Promise<string | null> {
     return await AsyncStorage.getItem('auth_token');
   },
+  
+  async getAuthIDUser(): Promise<string | null> {
+    return await AsyncStorage.getItem('id_user');
+  },
 
   async clearSession() {
     await AsyncStorage.removeItem('auth_token');
+    await AsyncStorage.removeItem('id_user');
+    await AsyncStorage.removeItem('email_user');
   }
 };
