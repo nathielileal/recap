@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { FilterTabs } from "../../components/FilterTabs/FilterTabs";
@@ -8,8 +8,7 @@ import { useListsViewModel } from "../../viewmodels/list.viewmodel";
 import { styles } from "./Lists.style";
 
 const ListsPage = () => {
-  const { lists, isModalOpen, setIsModalOpen, createList, updateList, deleteList, filter, setFilter } = useListsViewModel();
-  const [selectedList, setSelectedList] = useState<any>(null);
+  const { lists, isModalOpen, setIsModalOpen, createList, updateList, deleteList, filter, setFilter, selectedList, setSelectedList } = useListsViewModel();
 
   const handleListPress = (list: any) => {
     setSelectedList(list);
@@ -54,7 +53,7 @@ const ListsPage = () => {
       <View style={styles.listContainer}>
         {lists.length === 0 ? (
           <Text style={{ color: "#ccc", textAlign: "center", marginTop: 20 }}>
-            Nenhuma lista criada ainda
+            Nenhuma lista criada ainda.
           </Text>
         ) : (
           lists.map((list) => (

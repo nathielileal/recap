@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getYYYYMMDDHHMI } from "../../../lib/utils";
-import { ReviewService } from "../services/review.service";
+import { ReviewService } from "../models/services/review.service";
 
 export function useReviewViewModel(id: string, spoiler? : boolean, like?: number,) {
     // new review
@@ -8,8 +8,6 @@ export function useReviewViewModel(id: string, spoiler? : boolean, like?: number
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [isChecked, setChecked] = useState(false);
-    const [tags, setTags] = useState<string[]>([]);
-    const [tag, setTag] = useState<string>('');
 
     // reviews
     const [isExpanded, setIsExpanded] = useState(false);
@@ -32,13 +30,11 @@ export function useReviewViewModel(id: string, spoiler? : boolean, like?: number
         setTitle('');
         setDescription('');
         setChecked(false);
-        setTags([]);
-        setTag('');
     }
 
     const saveReview = async () => {
         const date = new Date();
-        const review = { id_review: Date.now().toString(), id_movie: id, id_user: Date.now().toString(), user: "teste", title: title, date_created: getYYYYMMDDHHMI(date), date_modified: getYYYYMMDDHHMI(date), rate: rating, description: description, spoiler: isChecked, likes: 0, comments: 0, tags: tags };
+        const review = { id_review: Date.now().toString(), id_movie: id, id_user: Date.now().toString(), user: "teste", title: title, date_created: getYYYYMMDDHHMI(date), date_modified: getYYYYMMDDHHMI(date), rate: rating, description: description, spoiler: isChecked, likes: 0, comments: 0 };
 
         return await ReviewService.saveReview(review);
     }
@@ -47,6 +43,6 @@ export function useReviewViewModel(id: string, spoiler? : boolean, like?: number
         return await ReviewService.updateLikeReview(id); 
     }
 
-    return { rating, setRating, title, setTitle, description, setDescription, isChecked, setChecked, tags, setTags, tag, setTag, saveReview, clearForm, 
+    return { rating, setRating, title, setTitle, description, setDescription, isChecked, setChecked, saveReview, clearForm, 
         isExpanded, setIsExpanded, blur, setBlur, isLiked, setIsLiked, likes, setLikes, updateLikeReview };
 }

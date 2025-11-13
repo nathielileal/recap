@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
-import { API_URL } from '../../../constants/url';
+import { API_URL } from '../../../../constants/url';
 
 interface AuthResult {
   success?: boolean;

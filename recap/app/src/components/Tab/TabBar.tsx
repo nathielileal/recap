@@ -10,7 +10,7 @@ const tabs = [
   { name: 'recommendation', route: '/recommendation', Icon: ChatCircleTextIcon },
   { name: 'index', route: '/', Icon: HouseIcon },
   { name: 'friends', route: '/friends', Icon: UsersThreeIcon },
-  { name: 'profile', route: '/profile', Icon: UserCircleGearIcon },
+  { name: 'config', route: '/config', Icon: UserCircleGearIcon },
 ];
 
 export function TabBar() {

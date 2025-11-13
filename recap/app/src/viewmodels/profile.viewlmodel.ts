@@ -1,26 +1,25 @@
 import { useEffect, useState } from 'react';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../models/services/auth.service';
 
 export const useProfileViewModel = () => {
+  const [filter, setFilter] = useState<"public" | "private">("public");
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [editUsername, setEditUsername] = useState(false);
-  const [editEmail, setEditEmail] = useState(false);
-  const [editPassword, setEditPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [filter, setFilter] = useState<"public" | "private">("public");
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     const loadUser = async () => {
       const token = await AuthService.getAuthToken();
-      
+
       if (token) {
         setUsername('Nome do Usuário');
         setEmail('email@exemplo.com');
-        setPassword('********');
+        setPassword('Senha123');
       }
 
       setLoading(false);
@@ -48,15 +47,15 @@ export const useProfileViewModel = () => {
 
     if (valid) {
       alert('Perfil atualizado com sucesso!');
-     
-      setEditUsername(false);
-      setEditEmail(false);
-      setEditPassword(false);
     }
   };
 
   const logout = async () => {
     await AuthService.clearSession();
+  };
+
+  const handleModal = () => {
+    setModal(!modal);
   };
 
   return {
@@ -67,17 +66,15 @@ export const useProfileViewModel = () => {
     setEmail,
     password,
     setPassword,
-    editUsername,
-    setEditUsername,
-    editEmail,
-    setEditEmail,
-    editPassword,
-    setEditPassword,
     emailError,
     passwordError,
     validateAndSave,
     logout,
-    filter, 
-    setFilter
+    filter,
+    setFilter,
+    modal,
+    handleModal,
+    showPassword, 
+    setShowPassword
   };
 };

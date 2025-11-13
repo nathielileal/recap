@@ -7,32 +7,37 @@ export const styles = StyleSheet.create({
         backgroundColor: COLORS.primary
     },
     header: {
-        paddingTop: 30,
-        height: 115,
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
+        width: '100%',
+        paddingTop: 10,
+        paddingBottom: 15,
+        alignItems: 'center',
+        flexDirection: 'row',
         paddingHorizontal: 20,
+        justifyContent: 'space-between',
+        backgroundColor: COLORS.primary,
+    },
+    headerItemLeft: {
+        flex: 1,
+    },
+    headerItemRight: {
+        flex: 1,
+        alignItems: 'flex-end',
     },
     headerTitle: {
+        fontSize: 20,
+        lineHeight: 25,
         color: COLORS.terciary,
-        fontWeight: "700",
-        fontSize: 18,
-        position: "absolute",
-        left: 0,
-        right: 0,
-        textAlign: "center",
-        top: 55,
-        lineHeight: 32,
+        fontFamily: 'IBMPlexMono_400Regular',
     },
     functions: {
         flexDirection: "row",
         alignItems: "center",
     },
     image: {
-        position: "absolute",
-        width: "100%",
         height: 210,
+        width: "100%",
+        borderRadius: 10,
+        position: "absolute",
     },
     poster: {
         width: 100,
@@ -61,16 +66,17 @@ export const styles = StyleSheet.create({
         marginTop: 160,
     },
     descriptionGroup: {
+        gap: 2,
         flexDirection: "row",
         alignItems: "center",
-        gap: 2,
+        justifyContent: "center",
     },
     descriptionText: {
-        marginRight: 10,
+        marginRight: 20,
         color: COLORS.terciary
     },
     descriptionTextHighScore: {
-        marginRight: 10,
+        marginRight: 20,
         color: COLORS.orange
     },
     about: {
@@ -81,11 +87,11 @@ export const styles = StyleSheet.create({
         textAlign: "justify"
     },
     options: {
-        alignItems: "flex-start",
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-        padding: 0,
         margin: 0,
+        padding: 0,
+        flexDirection: "row",
+        alignItems: "flex-start",
+        justifyContent: "space-evenly",
     },
     option: {
         color: COLORS.terciary,
@@ -97,9 +103,6 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 5,
         borderBottomWidth: 1,
         borderBottomColor: COLORS.terciary,
-    },
-    reviews: {
-        // paddingBottom: 100, 
     },
     btn: {
         backgroundColor: COLORS.secondary

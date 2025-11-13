@@ -3,9 +3,9 @@ import { getYYYYMMDDHHMI } from "../../../lib/utils";
 import { Comment } from "../models/comment";
 import { Movie } from "../models/movie";
 import { Review } from "../models/review";
-import { CommentService } from "../services/comment.service";
-import { movieApi } from "../services/movie.service";
-import { ReviewService } from "../services/review.service";
+import { CommentService } from "../models/services/comment.service";
+import { movieApi } from "../models/services/movie.service";
+import { ReviewService } from "../models/services/review.service";
 
 export function useCommentViewModel(id: string, id_comment?: string, id_ref?: string, spoiler?: boolean, like?: number) {
     const [review, setReview] = useState<Review | null>(null);

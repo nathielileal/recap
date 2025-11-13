@@ -1,30 +1,13 @@
 import * as ImagePicker from "expo-image-picker";
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Switch,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { movieApi } from "../../services/movie.service";
+import { ActivityIndicator, FlatList, Image, KeyboardAvoidingView, Modal, Platform, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { movieApi } from "../../models/services/movie.service";
 import { styles } from "../../views/Lists/Lists.style";
+import { BtnSwitch } from "../Switch/Switch";
 
 interface Props {
   onClose: () => void;
-  onCreate: (
-    name: string,
-    description: string,
-    image?: string,
-    items?: string[],
-    isPublic?: boolean
-  ) => void;
+  onCreate: (name: string, description: string, image?: string, items?: string[], isPublic?: boolean) => void;
   name?: string;
   description?: string;
   image?: string;
@@ -50,42 +33,32 @@ const CreateListModal: React.FC<Props> = ({
   const [description, setDescription] = useState(initialDescription || "");
   const [image, setImage] = useState<string | undefined>(initialImage);
   const [isPublic, setIsPublic] = useState(initialIsPublic || false);
-
   const [movieSearch, setMovieSearch] = useState("");
   const [suggestions, setSuggestions] = useState<MovieSuggestion[]>([]);
   const [movies, setMovies] = useState<string[]>(initialItems || []);
   const [loading, setLoading] = useState(false);
 
-  // Pede permissão para acessar a galeria
-  useEffect(() => {
-    (async () => {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        alert("Precisamos de permissão para acessar sua galeria.");
-      }
-    })();
-  }, []);
-
   // Busca sugestões no movieApi sempre que movieSearch mudar
   useEffect(() => {
     const fetchSuggestions = async () => {
       const query = movieSearch.trim();
+
       if (query.length < 2) {
         setSuggestions([]);
         return;
       }
+
       setLoading(true);
+
       try {
         const response = await movieApi.get("/search/movie", {
           params: { query },
         });
+
         const results = response.data.results || [];
+
         setSuggestions(
-          results.map((f: any) => ({
-            id: f.id,
-            title: f.title,
-          }))
+          results.map((f: any) => ({ id: f.id, title: f.title }))
         );
       } catch (e) {
         console.warn("Erro buscando filmes", e);
@@ -116,27 +89,21 @@ const CreateListModal: React.FC<Props> = ({
     if (!movies.includes(title)) {
       setMovies((prev) => [...prev, title]);
     }
+
     setMovieSearch("");
     setSuggestions([]);
   };
 
   return (
     <Modal visible transparent animationType="slide" statusBarTranslucent>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
-      >
+      <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }} >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
             <Text style={styles.title}>Criar nova lista</Text>
 
             <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
               {image ? (
-                <Image
-                  source={{ uri: image }}
-                  style={styles.cardImage}
-                  resizeMode="cover"
-                />
+                <Image source={{ uri: image }} style={styles.cardImage} resizeMode="stretch" />
               ) : (
                 <Text style={styles.label}>Exportar imagem</Text>
               )}
@@ -153,10 +120,12 @@ const CreateListModal: React.FC<Props> = ({
 
             <View style={styles.fieldRow}>
               <Text style={styles.label}>Pública</Text>
-              <Switch value={isPublic} onValueChange={setIsPublic} />
+
+              <BtnSwitch value={isPublic} onValueChange={setIsPublic} />
             </View>
 
             <Text style={styles.label}>Descrição</Text>
+
             <TextInput
               style={[styles.input, { height: 80 }]}
               value={description}

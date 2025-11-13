@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { COLORS } from "../../../../constants/colors";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { FilterTabs } from "../../components/FilterTabs/FilterTabs";
 import { Friend } from "../../models/friend";
@@ -35,47 +36,43 @@ export default function FriendsPage() {
       u.username.toLowerCase().includes(search.toLowerCase())
   );
 
-  const renderCard = (item: Friend, isFriendTab: boolean) => (
-    <View key={item.id} style={styles.card}>
-      <Image
-        source={{ uri: item.avatar || "https://via.placeholder.com/50" }}
-        style={styles.avatar}
-      />
-      <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{item.name}</Text>
-        <Text style={styles.cardSubtitle}>@{item.username}</Text>
-      </View>
-      {isFriendTab ? (
-        <TouchableOpacity
-          style={styles.removeButton}
-          onPress={() => handleRemoveFriend(item.id)}
-        >
-          <Text style={styles.removeButtonText}>Remover</Text>
-        </TouchableOpacity>
-      ) : (
-        <TouchableOpacity
-          style={styles.addButtonSmall}
-          onPress={() => handleAddFriend(item)}
-          disabled={!!friends.find((f) => f.id === item.id)}
-        >
+  const renderCard = (item: Friend) => {
+    const isFriend = friends.find((f) => f.id === item.id);
+
+    return (
+      <View key={item.id} style={styles.card}>
+        <Image source={{ uri: item.avatar || "https://via.placeholder.com/50" }} style={styles.avatar} />
+
+        <View style={styles.cardContent}>
+          <Text style={styles.cardTitle}>{item.name}</Text>
+
+          <Text style={styles.cardSubtitle}>@{item.username}</Text>
+        </View>
+
+        <TouchableOpacity style={[styles.addButtonSmall, { backgroundColor: isFriend ? COLORS.secondary : COLORS.darkGrey }]} onPress={() => isFriend ? handleRemoveFriend(item.id) : handleAddFriend(item)} >
           <Text style={styles.addButtonSmallText}>
-            {friends.find((f) => f.id === item.id) ? "Adicionado" : "Adicionar"}
+            {isFriend ? "Seguindo" : "Seguir"}
           </Text>
         </TouchableOpacity>
-      )}
-    </View>
-  );
+      </View>
+    )
+  };
 
   return (
     <CamLenseScreen title="Amigos">
-      <FilterTabs firstOption="Todos os amigos" secondOption="Seus amigos" filter={filter} setFilter={setFilter} />
+      <FilterTabs firstOption="Todos os usuários" secondOption="Seus amigos" filter={filter} setFilter={setFilter} />
 
-      {filter === "public" ? (
+      {filter === "private" ? (
         <View style={styles.listContainer}>
           {friends.length === 0 ? (
-            <Text style={styles.emptyText}>Você ainda não adicionou amigos</Text>
+            <Text style={styles.emptyText}>Você ainda não segue nenhum usuário</Text>
           ) : (
-            friends.map((item) => renderCard(item, true))
+            <FlatList
+              data={friends}
+              keyExtractor={(item) => item.id}
+              style={styles.listContainer}
+              renderItem={({ item }) => renderCard(item)}
+            />
           )}
         </View>
       ) : (
@@ -83,15 +80,16 @@ export default function FriendsPage() {
           <TextInput
             style={styles.input}
             placeholder="Buscar usuário..."
-            placeholderTextColor="#888"
+            placeholderTextColor={COLORS.grey}
             value={search}
             onChangeText={setSearch}
           />
+
           <FlatList
             data={filteredUsers}
             keyExtractor={(item) => item.id}
             style={styles.listContainer}
-            renderItem={({ item }) => renderCard(item, false)}
+            renderItem={({ item }) => renderCard(item)}
           />
         </View>
       )}

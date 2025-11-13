@@ -1,9 +1,11 @@
 import { Text } from "@react-navigation/elements";
 import { router, useLocalSearchParams } from "expo-router";
-import { BookmarkSimpleIcon, CalendarBlankIcon, CaretLeftIcon, ClockIcon, NotePencilIcon, StarIcon } from "phosphor-react-native";
-import { FlatList, Image, ScrollView, TouchableOpacity, View } from "react-native";
+import { CalendarBlankIcon, CaretLeftIcon, ClockIcon, ListPlusIcon, NotePencilIcon, StarIcon } from "phosphor-react-native";
+import { FlatList, Image, TouchableOpacity, View } from "react-native";
+import { COLORS } from "../../../../constants/colors";
 import { API_IMAGE } from "../../../../constants/url";
 import { getYear } from "../../../../lib/utils";
+import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { CardReview } from "../../components/CardReview/CardReview";
 import { ReviewModal } from "../../components/Modal/Review/ReviewModal";
 import { Review } from "../../models/review";
@@ -32,7 +34,6 @@ export default function Details() {
                         data={reviews}
                         renderItem={showReviews}
                         keyExtractor={(item) => String(item.id_user)}
-                        scrollEnabled={false}
                         ListEmptyComponent={<Text style={styles.aboutText}>Esse filme ainda não possui nenhuma avaliação.</Text>}
                     />
                 );
@@ -54,30 +55,34 @@ export default function Details() {
     };
 
     return (
-        <View style={styles.container}>
+        <CamLenseScreen title="Detalhes" paddingVertical={1} paddingHorizontal={1} header={
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => router.back()} style={{ zIndex: 10 }}>
-                    <CaretLeftIcon color="#FFFFFF" size={32} weight="thin" />
-                </TouchableOpacity>
+                <View style={styles.headerItemLeft}>
+                    <TouchableOpacity onPress={() => router.back()} style={{ zIndex: 10 }}>
+                        <CaretLeftIcon color={COLORS.terciary} size={25} weight="thin" />
+                    </TouchableOpacity>
+                </View>
 
                 <Text style={styles.headerTitle}>Detalhes</Text>
 
-                <View style={styles.functions}>
-                    <TouchableOpacity>
-                        <BookmarkSimpleIcon color="#FFFFFF" size={32} weight="thin" />
-                    </TouchableOpacity>
+                <View style={styles.headerItemRight}>
+                    <View style={styles.functions}>
+                        <TouchableOpacity>
+                            <ListPlusIcon color={COLORS.terciary} size={25} weight="thin" />
+                        </TouchableOpacity>
 
-                    <TouchableOpacity onPress={handleModal}>
-                        <NotePencilIcon color="#FFFFFF" size={32} weight="thin" />
-                    </TouchableOpacity>
+                        <TouchableOpacity onPress={handleModal}>
+                            <NotePencilIcon color={COLORS.terciary} size={25} weight="thin" />
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
-
+        }>
             {modal && (
                 <ReviewModal id_movie={id.toString()} onClosed={closeModal} ></ReviewModal>
             )}
 
-            <ScrollView style={{ flex: 1 }}>
+            <View>
                 {loading ? (
                     <Text>Carregando imagem...</Text>
                 ) : (
@@ -90,19 +95,19 @@ export default function Details() {
 
                         <View style={styles.description}>
                             <View style={styles.descriptionGroup}>
-                                <CalendarBlankIcon color="#92929D" size={25} weight="thin" />
+                                <CalendarBlankIcon color={COLORS.grey} size={25} weight="thin" />
 
                                 <Text style={styles.descriptionText}>{getYear(detail?.release_date ?? "")}</Text>
                             </View>
 
                             <View style={styles.descriptionGroup}>
-                                <ClockIcon color="#92929D" size={25} weight="thin" />
+                                <ClockIcon color={COLORS.grey} size={25} weight="thin" />
 
                                 <Text style={styles.descriptionText}>{`${detail?.runtime} minutos`}</Text>
                             </View>
 
                             <View style={styles.descriptionGroup}>
-                                <StarIcon color={(detail?.vote_average ?? 0) >= 7 ? "#FF8700" : "#92929D"} size={25} weight={(detail?.vote_average ?? 0) >= 7 ? "duotone" : "thin"} />
+                                <StarIcon color={(detail?.vote_average ?? 0) >= 7 ? COLORS.orange : COLORS.grey} size={20} weight={(detail?.vote_average ?? 0) >= 7 ? "duotone" : "thin"} />
 
                                 <Text style={[(detail?.vote_average ?? 0) >= 7 ? styles.descriptionTextHighScore : styles.descriptionText]}>{(detail?.vote_average ?? 0).toFixed(1)}</Text>
                             </View>
@@ -129,7 +134,7 @@ export default function Details() {
                 <View style={styles.about}>
                     {showInfo()}
                 </View>
-            </ScrollView>
-        </View>
+            </View>
+        </CamLenseScreen>
     );
 }

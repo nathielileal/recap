@@ -58,14 +58,9 @@ export const styles = StyleSheet.create({
         width: "100%",
         borderWidth: 2,
         borderRadius: 12,
-        paddingVertical: 18,
         alignItems: "center",
-        paddingHorizontal: 20,
         justifyContent: "flex-start",
         borderColor: COLORS.terciary,
         backgroundColor: COLORS.primary,
     },
-    //   innerScroll: {
-    //     flexGrow: 1,
-    //   },
 });

@@ -8,7 +8,7 @@ const darkTheme = {
     grey: "#A9A9A9",
     darkGrey: "#585858",
     primaryOpacity: "rgba(0,0,0,0.8)",
-    secondaryOpacity: "rgba(229, 9, 20, 0.8)"
+    secondaryOpacity: "rgba(229, 9, 20, 0.7)",
 };
 
 const lightTheme = {

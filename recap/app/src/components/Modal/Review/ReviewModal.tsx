@@ -1,5 +1,5 @@
 import { Checkbox } from 'expo-checkbox';
-import { BookmarkSimpleIcon, PlusSquareIcon, XIcon } from "phosphor-react-native";
+import { XIcon } from "phosphor-react-native";
 import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../../../../../constants/colors";
 import { useReviewViewModel } from '../../../viewmodels/review.viewmodel';
@@ -14,17 +14,10 @@ interface Props {
 const stars = Array.from({ length: 5 });
 
 export function ReviewModal({ id_movie, onClosed }: Props) {
-    const { rating, setRating, title, setTitle, description, setDescription, isChecked, setChecked, tags, setTags, tag, setTag, saveReview, clearForm } = useReviewViewModel(id_movie);
+    const { rating, setRating, title, setTitle, description, setDescription, isChecked, setChecked, saveReview, clearForm } = useReviewViewModel(id_movie);
 
     const handleRatingChange = (value: number) => {
         setRating(value);
-    };
-
-    const handleAddTags = () => {
-        const list = tag.split(',').map(tag => tag.trim().toLowerCase()).filter(tag => tag.length > 0 && !tags.includes(tag));
-
-        setTags(prev => [...prev, ...list]);
-        setTag('');
     };
 
     const handleSave = async () => {
@@ -66,32 +59,6 @@ export function ReviewModal({ id_movie, onClosed }: Props) {
                         <View style={styles.form}>
                             <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked}></Checkbox>
                             <Text style={styles.inputText}>Contém spoiler</Text>
-                        </View>
-
-                        <Text style={styles.title}>TAG:</Text>
-                        <View style={styles.inputTagView}>
-                            <TextInput value={tag} onChangeText={setTag} style={styles.inputTag} autoCapitalize="none" placeholder="Inisra uma nova TAG para sua avaliação" placeholderTextColor={COLORS.grey} maxLength={25}></TextInput>
-                            <TouchableOpacity onPress={handleAddTags}>
-                                <PlusSquareIcon color={COLORS.secondary} size={15}></PlusSquareIcon>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-
-                    <View style={styles.tags}>
-                        <TouchableOpacity>
-                            <View style={styles.tagsHeader}>
-                                <BookmarkSimpleIcon color={COLORS.secondary} size={15} />
-
-                                <Text style={styles.text}>TAGS:</Text>
-                            </View>
-                        </TouchableOpacity>
-
-                        <View style={styles.list}>
-                            {tags.map((item, index) => (
-                                <View key={index} style={styles.tag}>
-                                    <Text style={styles.tagText}>{item}</Text>
-                                </View>
-                            ))}
                         </View>
                     </View>
 

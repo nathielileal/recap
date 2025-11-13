@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../models/services/auth.service';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 

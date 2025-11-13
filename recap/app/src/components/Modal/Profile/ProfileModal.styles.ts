@@ -1,0 +1,90 @@
+import { StyleSheet } from "react-native";
+import { COLORS } from "../../../../../constants/colors";
+
+export const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: COLORS.primaryOpacity,
+    },
+    modal: {
+        width: "90%",
+        padding: 24,
+        borderWidth: 2,
+        borderRadius: 16,
+        borderColor: COLORS.terciary,
+        backgroundColor: COLORS.primary,
+    },
+    header: {
+        marginBottom: 20,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+    headerTitle: {
+        left: 0,
+        right: 0,
+        fontSize: 20,
+        paddingLeft: 5,
+        paddingTop: 10,
+        paddingBottom: 5,
+        fontWeight: 'bold',
+        textAlign: "center",
+        position: "absolute",
+        paddingHorizontal: 5,
+        borderBottomWidth: 1,
+        color: COLORS.terciary,
+        borderBottomColor: COLORS.terciary,
+        fontFamily: 'IBMPlexMono_400Regular',
+    },
+    title: {
+        marginLeft: 5,
+        marginVertical: 5,
+        color: COLORS.terciary,
+    },
+    input: {
+        padding: 12,
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 15,
+        flexDirection: "row",
+        alignItems: "center",
+        color: COLORS.terciary,
+        borderColor: COLORS.terciary,
+    },
+    inputText: {
+        marginLeft: 8,
+        color: COLORS.terciary,
+    },
+    password: {
+        marginBottom: 20,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    eyeIcon: {
+        top: 0,
+        right: 5,
+        bottom: 15,
+        padding: 5,
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    btnView: {
+        alignItems: "center",
+    },
+    btn: {
+        width: 100,
+        height: 30,
+        borderRadius: 8,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: COLORS.secondary,
+    },
+    btnText: {
+        fontWeight: "bold",
+        textAlign: "center",
+        color: COLORS.terciary,
+    },
+});

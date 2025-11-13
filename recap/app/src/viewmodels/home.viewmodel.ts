@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Movie } from "../models/movie";
-import { movieApi } from "../services/movie.service";
+import { movieApi } from "../models/services/movie.service";
 
 export interface Category {
     id: string;

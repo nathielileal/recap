@@ -15,6 +15,7 @@ export const useListsViewModel = () => {
   const [lists, setLists] = useState<MovieList[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filter, setFilter] = useState<"public" | "private">("private");
+  const [selectedList, setSelectedList] = useState<any>(null);
 
   const createList = (
     name: string,
@@ -71,5 +72,7 @@ export const useListsViewModel = () => {
     deleteList,
     filter,
     setFilter,
+    selectedList,
+    setSelectedList
   };
 };

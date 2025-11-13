@@ -5,7 +5,7 @@ import { styles } from "./Recommendation.style";
 
 export default function RecommendationPage() {
   return (
-    <CamLenseScreen title="Recomendação">
+    <CamLenseScreen title="Recomendações">
       <Text style={styles.empty}>Não é possível pedir uma recomendação personalizada no momento.</Text>
     </CamLenseScreen>
   );

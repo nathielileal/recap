@@ -12,5 +12,4 @@ export interface Review {
     spoiler: boolean,
     likes: number,
     comments: number,
-    tags: string[],
 }
