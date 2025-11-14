@@ -15,7 +15,6 @@ export const MovieService = {
             releaseDate: item.releaseDate,
         }));
 
-        console.log(movies);
         return movies;
     },
 };

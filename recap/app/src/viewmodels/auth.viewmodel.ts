@@ -102,9 +102,6 @@ export const useAuthViewModel = () => {
 
     setIsLoading(false);
 
-    const id = await AuthService.getAuthIDUser();
-    console.log("id do usuário: " + id);
-
     return true;
   };
 

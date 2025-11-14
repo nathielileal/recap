@@ -5,11 +5,10 @@ import { useAuthContext } from "../../context/AuthContext";
 import { useThemeContext } from "../../provider/ThemeProvider";
 
 export function SessionExpiredScreen() {
-    const { logout, clearTokenExpiredFlag } = useAuthContext();
+    const { logout } = useAuthContext();
     const { theme } = useThemeContext();
 
     const handleReturnToLogin = async () => {
-        clearTokenExpiredFlag();
         await logout(); 
     };
 

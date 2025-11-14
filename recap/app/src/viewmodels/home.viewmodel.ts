@@ -16,7 +16,6 @@ export function useHomeViewModel() {
     }, []);
 
     const load = async () => {
-        console.log('load!');
         setLoading(true);
 
         try {
@@ -26,7 +25,7 @@ export function useHomeViewModel() {
             setCurrentPage(2);
             setCanLoadMore(data.length > 0);
         } catch (error) {
-            console.error("Erro ao carregar filmes. ", error);
+            console.warn("Erro ao carregar filmes. ", error);
         } finally {
             setLoading(false);
         }
@@ -47,7 +46,7 @@ export function useHomeViewModel() {
             setMovies(prev => [...prev, ...data]);
             setCurrentPage(prev => prev + 1);
         } catch (error) {
-            console.error("Erro ao carregar mais filmes:", error);
+            console.warn("Erro ao carregar mais filmes:", error);
         } finally {
             setLoading(false);
         }
