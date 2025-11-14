@@ -1,5 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
-import { CaretRightIcon, ImageSquareIcon, PencilSimpleIcon, SignOutIcon, UserIcon } from 'phosphor-react-native';
+import { useRouter } from 'expo-router';
+import { CaretRightIcon, FilmScriptIcon, ImageSquareIcon, PencilSimpleIcon, SignOutIcon, UserIcon } from 'phosphor-react-native';
 import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { COLORS } from '../../../../../constants/colors';
@@ -9,6 +10,8 @@ import { useProfileViewModel } from '../../../viewmodels/profile.viewlmodel';
 import { styles } from '../Config.style';
 
 export default function ProfilePage() {
+  const router = useRouter();
+
   const { logout: contextLogout } = useAuthContext();
   const { username, modal, handleModal } = useProfileViewModel();
   const [image, setImage] = useState<string | null>(null);
@@ -62,6 +65,14 @@ export default function ProfilePage() {
           <PencilSimpleIcon color={COLORS.terciary} size={20} />
 
           <Text style={styles.optionText}>Editar Perfil</Text>
+
+          <CaretRightIcon color={COLORS.terciary} size={20} />
+        </TouchableOpacity>
+        
+        <TouchableOpacity onPress={() => router.push({ pathname: "/catalog"})} style={[styles.btn, { backgroundColor: COLORS.primary }]}>
+          <FilmScriptIcon color={COLORS.terciary} size={20} />
+
+          <Text style={styles.optionText}>Ver catálogo pessoal</Text>
 
           <CaretRightIcon color={COLORS.terciary} size={20} />
         </TouchableOpacity>

@@ -1,7 +1,7 @@
 import { Text } from "@react-navigation/elements";
 import { router, useLocalSearchParams } from "expo-router";
 import { CalendarBlankIcon, CaretLeftIcon, ClockIcon, ListPlusIcon, NotePencilIcon, StarIcon } from "phosphor-react-native";
-import { FlatList, Image, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Image, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../../../../constants/colors";
 import { API_IMAGE } from "../../../../constants/url";
 import { getYear } from "../../../../lib/utils";
@@ -10,12 +10,12 @@ import { CardReview } from "../../components/CardReview/CardReview";
 import { ReviewModal } from "../../components/Modal/Review/ReviewModal";
 import { Review } from "../../models/review";
 import { useDetailsViewModel } from "../../viewmodels/details.viewmodel";
-import { styles } from "./Details.styles";
+import { styles } from "./MovieDetails.styles";
 
-export default function Details() {
+export default function MovieDetailsPage() {
     const { id } = useLocalSearchParams();
 
-    const { detail, loading, option, handleOption, modal, handleModal, reviews, getReviews } = useDetailsViewModel(id);
+    const { tmdbId, detail, loading, option, handleOption, modal, handleModal, reviews, getReviews, addToCatalog } = useDetailsViewModel(id);
 
     const closeModal = async () => {
         handleModal();
@@ -25,6 +25,12 @@ export default function Details() {
     const showReviews = ({ item }: { item: Review }) => {
         return (<CardReview data={item}></CardReview>);
     }
+
+    const handleCatalog = async (tmdbId: number) => {
+        const message = await addToCatalog(tmdbId);
+
+        Alert.alert(message);
+    };
 
     const showInfo = () => {
         switch (option) {
@@ -67,7 +73,7 @@ export default function Details() {
 
                 <View style={styles.headerItemRight}>
                     <View style={styles.functions}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
                             <ListPlusIcon color={COLORS.terciary} size={25} weight="thin" />
                         </TouchableOpacity>
 

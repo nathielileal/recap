@@ -2,7 +2,7 @@ import { Image, Pressable } from "react-native";
 import { styles } from "./CardMovie.styles";
 
 interface Movie {
-    tmdbId: string,
+    tmdbId: number,
     posterPath: string;
 }
 

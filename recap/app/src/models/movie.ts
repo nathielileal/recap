@@ -1,5 +1,5 @@
 export interface Movie {
-    tmdbId: string;
+    tmdbId: number;
     title: string;
     posterPath: string;
     overview: string;

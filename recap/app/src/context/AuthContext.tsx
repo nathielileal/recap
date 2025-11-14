@@ -6,6 +6,8 @@ interface AuthContextType {
     isLoading: boolean;
     logout: () => Promise<void>;
     updateAuthStatus: () => Promise<void>;
+    isTokenExpired: boolean; 
+    clearTokenExpiredFlag: () => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -13,6 +15,8 @@ const AuthContext = createContext<AuthContextType>({
     isLoading: true,
     logout: () => Promise.resolve(),
     updateAuthStatus: () => Promise.resolve(),
+    isTokenExpired: false,
+    clearTokenExpiredFlag: () => null,
 });
 
 export function useAuthContext() {
@@ -22,12 +26,30 @@ export function useAuthContext() {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isTokenExpired, setIsTokenExpired] = useState(false);
+
+    const logout = async (dueToExpiration = false) => { 
+        await AuthService.clearSession();
+
+        setIsAuthenticated(false);
+        if (dueToExpiration) {
+            setIsTokenExpired(true); 
+        } else {
+            setIsTokenExpired(false);
+        }
+    };
+
+    const clearTokenExpiredFlag = () => { 
+        setIsTokenExpired(false);
+    };
 
     const checkAuth = async () => {
         const token = await AuthService.getAuthToken();
 
         setIsAuthenticated(!!token);
         setIsLoading(false);
+
+        AuthService.setLogoutNotifier(() => logout(true));
     };
 
     const updateAuthStatus = async () => {
@@ -37,12 +59,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => { checkAuth() }, []);
 
-    const logout = async () => {
-        await AuthService.clearSession();
-        setIsAuthenticated(false);
-    };
+    useEffect(() => {
+        checkAuth();
 
-    const value = { isAuthenticated, isLoading, logout, updateAuthStatus };
+        AuthService.setLogoutNotifier(logout);
+    }, []);
+
+    const value = { isAuthenticated, isLoading, logout, updateAuthStatus, isTokenExpired, clearTokenExpiredFlag };
 
     return (
         <AuthContext.Provider value={value}>

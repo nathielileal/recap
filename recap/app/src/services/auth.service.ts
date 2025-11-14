@@ -1,12 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
-import { getApiUrl } from '../../../lib/utils';
+import { API_URL } from '../../../constants/url';
 import { ApiResponse } from '../models/api-response';
 import { User } from '../models/user';
 
-const AUTH_URL = getApiUrl('auth');
+// const AUTH_URL = getApiUrl('auth');
+const AUTH_URL = API_URL;
 
-const translation: { [key: string]: string } = {
+let logoutNotifier: ((dueToExpiration: boolean) => Promise<void>) | null = null;
+
+const firebaseErrors: { [key: string]: string } = {
   "Firebase: Error (auth/email-already-in-use).": "Este email já está em uso.",
   "Firebase: Error (auth/invalid-email).": "E-mail inválido.",
   "Firebase: Error (auth/invalid-credential).": "E-mail ou senha inválidos. Tente novamente.",
@@ -14,10 +17,22 @@ const translation: { [key: string]: string } = {
 };
 
 const translated = (message: string): string => {
-  return translation[message] || message;
+  return firebaseErrors[message] || message;
 };
 
 export const AuthService = {
+  setLogoutNotifier(notifier: (dueToExpiration: boolean) => Promise<void>) {
+    logoutNotifier = notifier;
+  },
+
+  async notifyTokenExpired() {
+    if (logoutNotifier) {
+      await logoutNotifier(true);
+    } else {
+      await this.clearSession();
+    }
+  },
+
   async sighUp(data: { email: string; name: string; password: string }): Promise<ApiResponse<User>> {
     try {
       const response = await axios.post(`${AUTH_URL}/user/register`, data);
@@ -45,11 +60,13 @@ export const AuthService = {
   async signIn(data: { email: string; password: string }): Promise<ApiResponse<User>> {
     try {
       const response = await axios.post(`${AUTH_URL}/user/login`, { email: data.email, password: data.password });
-      const { token } = response.data;
+      const { uid, token } = response.data;
 
+      await AsyncStorage.setItem('id_user', uid);
       await AsyncStorage.setItem('auth_token', token);
 
-      return { success: true, token };
+      console.log(uid);
+      return { success: true, token, error: 'Ocorreu um erro inesperado no login.' };
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const apiError = error.response?.data?.error || error.response?.data?.message;
@@ -90,7 +107,7 @@ export const AuthService = {
   async getAuthToken(): Promise<string | null> {
     return await AsyncStorage.getItem('auth_token');
   },
-  
+
   async getAuthIDUser(): Promise<string | null> {
     return await AsyncStorage.getItem('id_user');
   },

@@ -14,28 +14,15 @@ export default function HomePage() {
     const { movies, searchMovies, loading, empty, search, onSearchChange, loadMore } = useHomeViewModel();
 
     const renderMovieItem = ({ item }: { item: Movie }) => (
-        <CardMovie data={item} onPress={() => router.push({ pathname: "/src/views/Details/DetailsPage", params: { id: item.tmdbId } })} />
+        <CardMovie data={item} onPress={() => router.push({ pathname: "/movie-detail", params: { id: item.tmdbId } })} />
     );
-
-    // const items = ({ item }: { item: Category }) => (
-    //     <View key={item.id}>
-    //         <Text style={styles.categoryTitle}>{item.title}</Text>
-
-    //         <FlatList
-    //             data={item.data.slice(0, 30)}
-    //             horizontal
-    //             renderItem={renderMovieItem}
-    //             showsHorizontalScrollIndicator={false}
-    //         />
-    //     </View>
-    // );
 
     return (
         <CamLenseScreen title="Filmes">
             <View style={styles.header}>
                 <View style={styles.input}>
-                    <TextInput placeholder="Buscar" placeholderTextColor="#ffffff" style={styles.textInput} value={search} onChangeText={onSearchChange} />
-                    <MagnifyingGlassIcon color="#ffffff" size={25} weight="light"></MagnifyingGlassIcon>
+                    <TextInput placeholder="Buscar" placeholderTextColor={COLORS.terciary} style={styles.textInput} value={search} onChangeText={onSearchChange} />
+                    <MagnifyingGlassIcon color={COLORS.terciary} size={25} weight="light"></MagnifyingGlassIcon>
                 </View>
 
                 {empty && (<Text style={styles.empty}>Nenhum filme encontrado para "{search}"</Text>)}
@@ -44,15 +31,13 @@ export default function HomePage() {
             <View style={styles.list}>
                 {search.length <= 2 ? (
                     <FlatList
-                        // data={categories}
-                        // renderItem={items}
                         key="list"
                         data={movies}
                         numColumns={3}
                         renderItem={renderMovieItem}
-                        keyExtractor={(item) => item.tmdbId}
+                        keyExtractor={(item) => String(item.tmdbId)}
                         showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{ paddingLeft: 30, paddingRight: 30, paddingBottom: 100, alignItems: "center", justifyContent: "space-between" }}
+                        contentContainerStyle={{ paddingLeft: 55, alignItems: "flex-start", justifyContent: "space-between" }}
                         ListFooterComponent={loading && movies.length > 0 ? <ActivityIndicator size={50} color={COLORS.terciary} style={{ marginVertical: 20 }} /> : null}
                         onEndReached={loadMore}
                         onEndReachedThreshold={0.5}

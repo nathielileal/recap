@@ -4,33 +4,34 @@ import { COLORS } from "../../../../constants/colors";
 const { width } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: width,
+    header: {
+        width: '100%',
+        paddingTop: 10,
+        paddingBottom: 15,
+        alignItems: 'center',
+        flexDirection: 'row',
+        paddingHorizontal: 20,
+        justifyContent: 'space-between',
         backgroundColor: COLORS.primary,
     },
-    header: {
-        paddingBottom: 10,
+    headerItemLeft: {
+        flex: 1,
     },
-    input: {
-        height: 40,
-        padding: 10,
-        marginTop: 5,
-        borderRadius: 16,
-        alignItems: "center",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        backgroundColor: COLORS.darkGrey,
+    headerItemRight: {
+        flex: 1,
+        alignItems: 'flex-end',
     },
-    textInput: {
-        width: "80%",
-        paddingLeft: 15,
+    headerTitle: {
+        fontSize: 20,
+        lineHeight: 25,
         color: COLORS.terciary,
+        fontFamily: 'IBMPlexMono_400Regular',
     },
     empty: {
         fontSize: 18,
         marginVertical: 20,
         textAlign: "center",
+        marginHorizontal: 20,
         color: COLORS.terciary,
     },
     list: {

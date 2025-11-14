@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
   btn: {
     borderWidth: 1,
     borderRadius: 25,
-    marginVertical: 20,
+    marginVertical: 10,
     paddingVertical: 15,
     flexDirection: "row",
     alignItems: "center",

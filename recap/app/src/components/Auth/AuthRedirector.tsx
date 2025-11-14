@@ -1,11 +1,11 @@
 import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, Alert, View } from "react-native";
 import { COLORS } from "../../../../constants/colors";
 import { useAuthContext } from "../../context/AuthContext";
 
 export function AuthRedirector() {
-    const { isAuthenticated, isLoading } = useAuthContext();
+    const { isAuthenticated, isLoading, isTokenExpired, clearTokenExpiredFlag } = useAuthContext();
     const segments = useSegments();
     const router = useRouter();
 
@@ -17,15 +17,23 @@ export function AuthRedirector() {
                 if (inAuthGroup) {
                     router.replace('/(tabs)');
                 }
-            }
-
-            else {
+            } else {
                 if (!inAuthGroup) {
                     router.replace('/(auth)');
+
+                    Alert.alert('Sessão Expirada', 'Seu acesso expirou. Faça login novamente para continuar.', [{ text: "OK" }]);
                 }
             }
         }
     }, [segments, isAuthenticated, isLoading, router]);
+
+    useEffect(() => {
+        const inAuthGroup = segments[0] === '(auth)';
+
+        if (!isLoading && !isAuthenticated && inAuthGroup && isTokenExpired) {
+            Alert.alert('Sessão Expirada', 'Seu acesso expirou. Faça login novamente para continuar.', [{ text: "OK", onPress: clearTokenExpiredFlag }]);
+        }
+    }, [isTokenExpired, isAuthenticated, isLoading, segments, clearTokenExpiredFlag]);
 
     if (isLoading) {
         return (

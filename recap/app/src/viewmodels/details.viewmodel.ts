@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Movie } from "../models/movie";
 import { Review } from "../models/review";
+import { CatalogService } from "../services/catalog.service";
 import { movieApi } from "../services/movie.service";
 import { ReviewService } from "../services/review.service";
 
@@ -10,6 +11,8 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
     const [modal, setModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [option, setOption] = useState('A');
+
+    const tmdbId = Number(id);
 
     const handleOption = (opt: string) => {
         setOption(opt);
@@ -37,11 +40,30 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
     const getReviews = async () => {
         try {
             const data = await ReviewService.getReviewByIdMovie(id?.toString() ?? '');
-            
+
             setReviews(data);
         } catch (error) {
             console.error("Erro ao buscar reviews do cache:", error);
             setReviews([]);
+        }
+    };
+
+    const addToCatalog = async (tmdbId: number) => {
+        try {
+            setLoading(true);
+
+            const result = await CatalogService.addMovieToCatalog(tmdbId);
+
+            setLoading(false);
+
+            if (!result?.success) {
+                return result.error || result.message || 'Ocorreu um erro ao tentar adicionar filme ao catálogo pessoal. Tente novamente mais tarde.';
+            }
+
+            return result.message || 'Filme adicionado ao catálogo com sucesso!';
+        } catch (e) {
+            setLoading(false);
+            return 'Ocorreu um erro inesperado na comunicação.';
         }
     };
 
@@ -50,5 +72,5 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
         getReviews();
     }, [id]);
 
-    return { detail, loading, option, reviews, handleOption, modal, handleModal, getReviews };
+    return { tmdbId, detail, loading, option, reviews, handleOption, modal, handleModal, getReviews, addToCatalog };
 }
