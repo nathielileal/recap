@@ -37,7 +37,7 @@ export const stylesheet = (theme: any) => StyleSheet.create({
   },
   listContainer: {
     width: "100%",
-    gap: 16,
+    // gap: 16,
     flexGrow: 1,
   },
 

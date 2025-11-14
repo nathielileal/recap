@@ -9,7 +9,7 @@ interface CatalogResponse {
     movies: Movie[]; 
 }
 
-export const api = createApiInstance('movies');
+export const api = createApiInstance('catalog');
 
 export const CatalogService = {
     async addMovieToCatalog(tmdbId: number): Promise<ApiResponse<Movie>> {

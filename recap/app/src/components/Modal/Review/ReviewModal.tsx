@@ -1,11 +1,11 @@
 import { Checkbox } from 'expo-checkbox';
 import { XIcon } from "phosphor-react-native";
+import { useMemo } from 'react';
 import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useThemeContext } from '../../../provider/ThemeProvider';
 import { useReviewViewModel } from '../../../viewmodels/review.viewmodel';
 import { StarRating } from "../../StarRating/StarRating";
 import { stylesheet } from "./ReviewModal.styles";
-import { useMemo } from 'react';
 
 interface Props {
     id_movie: string;

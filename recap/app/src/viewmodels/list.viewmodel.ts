@@ -1,78 +1,64 @@
-import { useState } from "react";
-
-export interface MovieList {
-  id: string;
-  name: string;
-  createdBy: string;
-  description: string;
-  date: string;
-  items: string[];
-  image?: string;
-  isPublic: boolean;
-}
+import { useEffect, useState } from "react";
+import { List } from "../models/list";
+import { AuthService } from "../services/auth.service";
+import { ListService } from "../services/list.service";
 
 export const useListsViewModel = () => {
-  const [lists, setLists] = useState<MovieList[]>([]);
+  const [lists, setLists] = useState<List[]>([]);
+  const [userLists, setUserLists] = useState<List[]>([]);
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [filter, setFilter] = useState<"public" | "private">("private");
-  const [selectedList, setSelectedList] = useState<any>(null);
+  const [selectedList, setSelectedList] = useState<List | null>(null); 
 
-  const createList = (
-    name: string,
-    description: string,
-    image: string | undefined,
-    items: string[] = [],
-    isPublic: boolean = false
-  ) => {
-    const newList: MovieList = {
-      id: Date.now().toString(),
-      name,
-      createdBy: "mattheaa", // usuário atual
-      description,
-      date: new Date().toLocaleDateString("pt-BR"),
-      items,
-      image,
-      isPublic,
-    };
-    setLists((prev) => [newList, ...prev]);
-  };
+  useEffect(() => {
+    load();
+  }, []);
 
-  const updateList = (
-    id: string,
-    updated: Partial<Omit<MovieList, "id" | "createdBy" | "date">>
-  ) => {
-    setLists((prev) =>
-      prev.map((list) =>
-        list.id === id
-          ? { ...list, ...updated } // mantém id, createdBy e date
-          : list
-      )
-    );
-  };
+  const load = async () => {
+    setLoading(true);
 
-  const deleteList = (id: string) => {
-    setLists((prev) => prev.filter((list) => list.id !== id));
-  };
+    try {
+      const data = await ListService.getUserLists();
 
-  // Filtra listas de acordo com a aba selecionada
-  const filteredLists = lists.filter((list) => {
-    if (filter === "public") {
-      return list.isPublic; // Todas as listas públicas
-    } else {
-      return list.createdBy === "mattheaa"; // Todas as listas criadas pelo usuário
+      setLists(data);
+    } catch (error) {
+      console.warn("Erro ao carregar listas.", error);
+      setLists([]);
+    } finally {
+      setLoading(false);
     }
-  });
-
-  return {
-    lists: filteredLists,
-    isModalOpen,
-    setIsModalOpen,
-    createList,
-    updateList,
-    deleteList,
-    filter,
-    setFilter,
-    selectedList,
-    setSelectedList
   };
+
+  useEffect(() => {
+    const applyFilter = async () => {
+      const userId = await AuthService.getAuthIDUser();
+      const result = lists.filter(list => {
+        if (filter === "public") {
+          return list.userId === userId;
+        }
+
+        return true;
+      });
+
+      setUserLists(result);
+    };
+
+    applyFilter();
+  }, [lists, filter]);
+
+  const saveList = async (name: string) => {
+    return await ListService.saveList(name);
+  };
+
+  const updateList = async (listId: number, name: string) => {
+    return await ListService.updateList(listId, name)
+  };
+
+  const deleteList = async (listId: number) => {
+    return await ListService.deleteList(listId);
+  };
+
+  return { lists: userLists, name, setName, loading, isModalOpen, setIsModalOpen, saveList, updateList, deleteList, filter, setFilter, selectedList, setSelectedList, load };
 };

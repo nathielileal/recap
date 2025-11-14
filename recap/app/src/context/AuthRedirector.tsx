@@ -1,8 +1,8 @@
 import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { useAuthContext } from "../../context/AuthContext";
-import { useThemeContext } from "../../provider/ThemeProvider";
+import { useThemeContext } from "../provider/ThemeProvider";
+import { useAuthContext } from "./AuthContext";
 
 export function AuthRedirector() {
     const { isAuthenticated, isLoading } = useAuthContext();
