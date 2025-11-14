@@ -17,8 +17,8 @@ const lightTheme = {
     terciary: "#270707",
     orange: "#FF8700",
     yellow: "#FFD700",
-    grey: "#7697A0",
-    darkGrey: "#BCC4C7",
+    grey: "#122c4f",
+    darkGrey: "#D6D6D5",
     primaryOpacity: "#739AB9",
     secondaryOpacity: "#800020",
 };
