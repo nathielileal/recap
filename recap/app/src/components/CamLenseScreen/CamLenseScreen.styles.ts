@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.primary,
     },
     header: {
         width: '100%',
@@ -14,7 +13,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: 20,
         justifyContent: 'space-between',
-        backgroundColor: COLORS.primary, 
+        backgroundColor: theme.primary, 
     },
     headerItemLeft: {
         flex: 1, 
@@ -35,14 +34,14 @@ export const styles = StyleSheet.create({
         fontSize: 12,
         paddingBottom: 1,
         borderBottomWidth: 1, 
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
-        borderBottomColor: COLORS.terciary,
+        borderBottomColor: theme.terciary,
     },
     title: {
         fontSize: 20,
         lineHeight: 25,
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
     },
     outerFixedView: {
@@ -50,7 +49,7 @@ export const styles = StyleSheet.create({
         paddingBottom: 10,
         alignItems: "center",
         paddingHorizontal: 10,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.primary,
     },
     container: {
         flex: 1,
@@ -60,7 +59,7 @@ export const styles = StyleSheet.create({
         borderRadius: 12,
         alignItems: "center",
         justifyContent: "flex-start",
-        borderColor: COLORS.terciary,
-        backgroundColor: COLORS.primary,
+        borderColor: theme.terciary,
+        backgroundColor: theme.primary,
     },
 });

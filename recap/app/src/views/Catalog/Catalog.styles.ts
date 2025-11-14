@@ -1,9 +1,8 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
 const { width } = Dimensions.get("window");
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     header: {
         width: '100%',
         paddingTop: 10,
@@ -12,7 +11,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: 20,
         justifyContent: 'space-between',
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.primary,
     },
     headerItemLeft: {
         flex: 1,
@@ -24,7 +23,7 @@ export const styles = StyleSheet.create({
     headerTitle: {
         fontSize: 20,
         lineHeight: 25,
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
     },
     empty: {
@@ -32,7 +31,7 @@ export const styles = StyleSheet.create({
         marginVertical: 20,
         textAlign: "center",
         marginHorizontal: 20,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     list: {
         flex: 1,
@@ -41,7 +40,7 @@ export const styles = StyleSheet.create({
     },
     categoryTitle: {
         fontSize: 20,
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontWeight: 'bold',
         marginBottom: 10,
         marginTop: 20,

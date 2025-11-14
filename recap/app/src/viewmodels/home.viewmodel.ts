@@ -2,16 +2,7 @@ import { useEffect, useState } from "react";
 import { Movie } from "../models/movie";
 import { movieApi, MovieService } from "../services/movie.service";
 
-export interface Category {
-    id: string;
-    title: string;
-    endpoint: string;
-    data: Movie[];
-    page: number;
-}
-
 export function useHomeViewModel() {
-    // const [categories, setCategories] = useState<Category[]>([]);
     const [movies, setMovies] = useState<Movie[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [canLoadMore, setCanLoadMore] = useState(true);
@@ -20,16 +11,13 @@ export function useHomeViewModel() {
     const [empty, setEmpty] = useState(false);
     const [search, setSearch] = useState("");
 
-    useEffect(() => { load() }, []);
+    useEffect(() => {
+        load();
+    }, []);
 
     const load = async () => {
+        console.log('load!');
         setLoading(true);
-
-        // const categories = [
-        //     { id: 'popular', title: 'Populares', endpoint: '/movie/popular', data: [], page: 1 },
-        //     { id: 'upcoming', title: 'Novidades', endpoint: '/movie/upcoming', page: 1, data: [] },
-        //     { id: 'top_rated', title: 'Mais bem avaliados', endpoint: '/movie/top_rated', page: 1, data: [] },
-        // ];
 
         try {
             const data = await MovieService.getMovies(1);
@@ -37,15 +25,6 @@ export function useHomeViewModel() {
             setMovies(data ?? []);
             setCurrentPage(2);
             setCanLoadMore(data.length > 0);
-
-            // const get = await Promise.all(
-            //     categories.map(async (category) => {
-            //         const response = await movieApi.get(category.endpoint, { params: { page: 1 } });
-
-            //         return { ...category, data: response.data.results, page: 2 };
-            //     })
-            // );
-            // setCategories(get);
         } catch (error) {
             console.error("Erro ao carregar filmes. ", error);
         } finally {
@@ -60,7 +39,7 @@ export function useHomeViewModel() {
 
         try {
             const data = await MovieService.getMovies(currentPage);
-            
+
             if (data.length === 0) {
                 setCanLoadMore(false);
             }
@@ -104,13 +83,12 @@ export function useHomeViewModel() {
     };
 
     return {
-        // categories,
-        movies, 
+        movies,
         searchMovies,
         loading,
         empty,
         search,
-        loadMore, 
+        loadMore,
         onSearchChange
     };
 }

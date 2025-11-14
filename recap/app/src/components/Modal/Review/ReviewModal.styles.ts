@@ -1,20 +1,19 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: COLORS.primaryOpacity,
+        backgroundColor: theme.primaryOpacity,
     },
     modal: {
         width: "90%",
         padding: 24,
         borderWidth: 2,
         borderRadius: 16,
-        borderColor: COLORS.terciary,
-        backgroundColor: COLORS.primary,
+        borderColor: theme.terciary,
+        backgroundColor: theme.primary,
     },
     header: {
         flexDirection: "row",
@@ -28,13 +27,13 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: "center",
-        color: COLORS.terciary,
+        color: theme.terciary,
         left: 0,
         right: 0,
         paddingBottom: 5,
         paddingHorizontal: 5,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.terciary,
+        borderBottomColor: theme.terciary,
     },
     closeBtn: {},
     stars: {
@@ -46,7 +45,7 @@ export const styles = StyleSheet.create({
     title: {
         marginLeft: 5,
         marginTop: 15,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     input: {
         padding: 12,
@@ -56,12 +55,12 @@ export const styles = StyleSheet.create({
         marginBottom: 15,
         flexDirection: "row",
         alignItems: "center",
-        color: COLORS.terciary,
-        borderColor: COLORS.terciary,
+        color: theme.terciary,
+        borderColor: theme.terciary,
     },
     inputText: {
         marginLeft: 8,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     multiline: {
         height: 200,
@@ -72,9 +71,9 @@ export const styles = StyleSheet.create({
         marginBottom: 15,
         flexDirection: "row",
         alignItems: "center",
-        color: COLORS.terciary,
+        color: theme.terciary,
         textAlignVertical: "top",
-        borderColor: COLORS.terciary,
+        borderColor: theme.terciary,
     },
     form: {
         marginBottom: 10,
@@ -92,13 +91,13 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         marginBottom: 10,
         flexDirection: "row",
-        color: COLORS.terciary,
+        color: theme.terciary,
         alignItems: "flex-start",
         justifyContent: "space-between",
-        borderColor: COLORS.terciary,
+        borderColor: theme.terciary,
     },
     inputTag: {
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     tags: {
         maxWidth: "85%",
@@ -112,7 +111,7 @@ export const styles = StyleSheet.create({
     text: {
         fontSize: 15,
         marginRight: 5,
-        color: COLORS.secondary,
+        color: theme.secondary,
     },
     list: {
         marginRight: 5,
@@ -126,13 +125,13 @@ export const styles = StyleSheet.create({
         marginBottom: 3,
         borderWidth: 1,
         borderRadius: 5,
-        borderColor: COLORS.secondary,
+        borderColor: theme.secondary,
     },
     tagText: {
         flexShrink: 1,
         fontSize: 10,
         fontWeight: "bold",
-        color: COLORS.secondary,
+        color: theme.secondary,
         textTransform: "uppercase",
     },
     btnView: {
@@ -145,11 +144,11 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: COLORS.secondary,
+        backgroundColor: theme.secondary,
     },
     btnText: {
         fontWeight: "bold",
         textAlign: "center",
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
 });

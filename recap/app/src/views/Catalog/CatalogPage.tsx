@@ -1,16 +1,18 @@
 import { useRouter } from "expo-router";
 import { CaretLeftIcon, SwatchesIcon } from "phosphor-react-native";
+import { useMemo } from "react";
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { CardMovie } from "../../components/CardMovie/CardMovie";
 import { Movie } from "../../models/movie";
+import { useThemeContext } from "../../provider/ThemeProvider";
 import { useCatalogViewModel } from "../../viewmodels/catalog.viewmodel";
-import { styles } from "./Catalog.styles";
+import { stylesheet } from "./Catalog.styles";
 
 export default function CatalogPage() {
     const router = useRouter();
-
+    const { toggleTheme, theme } = useThemeContext();
+    const styles = useMemo(() => stylesheet(theme), [theme]);
     const { movies, loading } = useCatalogViewModel();
 
     const renderMovieItem = ({ item }: { item: Movie }) => (
@@ -22,21 +24,21 @@ export default function CatalogPage() {
             <View style={styles.header}>
                 <View style={styles.headerItemLeft}>
                     <TouchableOpacity onPress={() => router.back()} style={{ zIndex: 10 }}>
-                        <CaretLeftIcon color={COLORS.terciary} size={25} weight="thin" />
+                        <CaretLeftIcon color={theme.terciary} size={25} weight="thin" />
                     </TouchableOpacity>
                 </View>
 
                 <Text style={styles.headerTitle}>Catálogo pessoal</Text>
 
                 <View style={styles.headerItemRight}>
-                    <TouchableOpacity onPress={() => null}>
-                        <SwatchesIcon color={COLORS.terciary} size={25} weight="thin" />
+                    <TouchableOpacity onPress={toggleTheme}>
+                        <SwatchesIcon color={theme.terciary} size={25} weight="thin" />
                     </TouchableOpacity>
                 </View>
             </View>
         }>
             {loading ?
-                <ActivityIndicator size={50} color={COLORS.terciary} style={{ marginVertical: 20 }} /> :
+                <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} /> :
                 movies.length > 0 ?
                     <View style={styles.list}>
                         <FlatList

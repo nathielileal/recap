@@ -6,11 +6,10 @@ import { AuthService } from './auth.service';
 export function applyAuthInterceptor(apiInstance: AxiosInstance): void {
   apiInstance.interceptors.request.use(
     async (config) => {
-      const user = await AuthService.getLoggedUser();
+      const token = await AuthService.getAuthToken();
 
-      if (user?.token) {
-        // console.log(user.token);
-        config.headers.Authorization = `Bearer ${user.token}`;
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
       }
 
       return config;
@@ -21,22 +20,10 @@ export function applyAuthInterceptor(apiInstance: AxiosInstance): void {
   );
 
   apiInstance.interceptors.response.use(
-    (response) => {
-      return response;
-    },
-
-    async (error) => {
-      if (axios.isAxiosError(error) && error.response?.status === 401) {
-        const message = error.response.data?.error || error.response.data?.message;
-        const isTokenExpired = message && (message.includes('auth/id-token-expired') || message.includes('ID token has expired'));
-
-        if (isTokenExpired) {
-          console.warn('Firebase ID Token Expirado. Limpando sessão e forçando re-login.');
-          
-          await AuthService.notifyTokenExpired();
-          
-          return Promise.reject(error);
-        }
+    response => response,
+    error => {
+      if (error.response?.status === 401) {
+        AuthService.notifyTokenExpired();
       }
 
       return Promise.reject(error);

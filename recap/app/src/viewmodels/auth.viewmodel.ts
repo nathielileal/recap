@@ -93,8 +93,8 @@ export const useAuthViewModel = () => {
     const signInResult = await AuthService.signIn({ email, password });
 
     if (!signInResult?.success) {
-      setAuthError(signInResult?.error || 'Conta criada, mas o login automático falhou.');
-      
+      setAuthError(signUpResult?.error || 'Não foi possível criar a conta. Tente novamente.');
+
       setIsLoading(false);
 
       return false;
@@ -104,7 +104,7 @@ export const useAuthViewModel = () => {
 
     const id = await AuthService.getAuthIDUser();
     console.log("id do usuário: " + id);
-    
+
     return true;
   };
 
@@ -134,9 +134,9 @@ export const useAuthViewModel = () => {
     username, setUsername,
     password, setPassword,
     confirmPassword, setConfirmPassword,
-    emailError, 
-    usernameError, 
-    passwordError, 
+    emailError,
+    usernameError,
+    passwordError,
     authError,
     isLoading,
     showPassword, setShowPassword,

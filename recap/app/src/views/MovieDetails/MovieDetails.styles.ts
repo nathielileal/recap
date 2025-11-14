@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.primary
+        backgroundColor: theme.primary
     },
     header: {
         width: '100%',
@@ -14,7 +13,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingHorizontal: 20,
         justifyContent: 'space-between',
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.primary,
     },
     headerItemLeft: {
         flex: 1,
@@ -26,7 +25,7 @@ export const styles = StyleSheet.create({
     headerTitle: {
         fontSize: 20,
         lineHeight: 25,
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
     },
     functions: {
@@ -53,7 +52,7 @@ export const styles = StyleSheet.create({
         left: 140,
         right: 32,
         top: 240,
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontSize: 18,
         lineHeight: 20,
         fontWeight: "700"
@@ -73,17 +72,17 @@ export const styles = StyleSheet.create({
     },
     descriptionText: {
         marginRight: 20,
-        color: COLORS.terciary
+        color: theme.terciary
     },
     descriptionTextHighScore: {
         marginRight: 20,
-        color: COLORS.orange
+        color: theme.orange
     },
     about: {
         padding: 20
     },
     aboutText: {
-        color: COLORS.terciary,
+        color: theme.terciary,
         textAlign: "justify"
     },
     options: {
@@ -94,7 +93,7 @@ export const styles = StyleSheet.create({
         justifyContent: "space-evenly",
     },
     option: {
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontWeight: 'bold',
         textAlign: 'center',
     },
@@ -102,9 +101,9 @@ export const styles = StyleSheet.create({
         paddingBottom: 5,
         paddingHorizontal: 5,
         borderBottomWidth: 1,
-        borderBottomColor: COLORS.terciary,
+        borderBottomColor: theme.terciary,
     },
     btn: {
-        backgroundColor: COLORS.secondary
+        backgroundColor: theme.secondary
     }
 });

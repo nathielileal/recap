@@ -1,19 +1,21 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { CaretLeftIcon, ChatCircleIcon, HeartIcon, PaperPlaneRightIcon, UserCircleIcon } from "phosphor-react-native";
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 import { getRate, getTimeAgo } from "../../../../lib/utils";
 import { StarRating } from "../../components/StarRating/StarRating";
 import { Comment } from "../../models/comment";
+import { useThemeContext } from "../../provider/ThemeProvider";
 import { useCommentViewModel } from "../../viewmodels/comment.viewmodel";
-import { styles } from "./Comment.styles";
+import { stylesheet } from "./Comment.styles";
+import { useMemo } from "react";
 
 const stars = Array.from({ length: 5 });
 const max_char = 220;
 
 export default function CommentPage() {
     const { id } = useLocalSearchParams();
-
+    const { theme } = useThemeContext();
+    const styles = useMemo(() => stylesheet(theme), [theme]);
     const { review, movie, comments, loading, description, setDescription, saveComment, clearForm, isExpanded, setIsExpanded, isReviewLiked, setIsReviewLiked, reviewLikes, setReviewLikes, updateLikeReview, isLiked, setIsLiked, likes, setLikes, updateLikeComment } = useCommentViewModel(id.toString());
 
     const handleExpansion = () => {
@@ -81,7 +83,7 @@ export default function CommentPage() {
                     <View>
                         <View style={styles.review}>
                             <View style={styles.header}>
-                                <UserCircleIcon color={COLORS.terciary} size={50} weight="light" />
+                                <UserCircleIcon color={theme.terciary} size={50} weight="light" />
 
                                 <View style={styles.info}>
                                     <View style={styles.infoUser}>
@@ -101,7 +103,7 @@ export default function CommentPage() {
                                 </View>
 
                                 <TouchableOpacity style={styles.option} onPress={handleReviewLikeClick}>
-                                    <HeartIcon color={COLORS.secondary} size={15} weight={isReviewLiked ? "fill" : "regular"} />
+                                    <HeartIcon color={theme.secondary} size={15} weight={isReviewLiked ? "fill" : "regular"} />
                                     <Text style={styles.rate}>{`${reviewLikes} ${reviewLikes === 1 ? 'curtida' : 'curtidas'}`}</Text>
                                 </TouchableOpacity>
                             </View>
@@ -118,7 +120,7 @@ export default function CommentPage() {
                         <View style={styles.list}>
                             <View style={styles.comments}>
                                 <View style={styles.options}>
-                                    <ChatCircleIcon color={COLORS.orange} size={20} />
+                                    <ChatCircleIcon color={theme.orange} size={20} />
                                     <Text style={styles.comment}>{`${review?.comments} ${review?.comments === 1 ? 'comentário' : 'comentários'}`}</Text>
                                 </View>
                             </View>
@@ -134,10 +136,10 @@ export default function CommentPage() {
             </ScrollView>
 
             <View style={styles.bottom}>
-                <TextInput value={description} style={styles.input} multiline autoCapitalize="none" placeholder="Adicione um comentário" placeholderTextColor={COLORS.terciary} onChangeText={setDescription} />
+                <TextInput value={description} style={styles.input} multiline autoCapitalize="none" placeholder="Adicione um comentário" placeholderTextColor={theme.terciary} onChangeText={setDescription} />
 
                 <TouchableOpacity style={styles.btn} onPress={handleSendComment}>
-                    <PaperPlaneRightIcon color={COLORS.terciary} size={20} weight="light" />
+                    <PaperPlaneRightIcon color={theme.terciary} size={20} weight="light" />
                 </TouchableOpacity>
             </View>
         </View>

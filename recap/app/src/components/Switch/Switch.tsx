@@ -1,6 +1,7 @@
 import { Switch, View } from "react-native";
-import { COLORS } from "../../../../constants/colors";
-import { styles } from "./Switch.styles";
+import { useThemeContext } from "../../provider/ThemeProvider";
+import { stylesheet } from "./Switch.styles";
+import { useMemo } from "react";
 
 interface Props {
     value: boolean;
@@ -8,15 +9,18 @@ interface Props {
 }
 
 export function BtnSwitch({ value, onValueChange }: Props) {
+    const { theme } = useThemeContext();
+    const styles = useMemo(() => stylesheet(theme), [theme]);
+    
     return (
         <View style={styles.switch}>
             <Switch
                 value={value}
                 onValueChange={onValueChange}
-                thumbColor={value ? COLORS.secondary : COLORS.grey}
+                thumbColor={value ? theme.secondary : theme.grey}
                 trackColor={{
-                    false: COLORS.primary,
-                    true: COLORS.secondaryOpacity,
+                    false: theme.primary,
+                    true: theme.secondaryOpacity,
                 }}
             />
         </View>

@@ -1,11 +1,10 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
   switch: {
     borderWidth: 1,
     borderRadius: 20,
-    borderColor: COLORS.secondary,
+    borderColor: theme.secondary,
     padding: 2,
   }
 });

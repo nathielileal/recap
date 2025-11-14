@@ -1,17 +1,18 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { CaretRightIcon, FilmScriptIcon, ImageSquareIcon, PencilSimpleIcon, SignOutIcon, UserIcon } from 'phosphor-react-native';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import { COLORS } from '../../../../../constants/colors';
 import { ProfileModal } from '../../../components/Modal/Profile/ProfileModal';
 import { useAuthContext } from '../../../context/AuthContext';
+import { useThemeContext } from '../../../provider/ThemeProvider';
 import { useProfileViewModel } from '../../../viewmodels/profile.viewlmodel';
-import { styles } from '../Config.style';
+import { stylesheet } from '../Config.style';
 
 export default function ProfilePage() {
   const router = useRouter();
-
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
   const { logout: contextLogout } = useAuthContext();
   const { username, modal, handleModal } = useProfileViewModel();
   const [image, setImage] = useState<string | null>(null);
@@ -48,41 +49,41 @@ export default function ProfilePage() {
             <Image source={{ uri: image }} style={styles.image} />
           ) : (
             <View style={styles.image}>
-              <ImageSquareIcon size={35} color={COLORS.secondary} />
+              <ImageSquareIcon size={35} color={theme.secondary} />
             </View>
           )}
         </TouchableOpacity>
 
         <TouchableOpacity onPress={pickImage} style={styles.icon}>
-          <PencilSimpleIcon color={COLORS.terciary} size={20} />
+          <PencilSimpleIcon color={theme.terciary} size={20} />
         </TouchableOpacity>
       </View>
 
       <Text style={styles.name}>{username}</Text>
 
       <View style={styles.section}>
-        <TouchableOpacity onPress={handleModal} style={[styles.btn, { backgroundColor: COLORS.primary }]}>
-          <PencilSimpleIcon color={COLORS.terciary} size={20} />
+        <TouchableOpacity onPress={handleModal} style={[styles.btn, { backgroundColor: theme.primary }]}>
+          <PencilSimpleIcon color={theme.terciary} size={20} />
 
           <Text style={styles.optionText}>Editar Perfil</Text>
 
-          <CaretRightIcon color={COLORS.terciary} size={20} />
+          <CaretRightIcon color={theme.terciary} size={20} />
         </TouchableOpacity>
         
-        <TouchableOpacity onPress={() => router.push({ pathname: "/catalog"})} style={[styles.btn, { backgroundColor: COLORS.primary }]}>
-          <FilmScriptIcon color={COLORS.terciary} size={20} />
+        <TouchableOpacity onPress={() => router.push({ pathname: "/catalog"})} style={[styles.btn, { backgroundColor: theme.primary }]}>
+          <FilmScriptIcon color={theme.terciary} size={20} />
 
           <Text style={styles.optionText}>Ver catálogo pessoal</Text>
 
-          <CaretRightIcon color={COLORS.terciary} size={20} />
+          <CaretRightIcon color={theme.terciary} size={20} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleLogout} style={[styles.btn, { backgroundColor: COLORS.secondary }]}>
-          <UserIcon color={COLORS.terciary} size={20} />
+        <TouchableOpacity onPress={handleLogout} style={[styles.btn, { backgroundColor: theme.secondary }]}>
+          <UserIcon color={theme.terciary} size={20} />
 
           <Text style={styles.optionText}>Sair</Text>
 
-          <SignOutIcon color={COLORS.terciary} size={20} />
+          <SignOutIcon color={theme.terciary} size={20} />
         </TouchableOpacity>
       </View>
 

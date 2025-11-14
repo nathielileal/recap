@@ -1,9 +1,8 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
   safeArea: {
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.primary,
   },
   innerBar: {
     height: 60,
@@ -11,7 +10,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.primary,
   },
   tabButton: {
     flex: 1,

@@ -2,8 +2,9 @@ import { usePathname, useRouter } from "expo-router";
 import { ChatCircleTextIcon, HouseIcon, RowsPlusBottomIcon, UserCircleGearIcon, UsersThreeIcon } from "phosphor-react-native";
 import { TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { COLORS } from "../../../../constants/colors";
-import { styles } from "./TabBar.styles";
+import { useThemeContext } from "../../provider/ThemeProvider";
+import { stylesheet } from "./TabBar.styles";
+import { useMemo } from "react";
 
 const tabs = [
   { name: 'lists', route: '/lists', Icon: RowsPlusBottomIcon },
@@ -16,6 +17,8 @@ const tabs = [
 export function TabBar() {
   const router = useRouter();
   const pathname = usePathname();
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   return (
     <SafeAreaView edges={["bottom"]} style={styles.safeArea}>
@@ -25,7 +28,7 @@ export function TabBar() {
 
             return (
               <TouchableOpacity key={name} onPress={() => router.push(route)} style={styles.tabButton}>
-                <Icon color={COLORS.secondaryOpacity} size={focused ? 30 : 22} weight="fill"/>
+                <Icon color={theme.secondaryOpacity} size={focused ? 30 : 22} weight="fill"/>
               </TouchableOpacity>
             );
           })}

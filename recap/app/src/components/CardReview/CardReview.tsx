@@ -1,13 +1,14 @@
 import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
 import { ChatCircleIcon, HeartIcon, UserCircleIcon, WarningIcon } from "phosphor-react-native";
+import { useMemo } from 'react';
 import { Alert, Text, TouchableOpacity, View } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 import { getTimeAgo } from "../../../../lib/utils";
 import { Review } from "../../models/review";
+import { useThemeContext } from '../../provider/ThemeProvider';
 import { useReviewViewModel } from '../../viewmodels/review.viewmodel';
 import { StarRating } from "../StarRating/StarRating";
-import { styles } from "./CardReview.styles";
+import { stylesheet } from "./CardReview.styles";
 
 interface Props {
     data: Review;
@@ -19,6 +20,8 @@ const max_char = 220;
 
 export function CardReview({ data, spoiler }: Props) {
     const { isExpanded, setIsExpanded, blur, setBlur, isLiked, setIsLiked, likes, setLikes, updateLikeReview } = useReviewViewModel(data.id_review, spoiler ?? data.spoiler, data.likes);
+    const { theme } = useThemeContext();
+    const styles = useMemo(() => stylesheet(theme), [theme]);
 
     const handleExpansion = () => {
         setIsExpanded(prev => !prev);
@@ -32,11 +35,11 @@ export function CardReview({ data, spoiler }: Props) {
     const truncatedText = data.description.length > max_char ? data.description.substring(0, max_char).trim() + "..." : data.description;
 
     const handleLikeClick = async () => {
-        const sucesso = await updateLikeReview(); 
+        const sucesso = await updateLikeReview();
 
         if (sucesso) {
-            setIsLiked(prev => !prev); 
-            setLikes(prev => !isLiked ? (prev ?? 0) + 1 : (prev ?? 0) - 1); 
+            setIsLiked(prev => !prev);
+            setLikes(prev => !isLiked ? (prev ?? 0) + 1 : (prev ?? 0) - 1);
         } else {
             Alert.alert('Erro', 'Erro ao curtir essa avaliação. Por favor, tente novamente!');
         }
@@ -49,7 +52,7 @@ export function CardReview({ data, spoiler }: Props) {
     return (
         <View style={styles.card}>
             <View style={styles.header}>
-                <UserCircleIcon color={COLORS.terciary} size={30} weight="light" />
+                <UserCircleIcon color={theme.terciary} size={30} weight="light" />
 
                 <View style={styles.info}>
                     <View style={styles.infoUser}>
@@ -72,7 +75,7 @@ export function CardReview({ data, spoiler }: Props) {
                 {blur && (
                     <BlurView intensity={30} tint="dark" style={styles.blur} >
                         <TouchableOpacity onPress={handleSpoiler} style={styles.btn}>
-                            <WarningIcon color={COLORS.secondary} size={10} />
+                            <WarningIcon color={theme.secondary} size={10} />
                             <Text style={styles.spoiler}>SPOILER!</Text>
                         </TouchableOpacity>
                     </BlurView>
@@ -82,14 +85,14 @@ export function CardReview({ data, spoiler }: Props) {
             <View style={styles.options}>
                 <View>
                     <TouchableOpacity style={styles.option} onPress={handleLikeClick}>
-                        <HeartIcon color={COLORS.secondary} size={10} weight={isLiked ? "fill" : "regular"} />
+                        <HeartIcon color={theme.secondary} size={10} weight={isLiked ? "fill" : "regular"} />
                         <Text style={styles.icon}>{`${likes} ${likes === 1 ? 'curtida' : 'curtidas'}`}</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View>
                     <TouchableOpacity style={styles.option} onPress={() => showComments()}>
-                        <ChatCircleIcon color={COLORS.orange} size={10} />
+                        <ChatCircleIcon color={theme.orange} size={10} />
                         <Text style={styles.icon}>{`${data.comments} ${data.comments === 1 ? 'comentário' : 'comentários'}`}</Text>
                     </TouchableOpacity>
                 </View>

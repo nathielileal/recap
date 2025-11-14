@@ -1,12 +1,11 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     card: {
         margin: 5,
         padding: 10,
         borderRadius: 15,
-        borderColor: COLORS.terciary,
+        borderColor: theme.terciary,
         borderWidth: 1,
         paddingBottom: 10,
     },
@@ -25,18 +24,18 @@ export const styles = StyleSheet.create({
     image: {
         width: 20,
         height: 20,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     title: {
         paddingLeft: 5,
         fontWeight: 'bold',
         fontSize: 12,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     time: {
         paddingLeft: 10,
         fontSize: 8,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     stars: {
         paddingTop: 3,
@@ -65,18 +64,18 @@ export const styles = StyleSheet.create({
         fontSize: 12,
         paddingLeft: 10,
         fontWeight: 'bold',
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     more: {
         fontSize: 10,
         fontWeight: 'bold',
-        color: COLORS.terciary, 
+        color: theme.terciary, 
     },
     description: {
         padding: 5,
         fontSize: 10,
         textAlign: "justify",
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     options: {
         flexDirection: "row",
@@ -90,7 +89,7 @@ export const styles = StyleSheet.create({
     },
     icon: {
         fontSize: 8,
-        color: COLORS.terciary,
+        color: theme.terciary,
         paddingLeft: 3,
         paddingRight: 10,
     }

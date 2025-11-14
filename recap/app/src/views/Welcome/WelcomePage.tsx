@@ -1,10 +1,14 @@
-import { View, Text, TouchableOpacity, Dimensions, StyleSheet, Image } from "react-native";
 import { useRouter } from "expo-router";
+import { useMemo } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import { styles } from "./Welcome.styles"
+import { useThemeContext } from "../../provider/ThemeProvider";
+import { stylesheet } from "./Welcome.styles";
 
 export default function WelcomePage() {
   const router = useRouter();
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   return (
     <View style={styles.page}>

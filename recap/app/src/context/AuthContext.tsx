@@ -6,8 +6,8 @@ interface AuthContextType {
     isLoading: boolean;
     logout: () => Promise<void>;
     updateAuthStatus: () => Promise<void>;
-    isTokenExpired: boolean; 
-    clearTokenExpiredFlag: () => void;
+    sessionExpired: boolean,
+    setSessionExpired: (v: boolean) => void,
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -15,8 +15,8 @@ const AuthContext = createContext<AuthContextType>({
     isLoading: true,
     logout: () => Promise.resolve(),
     updateAuthStatus: () => Promise.resolve(),
-    isTokenExpired: false,
-    clearTokenExpiredFlag: () => null,
+    sessionExpired: false,
+    setSessionExpired: () => { },
 });
 
 export function useAuthContext() {
@@ -26,30 +26,26 @@ export function useAuthContext() {
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [isTokenExpired, setIsTokenExpired] = useState(false);
+    const [sessionExpired, setSessionExpired] = useState(false);
 
-    const logout = async (dueToExpiration = false) => { 
+    const logout = async (dueToExpiration = false) => {
         await AuthService.clearSession();
 
         setIsAuthenticated(false);
-        if (dueToExpiration) {
-            setIsTokenExpired(true); 
-        } else {
-            setIsTokenExpired(false);
-        }
-    };
-
-    const clearTokenExpiredFlag = () => { 
-        setIsTokenExpired(false);
+        setSessionExpired(false);
+        setIsLoading(false);
     };
 
     const checkAuth = async () => {
         const token = await AuthService.getAuthToken();
 
         setIsAuthenticated(!!token);
-        setIsLoading(false);
 
-        AuthService.setLogoutNotifier(() => logout(true));
+        if (token) {
+            setSessionExpired(false);
+        }
+
+        setIsLoading(false);
     };
 
     const updateAuthStatus = async () => {
@@ -57,15 +53,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         await checkAuth();
     }
 
-    useEffect(() => { checkAuth() }, []);
-
     useEffect(() => {
-        checkAuth();
+        AuthService.setSessionExpiredNotifier((value: boolean) => {
+            setSessionExpired(value);
+        });
 
-        AuthService.setLogoutNotifier(logout);
+        checkAuth();
     }, []);
 
-    const value = { isAuthenticated, isLoading, logout, updateAuthStatus, isTokenExpired, clearTokenExpiredFlag };
+    const value = { isAuthenticated, isLoading, logout, updateAuthStatus, sessionExpired, setSessionExpired };
 
     return (
         <AuthContext.Provider value={value}>

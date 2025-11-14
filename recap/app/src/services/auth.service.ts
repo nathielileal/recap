@@ -7,7 +7,7 @@ import { User } from '../models/user';
 // const AUTH_URL = getApiUrl('auth');
 const AUTH_URL = API_URL;
 
-let logoutNotifier: ((dueToExpiration: boolean) => Promise<void>) | null = null;
+let sessionExpiredNotifier: ((v: boolean) => void) | null = null;
 
 const firebaseErrors: { [key: string]: string } = {
   "Firebase: Error (auth/email-already-in-use).": "Este email já está em uso.",
@@ -21,15 +21,13 @@ const translated = (message: string): string => {
 };
 
 export const AuthService = {
-  setLogoutNotifier(notifier: (dueToExpiration: boolean) => Promise<void>) {
-    logoutNotifier = notifier;
+  setSessionExpiredNotifier(fn: (value: boolean) => void) {
+    sessionExpiredNotifier = fn;
   },
 
   async notifyTokenExpired() {
-    if (logoutNotifier) {
-      await logoutNotifier(true);
-    } else {
-      await this.clearSession();
+    if (sessionExpiredNotifier) {
+      sessionExpiredNotifier(true);
     }
   },
 
@@ -66,7 +64,8 @@ export const AuthService = {
       await AsyncStorage.setItem('auth_token', token);
 
       console.log(uid);
-      return { success: true, token, error: 'Ocorreu um erro inesperado no login.' };
+
+      return { success: true, token };
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const apiError = error.response?.data?.error || error.response?.data?.message;
@@ -96,12 +95,6 @@ export const AuthService = {
       }
       return { success: false, error: 'Ocorreu um erro desconhecido.' };
     }
-  },
-
-  async getLoggedUser(): Promise<ApiResponse<User> | null> {
-    const token = await AsyncStorage.getItem('auth_token');
-
-    return token ? { token } : null;
   },
 
   async getAuthToken(): Promise<string | null> {

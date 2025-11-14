@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ActivityIndicator, ScrollView, View } from 'react-native';
-import { COLORS } from '../../../../constants/colors';
 import { CamLenseScreen } from '../../components/CamLenseScreen/CamLenseScreen';
 import { FilterTabs } from '../../components/FilterTabs/FilterTabs';
+import { useThemeContext } from '../../provider/ThemeProvider';
 import { useProfileViewModel } from '../../viewmodels/profile.viewlmodel';
-import { styles } from "./Config.style";
+import { stylesheet } from "./Config.style";
 import NotificationPage from './Notification/NotificationPage';
 import ProfilePage from './Profile/ProfilePage';
 
 export default function ConfigPage() {
   const { loading, filter, setFilter } = useProfileViewModel();
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   if (loading) {
     return (
       <View style={styles.scroll}>
-        <ActivityIndicator size="large" color={COLORS.terciary} />
+        <ActivityIndicator size="large" color={theme.terciary} />
       </View>
     );
   }

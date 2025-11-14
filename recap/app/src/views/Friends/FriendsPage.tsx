@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { FilterTabs } from "../../components/FilterTabs/FilterTabs";
 import { Friend } from "../../models/friend";
-import { styles } from "./Friends.style";
+import { useThemeContext } from "../../provider/ThemeProvider";
+import { stylesheet } from "./Friends.style";
 
 // (mock)
 const allUsers: Friend[] = [
@@ -19,6 +19,8 @@ export default function FriendsPage() {
   const [friends, setFriends] = useState<Friend[]>([allUsers[0], allUsers[1]]);
   const [filter, setFilter] = useState<"public" | "private">("private");
   const [search, setSearch] = useState("");
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   const handleRemoveFriend = (id: string) => {
     setFriends((prev) => prev.filter((f) => f.id !== id));
@@ -49,7 +51,7 @@ export default function FriendsPage() {
           <Text style={styles.cardSubtitle}>@{item.username}</Text>
         </View>
 
-        <TouchableOpacity style={[styles.addButtonSmall, { backgroundColor: isFriend ? COLORS.secondary : COLORS.darkGrey }]} onPress={() => isFriend ? handleRemoveFriend(item.id) : handleAddFriend(item)} >
+        <TouchableOpacity style={[styles.addButtonSmall, { backgroundColor: isFriend ? theme.secondary : theme.darkGrey }]} onPress={() => isFriend ? handleRemoveFriend(item.id) : handleAddFriend(item)} >
           <Text style={styles.addButtonSmallText}>
             {isFriend ? "Seguindo" : "Seguir"}
           </Text>
@@ -80,7 +82,7 @@ export default function FriendsPage() {
           <TextInput
             style={styles.input}
             placeholder="Buscar usuário..."
-            placeholderTextColor={COLORS.grey}
+            placeholderTextColor={theme.grey}
             value={search}
             onChangeText={setSearch}
           />

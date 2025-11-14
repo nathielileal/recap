@@ -1,12 +1,11 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
   scroll: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.primary,
   },
   card: {
     flex: 1,
@@ -22,7 +21,7 @@ export const styles = StyleSheet.create({
   // profile
   error: {
     marginBottom: 12,
-    color: COLORS.secondary,
+    color: theme.secondary,
   },
   container: {
     flex: 1,
@@ -42,7 +41,7 @@ export const styles = StyleSheet.create({
     overflow: 'hidden',
     alignItems: "center",
     justifyContent: "center",
-    borderColor: COLORS.secondary,
+    borderColor: theme.secondary,
   },
   icon: { 
     right: 0,
@@ -50,13 +49,13 @@ export const styles = StyleSheet.create({
     padding: 8, 
     borderRadius: 50,
     position: 'absolute',
-    backgroundColor: COLORS.secondary, 
+    backgroundColor: theme.secondary, 
   },
   name: {
     fontSize: 20,
     fontWeight: "bold",
     marginVertical: 20,
-    color: COLORS.terciary,
+    color: theme.terciary,
     fontFamily: 'IBMPlexMono_400Regular',
   },
   section: {
@@ -71,11 +70,11 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 12,
-    borderColor: COLORS.secondary,
+    borderColor: theme.secondary,
     justifyContent: "space-between",
   },
   optionText: {
-    color: COLORS.terciary,
+    color: theme.terciary,
     fontSize: 16,
     marginLeft: 8,
     fontWeight: "600",
@@ -85,7 +84,7 @@ export const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     marginTop: 40,
-    color: COLORS.terciary,
+    color: theme.terciary,
     fontFamily: 'IBMPlexMono_400Regular',
   },
   configRow: {
@@ -95,7 +94,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   configText: {
-    color: COLORS.terciary,
+    color: theme.terciary,
     fontSize: 18,
   },
 });

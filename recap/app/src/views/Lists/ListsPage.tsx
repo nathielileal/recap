@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { FilterTabs } from "../../components/FilterTabs/FilterTabs";
 import ListCard from "../../components/ListCard";
 import CreateListModal from "../../components/Modal/CreateListModal";
 import { useListsViewModel } from "../../viewmodels/list.viewmodel";
-import { styles } from "./Lists.style";
+import { stylesheet } from "./Lists.style";
+import { useThemeContext } from "../../provider/ThemeProvider";
 
 const ListsPage = () => {
   const { lists, isModalOpen, setIsModalOpen, createList, updateList, deleteList, filter, setFilter, selectedList, setSelectedList } = useListsViewModel();
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   const handleListPress = (list: any) => {
     setSelectedList(list);

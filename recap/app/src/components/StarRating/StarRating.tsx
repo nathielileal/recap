@@ -1,6 +1,6 @@
 import { StarIcon } from "phosphor-react-native";
 import { TouchableOpacity } from "react-native";
-import { COLORS } from "../../../../constants/colors";
+import { useThemeContext } from "../../provider/ThemeProvider";
 
 interface Props {
     size?: number,
@@ -11,6 +11,8 @@ interface Props {
 }
 
 export function StarRating({ index, rate, onPress, readonly = true, size = 10 }: Props) {
+    const { theme } = useThemeContext();
+    
     const handleClick = (value: number) => {
         if (!readonly && onPress) {
             onPress(index);
@@ -21,9 +23,9 @@ export function StarRating({ index, rate, onPress, readonly = true, size = 10 }:
 
     return (
         readonly
-            ? <StarIcon key={index} size={size} weight={filled ? "fill" : "light"} color={filled ? COLORS.yellow : COLORS.terciary} />
+            ? <StarIcon key={index} size={size} weight={filled ? "fill" : "light"} color={filled ? theme.yellow : theme.terciary} />
             : <TouchableOpacity onPress={() => handleClick(index)}>
-                <StarIcon key={index} size={size} weight={filled ? "fill" : "light"} color={filled ? COLORS.yellow : COLORS.terciary} />
+                <StarIcon key={index} size={size} weight={filled ? "fill" : "light"} color={filled ? theme.yellow : theme.terciary} />
             </TouchableOpacity>
 
     );

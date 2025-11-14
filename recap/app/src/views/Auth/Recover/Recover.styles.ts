@@ -1,9 +1,8 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { COLORS } from "../../../../../constants/colors";
 
 const { width, height } = Dimensions.get('window');
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     container: {
         flex: 1,
     },
@@ -33,16 +32,16 @@ export const styles = StyleSheet.create({
         fontSize: 36,
         marginBottom: 30,
         fontWeight: 'bold',
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
     },
     label: {
         fontSize: 16,
-        color: COLORS.terciary,
+        color: theme.terciary,
         marginBottom: 8,
     },
     input: {
-        backgroundColor: COLORS.terciary,
+        backgroundColor: theme.terciary,
         borderRadius: 10,
         paddingHorizontal: 15,
         paddingVertical: 12,
@@ -55,14 +54,14 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
     btn: {
-        backgroundColor: COLORS.secondary,
+        backgroundColor: theme.secondary,
         paddingVertical: 15,
         borderRadius: 10,
         alignItems: 'center',
         marginBottom: 20,
     },
     btnText: {
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontSize: 18,
         fontWeight: 'bold',
     },
@@ -72,11 +71,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     signupText: {
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontSize: 16,
     },
     link: {
-        color: COLORS.secondary,
+        color: theme.secondary,
         fontSize: 16,
         fontWeight: 'bold',
     },

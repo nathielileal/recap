@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { styles } from "./FilterTabs.styles";
+import { stylesheet } from "./FilterTabs.styles";
+import { useThemeContext } from "../../provider/ThemeProvider";
 
 type FilterType = "public" | "private";
 
@@ -12,6 +13,9 @@ interface Props {
 }
 
 export function FilterTabs({ firstOption, secondOption, filter, setFilter }: Props) {
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
+      
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.item} onPress={() => setFilter("public")} >

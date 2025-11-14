@@ -1,12 +1,11 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
 const { width, height } = Dimensions.get("window");
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     page: {
         flex: 1,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.primary,
     },
     image: {
         width: width,
@@ -33,13 +32,13 @@ export const styles = StyleSheet.create({
         fontSize: 36,
         marginBottom: 5,
         fontWeight: 'bold',
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
     },
     subtitle: {
         fontSize: 14,
         lineHeight: 22,
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
     },
     button: {
@@ -51,20 +50,20 @@ export const styles = StyleSheet.create({
     },
     text: {
         fontSize: 18,
-        color: COLORS.terciary,
+        color: theme.terciary,
         marginRight: 10,
     },
     circle: {
         width: 50,
         height: 50,
         borderRadius: 25,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.primary,
         justifyContent: 'center',
         alignItems: 'center',
     },
     icon: {
         fontSize: 24,
-        color: COLORS.terciary,
+        color: theme.terciary,
         transform: [{ translateX: 1 }],
     },
 });

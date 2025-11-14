@@ -3,6 +3,7 @@ import { SplashScreen } from 'expo-router';
 import { useEffect } from 'react';
 import { AuthRedirector } from './src/components/Auth/AuthRedirector';
 import { AuthProvider } from './src/context/AuthContext';
+import { CustomThemeProvider } from './src/provider/ThemeProvider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,8 +24,10 @@ export default function RootLayout() {
   }
 
   return (
-    <AuthProvider>
-      <AuthRedirector />
-    </AuthProvider>
+    <CustomThemeProvider>
+      <AuthProvider>
+        <AuthRedirector />
+      </AuthProvider>
+    </CustomThemeProvider>
   );
 }

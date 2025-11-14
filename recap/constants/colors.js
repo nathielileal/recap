@@ -12,14 +12,18 @@ const darkTheme = {
 };
 
 const lightTheme = {
-    primary: "#FFFFFF",
-    secondary: "#E50914",
-    terciary: "#000000",
+    primary: "#FFFCEF",
+    secondary: "#9E5151",
+    terciary: "#270707",
+    orange: "#FF8700",
+    yellow: "#FFD700",
+    grey: "#7697A0",
+    darkGrey: "#BCC4C7",
+    primaryOpacity: "#739AB9",
+    secondaryOpacity: "#800020",
 };
 
 export const THEMES = {
     dark: darkTheme,
     light: lightTheme
 };
-
-export const COLORS = THEMES.dark;

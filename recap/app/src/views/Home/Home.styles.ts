@@ -1,13 +1,12 @@
 import { Dimensions, StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
 const { width } = Dimensions.get("window");
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     container: {
         flex: 1,
         width: width,
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.primary,
     },
     header: {
         paddingBottom: 10,
@@ -20,18 +19,18 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "space-between",
-        backgroundColor: COLORS.darkGrey,
+        backgroundColor: theme.darkGrey,
     },
     textInput: {
         width: "80%",
         paddingLeft: 15,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     empty: {
         fontSize: 18,
         marginVertical: 20,
         textAlign: "center",
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     list: {
         flex: 1,
@@ -40,7 +39,7 @@ export const styles = StyleSheet.create({
     },
     categoryTitle: {
         fontSize: 20,
-        color: COLORS.terciary,
+        color: theme.terciary,
         fontWeight: 'bold',
         marginBottom: 10,
         marginTop: 20,

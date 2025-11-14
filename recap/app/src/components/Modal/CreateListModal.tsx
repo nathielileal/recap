@@ -1,9 +1,10 @@
 import * as ImagePicker from "expo-image-picker";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, FlatList, Image, KeyboardAvoidingView, Modal, Platform, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { movieApi } from "../../services/movie.service";
-import { styles } from "../../views/Lists/Lists.style";
+import { stylesheet } from "../../views/Lists/Lists.style";
 import { BtnSwitch } from "../Switch/Switch";
+import { useThemeContext } from "../../provider/ThemeProvider";
 
 interface Props {
   onClose: () => void;
@@ -37,6 +38,9 @@ const CreateListModal: React.FC<Props> = ({
   const [suggestions, setSuggestions] = useState<MovieSuggestion[]>([]);
   const [movies, setMovies] = useState<string[]>(initialItems || []);
   const [loading, setLoading] = useState(false);
+
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   // Busca sugestões no movieApi sempre que movieSearch mudar
   useEffect(() => {

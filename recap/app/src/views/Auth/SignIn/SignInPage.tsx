@@ -1,16 +1,18 @@
 import { router } from 'expo-router';
 import { EyeIcon, EyeSlashIcon } from 'phosphor-react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Alert, ImageBackground, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-import { COLORS } from '../../../../../constants/colors';
 import { useAuthContext } from '../../../context/AuthContext';
+import { useThemeContext } from '../../../provider/ThemeProvider';
 import { useAuthViewModel } from '../../../viewmodels/auth.viewmodel';
-import { styles } from './SignIn.styles';
+import { stylesheet } from './SignIn.styles';
 
 export default function SignInPage() {
   const { email, setEmail, password, setPassword, authError, isLoading, showPassword, setShowPassword, getSignIn } = useAuthViewModel();
   const { updateAuthStatus } = useAuthContext();
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   const handleLogin = async () => {
     const success = await getSignIn();
@@ -26,7 +28,7 @@ export default function SignInPage() {
       <ImageBackground source={require('../../../../../assets/images/recap-screen.png')} style={styles.backgroundImage} resizeMode="cover">
 
         <Svg style={styles.svgShape} viewBox="0 0 100 100" preserveAspectRatio="none">
-          <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill={COLORS.primary} />
+          <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill={theme.primary} />
         </Svg>
 
         <View style={styles.formContent}>
@@ -35,7 +37,7 @@ export default function SignInPage() {
           <Text style={styles.label}>Email</Text>
           <TextInput
             placeholder="example@domain.com"
-            placeholderTextColor={COLORS.grey}
+            placeholderTextColor={theme.grey}
             value={email}
             onChangeText={setEmail}
             style={styles.input}
@@ -47,7 +49,7 @@ export default function SignInPage() {
             <View style={styles.inputWrapper}>
               <TextInput
                 placeholder="Digite sua senha"
-                placeholderTextColor={COLORS.grey}
+                placeholderTextColor={theme.grey}
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}
@@ -55,7 +57,7 @@ export default function SignInPage() {
                 autoCapitalize='none'
               />
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
-                {showPassword ? <EyeSlashIcon color={COLORS.grey} size={24} /> : <EyeIcon color={COLORS.grey} size={24} />}
+                {showPassword ? <EyeSlashIcon color={theme.grey} size={24} /> : <EyeIcon color={theme.grey} size={24} />}
               </TouchableOpacity>
             </View>
 

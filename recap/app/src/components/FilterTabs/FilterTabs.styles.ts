@@ -1,13 +1,12 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     container: {
         marginBottom: 24,
         borderRadius: 12,
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor: COLORS.primary,
+        backgroundColor: theme.primary,
     },
     item: {
         paddingVertical: 12,
@@ -15,15 +14,15 @@ export const styles = StyleSheet.create({
     },
     tabText: {
         fontSize: 16,
-        color: COLORS.grey,
+        color: theme.grey,
     },
     tabActiveText: {
         fontSize: 16,
         paddingBottom: 2,
         fontWeight: "bold",
         borderBottomWidth: 1,
-        color: COLORS.terciary,
-        borderBottomColor: COLORS.secondary,
+        color: theme.terciary,
+        borderBottomColor: theme.secondary,
         fontFamily: 'IBMPlexMono_400Regular',
     },
 });

@@ -2,19 +2,21 @@ import { Text } from "@react-navigation/elements";
 import { router, useLocalSearchParams } from "expo-router";
 import { CalendarBlankIcon, CaretLeftIcon, ClockIcon, ListPlusIcon, NotePencilIcon, StarIcon } from "phosphor-react-native";
 import { Alert, FlatList, Image, TouchableOpacity, View } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 import { API_IMAGE } from "../../../../constants/url";
 import { getYear } from "../../../../lib/utils";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { CardReview } from "../../components/CardReview/CardReview";
 import { ReviewModal } from "../../components/Modal/Review/ReviewModal";
 import { Review } from "../../models/review";
+import { useThemeContext } from "../../provider/ThemeProvider";
 import { useDetailsViewModel } from "../../viewmodels/details.viewmodel";
-import { styles } from "./MovieDetails.styles";
+import { stylesheet } from "./MovieDetails.styles";
+import { useMemo } from "react";
 
 export default function MovieDetailsPage() {
     const { id } = useLocalSearchParams();
-
+    const { theme } = useThemeContext();
+    const styles = useMemo(() => stylesheet(theme), [theme]);
     const { tmdbId, detail, loading, option, handleOption, modal, handleModal, reviews, getReviews, addToCatalog } = useDetailsViewModel(id);
 
     const closeModal = async () => {
@@ -65,7 +67,7 @@ export default function MovieDetailsPage() {
             <View style={styles.header}>
                 <View style={styles.headerItemLeft}>
                     <TouchableOpacity onPress={() => router.back()} style={{ zIndex: 10 }}>
-                        <CaretLeftIcon color={COLORS.terciary} size={25} weight="thin" />
+                        <CaretLeftIcon color={theme.terciary} size={25} weight="thin" />
                     </TouchableOpacity>
                 </View>
 
@@ -74,11 +76,11 @@ export default function MovieDetailsPage() {
                 <View style={styles.headerItemRight}>
                     <View style={styles.functions}>
                         <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
-                            <ListPlusIcon color={COLORS.terciary} size={25} weight="thin" />
+                            <ListPlusIcon color={theme.terciary} size={25} weight="thin" />
                         </TouchableOpacity>
 
                         <TouchableOpacity onPress={handleModal}>
-                            <NotePencilIcon color={COLORS.terciary} size={25} weight="thin" />
+                            <NotePencilIcon color={theme.terciary} size={25} weight="thin" />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -101,19 +103,19 @@ export default function MovieDetailsPage() {
 
                         <View style={styles.description}>
                             <View style={styles.descriptionGroup}>
-                                <CalendarBlankIcon color={COLORS.grey} size={25} weight="thin" />
+                                <CalendarBlankIcon color={theme.grey} size={25} weight="thin" />
 
                                 <Text style={styles.descriptionText}>{getYear(detail?.releaseDate ?? "")}</Text>
                             </View>
 
                             <View style={styles.descriptionGroup}>
-                                <ClockIcon color={COLORS.grey} size={25} weight="thin" />
+                                <ClockIcon color={theme.grey} size={25} weight="thin" />
 
                                 <Text style={styles.descriptionText}>{`${detail?.runtime ?? "0"} minutos`}</Text>
                             </View>
 
                             <View style={styles.descriptionGroup}>
-                                <StarIcon color={(detail?.average ?? 0) >= 7 ? COLORS.orange : COLORS.grey} size={20} weight={(detail?.average ?? 0) >= 7 ? "duotone" : "thin"} />
+                                <StarIcon color={(detail?.average ?? 0) >= 7 ? theme.orange : theme.grey} size={20} weight={(detail?.average ?? 0) >= 7 ? "duotone" : "thin"} />
 
                                 <Text style={[(detail?.average ?? 0) >= 7 ? styles.descriptionTextHighScore : styles.descriptionText]}>{(detail?.average ?? 0).toFixed(1)}</Text>
                             </View>

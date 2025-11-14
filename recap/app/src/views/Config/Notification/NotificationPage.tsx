@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Text, View } from 'react-native';
 import { BtnSwitch } from '../../../components/Switch/Switch';
-import { styles } from '../Config.style';
+import { stylesheet } from '../Config.style';
+import { useThemeContext } from '../../../provider/ThemeProvider';
 
 const STREAMINGS = [
   "Netflix",
@@ -16,6 +17,8 @@ const STREAMINGS = [
 export default function NotificationPage() {
   const [notifEmail, setNotifEmail] = useState(true);
   const [notifPush, setNotifPush] = useState(false);
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   const [streamings, setStreamings] = useState<Record<string, boolean>>(
     STREAMINGS.reduce((acc, s) => ({ ...acc, [s]: false }), {})

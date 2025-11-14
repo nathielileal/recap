@@ -1,13 +1,15 @@
 import { router } from 'expo-router';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Alert, ImageBackground, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-import { COLORS } from '../../../../../constants/colors';
+import { useThemeContext } from '../../../provider/ThemeProvider';
 import { useAuthViewModel } from '../../../viewmodels/auth.viewmodel';
-import { styles } from './Recover.styles';
+import { stylesheet } from './Recover.styles';
 
 export default function RecoverPage() {
   const { email, setEmail, authError, isLoading, getRecover } = useAuthViewModel();
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   const handleRecover = async () => {
     const success = await getRecover();
@@ -23,7 +25,7 @@ export default function RecoverPage() {
       <ImageBackground source={require('../../../../../assets/images/recap-screen.png')} style={styles.backgroundImage} resizeMode="cover">
 
         <Svg style={styles.svgShape} viewBox="0 0 85 85" preserveAspectRatio="none">
-          <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill={COLORS.primary} />
+          <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill={theme.primary} />
         </Svg>
 
         <View style={styles.formContent}>
@@ -32,7 +34,7 @@ export default function RecoverPage() {
           <Text style={styles.label}>Email</Text>
           <TextInput
             placeholder="example@domain.com"
-            placeholderTextColor={COLORS.grey}
+            placeholderTextColor={theme.grey}
             value={email}
             onChangeText={setEmail}
             style={styles.input}

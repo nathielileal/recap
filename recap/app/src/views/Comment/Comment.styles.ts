@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.primary
+        backgroundColor: theme.primary
     },
     top: {
         height: 60,
@@ -23,7 +22,7 @@ export const styles = StyleSheet.create({
         fontWeight: "700",
         textAlign: "center",
         position: "absolute",
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     review: {
         paddingLeft: 20,
@@ -47,18 +46,18 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         paddingLeft: 5,
         fontWeight: 'bold',
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     time: {
         fontSize: 10,
         paddingLeft: 10,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     aboutText: {
         padding: 5,
         fontSize: 10,
         fontWeight: 'bold',
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     title: {
         padding: 5,
@@ -67,19 +66,19 @@ export const styles = StyleSheet.create({
         marginRight: 25,
         fontWeight: "bold",
         textAlign: "justify",
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     description: {
         padding: 5,
         fontSize: 15,
         marginRight: 25,
         textAlign: "justify",
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     more: {
         fontSize: 12,
         fontWeight: 'bold',
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     stars: {
         paddingLeft: 5,
@@ -98,7 +97,7 @@ export const styles = StyleSheet.create({
     },
     rate: {
         fontSize: 10,
-        color: COLORS.terciary,
+        color: theme.terciary,
         paddingLeft: 5,
     },
     divider: {
@@ -106,7 +105,7 @@ export const styles = StyleSheet.create({
         height: 1,
         width: '92%',
         marginVertical: 10,
-        backgroundColor: COLORS.terciary,
+        backgroundColor: theme.terciary,
     },
     list: {
         paddingLeft: 25,
@@ -118,7 +117,7 @@ export const styles = StyleSheet.create({
     comment: {
         fontSize: 15,
         paddingLeft: 5,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     bottom: {
         left: 0,
@@ -129,8 +128,8 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         position: 'absolute',
-        borderTopColor: COLORS.terciary, 
-        backgroundColor: COLORS.primary, 
+        borderTopColor: theme.terciary, 
+        backgroundColor: theme.primary, 
     },
     input: {
         flex: 1,
@@ -140,8 +139,8 @@ export const styles = StyleSheet.create({
         borderRadius: 20,
         paddingVertical: 10,
         marginHorizontal: 15,
-        color: COLORS.terciary,
-        borderColor: COLORS.terciary,
+        color: theme.terciary,
+        borderColor: theme.terciary,
     },
     btn: {
         marginHorizontal: 10,

@@ -1,10 +1,11 @@
 import { Checkbox } from 'expo-checkbox';
 import { XIcon } from "phosphor-react-native";
 import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { COLORS } from "../../../../../constants/colors";
+import { useThemeContext } from '../../../provider/ThemeProvider';
 import { useReviewViewModel } from '../../../viewmodels/review.viewmodel';
 import { StarRating } from "../../StarRating/StarRating";
-import { styles } from "./ReviewModal.styles";
+import { stylesheet } from "./ReviewModal.styles";
+import { useMemo } from 'react';
 
 interface Props {
     id_movie: string;
@@ -15,6 +16,8 @@ const stars = Array.from({ length: 5 });
 
 export function ReviewModal({ id_movie, onClosed }: Props) {
     const { rating, setRating, title, setTitle, description, setDescription, isChecked, setChecked, saveReview, clearForm } = useReviewViewModel(id_movie);
+    const { theme } = useThemeContext();
+    const styles = useMemo(() => stylesheet(theme), [theme]);
 
     const handleRatingChange = (value: number) => {
         setRating(value);
@@ -41,7 +44,7 @@ export function ReviewModal({ id_movie, onClosed }: Props) {
                         <Text style={styles.headerTitle}>Avaliar filme</Text>
 
                         <TouchableOpacity onPress={() => onClosed()}>
-                            <XIcon color={COLORS.secondary} size={25} weight="thin" style={styles.closeBtn}></XIcon>
+                            <XIcon color={theme.secondary} size={25} weight="thin" style={styles.closeBtn}></XIcon>
                         </TouchableOpacity>
                     </View>
 
@@ -51,10 +54,10 @@ export function ReviewModal({ id_movie, onClosed }: Props) {
 
                     <View>
                         <Text style={styles.title}>TÍTULO:</Text>
-                        <TextInput value={title} onChangeText={setTitle} style={styles.input} autoCapitalize="none" placeholder="Insira o título da sua avaliação" placeholderTextColor={COLORS.grey}></TextInput>
+                        <TextInput value={title} onChangeText={setTitle} style={styles.input} autoCapitalize="none" placeholder="Insira o título da sua avaliação" placeholderTextColor={theme.grey}></TextInput>
 
                         <Text style={styles.title}>DESCRIÇÃO:</Text>
-                        <TextInput value={description} onChangeText={setDescription} style={styles.multiline} autoCapitalize="none" multiline={true} placeholder="Insira a descrição da sua avaliação" placeholderTextColor={COLORS.grey}></TextInput>
+                        <TextInput value={description} onChangeText={setDescription} style={styles.multiline} autoCapitalize="none" multiline={true} placeholder="Insira a descrição da sua avaliação" placeholderTextColor={theme.grey}></TextInput>
 
                         <View style={styles.form}>
                             <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked}></Checkbox>

@@ -1,16 +1,18 @@
 import { useRouter } from "expo-router";
 import { MagnifyingGlassIcon } from "phosphor-react-native";
+import { useMemo } from "react";
 import { ActivityIndicator, FlatList, Text, TextInput, View } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { CardMovie } from "../../components/CardMovie/CardMovie";
 import { Movie } from "../../models/movie";
+import { useThemeContext } from "../../provider/ThemeProvider";
 import { useHomeViewModel } from "../../viewmodels/home.viewmodel";
-import { styles } from "./Home.styles";
+import { stylesheet } from "./Home.styles";
 
 export default function HomePage() {
     const router = useRouter();
-
+    const { theme } = useThemeContext();
+    const styles = useMemo(() => stylesheet(theme), [theme]);
     const { movies, searchMovies, loading, empty, search, onSearchChange, loadMore } = useHomeViewModel();
 
     const renderMovieItem = ({ item }: { item: Movie }) => (
@@ -21,8 +23,8 @@ export default function HomePage() {
         <CamLenseScreen title="Filmes">
             <View style={styles.header}>
                 <View style={styles.input}>
-                    <TextInput placeholder="Buscar" placeholderTextColor={COLORS.terciary} style={styles.textInput} value={search} onChangeText={onSearchChange} />
-                    <MagnifyingGlassIcon color={COLORS.terciary} size={25} weight="light"></MagnifyingGlassIcon>
+                    <TextInput placeholder="Buscar" placeholderTextColor={theme.terciary} style={styles.textInput} value={search} onChangeText={onSearchChange} />
+                    <MagnifyingGlassIcon color={theme.terciary} size={25} weight="light"></MagnifyingGlassIcon>
                 </View>
 
                 {empty && (<Text style={styles.empty}>Nenhum filme encontrado para "{search}"</Text>)}
@@ -38,7 +40,7 @@ export default function HomePage() {
                         keyExtractor={(item) => String(item.tmdbId)}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingLeft: 55, alignItems: "flex-start", justifyContent: "space-between" }}
-                        ListFooterComponent={loading && movies.length > 0 ? <ActivityIndicator size={50} color={COLORS.terciary} style={{ marginVertical: 20 }} /> : null}
+                        ListFooterComponent={loading && movies.length > 0 ? <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} /> : null}
                         onEndReached={loadMore}
                         onEndReachedThreshold={0.5}
                     />

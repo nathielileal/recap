@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
     FlatList,
     Image,
@@ -10,7 +10,8 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { styles } from "../../views/Lists/Lists.style";
+import { stylesheet } from "../../views/Lists/Lists.style";
+import { useThemeContext } from "../../provider/ThemeProvider";
 
 interface Props {
   visible: boolean;
@@ -49,6 +50,9 @@ const EditListModal: React.FC<Props> = ({
   const [movieSearch, setMovieSearch] = useState("");
   const [suggestions, setSuggestions] = useState<{ id: number; title: string }[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({

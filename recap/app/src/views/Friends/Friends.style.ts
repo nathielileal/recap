@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
   scroll: {
     flexGrow: 1,
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.primary,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 12,
@@ -19,12 +18,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   tabText: {
-    color: COLORS.grey,
+    color: theme.grey,
     fontSize: 16,
     fontWeight: "bold",
   },
   tabActiveText: {
-    color: COLORS.terciary,
+    color: theme.terciary,
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -37,10 +36,10 @@ export const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: COLORS.primary,
+    backgroundColor: theme.primary,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: COLORS.terciary,
+    borderColor: theme.terciary,
     padding: 16,
     margin: 5,
     justifyContent: "space-between",
@@ -50,7 +49,7 @@ export const styles = StyleSheet.create({
     height: 50,
     borderRadius: 25,
     marginRight: 12,
-    backgroundColor: COLORS.darkGrey,
+    backgroundColor: theme.darkGrey,
   },
   cardContent: {
     flex: 1,
@@ -58,47 +57,47 @@ export const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: COLORS.terciary,
+    color: theme.terciary,
     marginBottom: 4,
   },
   cardSubtitle: {
     fontSize: 14,
-    color: COLORS.grey,
+    color: theme.grey,
   },
   addButtonSmall: {
-    backgroundColor: COLORS.secondary,
+    backgroundColor: theme.secondary,
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 6,
     marginLeft: 12,
   },
   addButtonSmallText: {
-    color: COLORS.terciary,
+    color: theme.terciary,
     fontSize: 14,
     fontWeight: "bold",
   },
   removeButton: {
-    backgroundColor: COLORS.darkGrey,
+    backgroundColor: theme.darkGrey,
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 6,
     marginLeft: 12,
   },
   removeButtonText: {
-    color: COLORS.terciary,
+    color: theme.terciary,
     fontSize: 14,
     fontWeight: "bold",
   },
   input: {
-    backgroundColor: COLORS.darkGrey,
-    color: COLORS.terciary,
+    backgroundColor: theme.darkGrey,
+    color: theme.terciary,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 8,
     marginBottom: 12,
   },
   emptyText: {
-    color: COLORS.grey,
+    color: theme.grey,
     textAlign: "center",
     marginTop: 20,
   },

@@ -1,20 +1,19 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "../../../../../constants/colors";
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: COLORS.primaryOpacity,
+        backgroundColor: theme.primaryOpacity,
     },
     modal: {
         width: "90%",
         padding: 24,
         borderWidth: 2,
         borderRadius: 16,
-        borderColor: COLORS.terciary,
-        backgroundColor: COLORS.primary,
+        borderColor: theme.terciary,
+        backgroundColor: theme.primary,
     },
     header: {
         marginBottom: 20,
@@ -34,14 +33,14 @@ export const styles = StyleSheet.create({
         position: "absolute",
         paddingHorizontal: 5,
         borderBottomWidth: 1,
-        color: COLORS.terciary,
-        borderBottomColor: COLORS.terciary,
+        color: theme.terciary,
+        borderBottomColor: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
     },
     title: {
         marginLeft: 5,
         marginVertical: 5,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     input: {
         padding: 12,
@@ -50,12 +49,12 @@ export const styles = StyleSheet.create({
         marginBottom: 15,
         flexDirection: "row",
         alignItems: "center",
-        color: COLORS.terciary,
-        borderColor: COLORS.terciary,
+        color: theme.terciary,
+        borderColor: theme.terciary,
     },
     inputText: {
         marginLeft: 8,
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
     password: {
         marginBottom: 20,
@@ -80,11 +79,11 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: COLORS.secondary,
+        backgroundColor: theme.secondary,
     },
     btnText: {
         fontWeight: "bold",
         textAlign: "center",
-        color: COLORS.terciary,
+        color: theme.terciary,
     },
 });
