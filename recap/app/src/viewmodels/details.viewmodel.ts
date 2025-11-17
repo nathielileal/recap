@@ -72,8 +72,6 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
     };
 
     useEffect(() => {
-        console.log("id:" + id);
-
         getDetail();
         getReviews();
     }, [id]);

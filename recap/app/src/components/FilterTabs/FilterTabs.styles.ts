@@ -6,14 +6,15 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         borderRadius: 12,
         flexDirection: "row",
         justifyContent: "center",
+        alignItems: "center",
         backgroundColor: theme.primary,
     },
     item: {
-        paddingVertical: 12,
+        paddingVertical: 5,
         paddingHorizontal: 24,
     },
     tabText: {
-        fontSize: 16,
+        fontSize: 12,
         color: theme.grey,
     },
     tabActiveText: {
