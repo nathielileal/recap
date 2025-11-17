@@ -24,14 +24,26 @@ const ListsPage = () => {
   const handleCloseModal = () => {
     setSelectedList(null);
     setIsModalOpen(false);
-    
+
     load();
   };
 
   const handleDelete = async (listId: number) => {
     Alert.alert("Remover lista", "Tem certeza que deseja remover esta lista?", [
       { text: "Cancelar", style: "cancel" },
-      { text: "Remover", style: "destructive", onPress: async () => { await deleteList(listId); load(); } },
+      {
+        text: "Remover", style: "destructive", onPress: async () => {
+          const response = await deleteList(listId);
+
+          if (response.success) {
+            Alert.alert("Lista excuída com sucesso!");
+            load();
+          } else {
+            const message = response.error || "Ocorreu um erro ao excluir a lista. Tente novamente mais tarde!";
+            Alert.alert("Falha ao excluir lista", message);
+          }
+        }
+      },
     ]);
   };
 

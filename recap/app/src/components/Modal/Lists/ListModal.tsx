@@ -36,7 +36,7 @@ export function ListModal({ tmdbId, onClosed }: Props) {
             Alert.alert("Filme excluído da lista com sucesso!");
             load();
         } else {
-            const message = result.error || "Ocorreu um erro ao tentar excluir o filme da lista. Tente novamente mais tarde!";
+            const message = result.error || "Ocorreu um erro ao excluir o filme da lista. Tente novamente mais tarde!";
             Alert.alert("Falha ao excluir filme", message);
         }
     }
