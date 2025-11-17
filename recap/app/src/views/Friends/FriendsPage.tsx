@@ -7,11 +7,6 @@ import { stylesheet } from "./Friends.style";
 import { useFriendsViewModel } from "../../viewmodels/friends.viewmodel";
 import { User } from "../../models/user";
 
-// (mock)
-const allUsers: User[] = [
-  { id: "1", name: "Alice Silva", email: "alice123", createdAt: "" },
-];
-
 export default function FriendsPage() {
   const { users, filter, setFilter, search, setSearch, loading, error } = useFriendsViewModel();
   const { theme } = useThemeContext();
