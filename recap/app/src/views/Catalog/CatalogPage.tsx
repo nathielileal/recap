@@ -3,7 +3,7 @@ import { CaretLeftIcon, SwatchesIcon } from "phosphor-react-native";
 import { useMemo } from "react";
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
-import { CardMovie } from "../../components/CardMovie/CardMovie";
+import { CardMovie } from "../../components/Card/CardMovie/CardMovie";
 import { Movie } from "../../models/movie";
 import { useThemeContext } from "../../provider/ThemeProvider";
 import { useCatalogViewModel } from "../../viewmodels/catalog.viewmodel";
@@ -13,10 +13,10 @@ export default function CatalogPage() {
     const router = useRouter();
     const { toggleTheme, theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { movies, loading } = useCatalogViewModel();
+    const { movies, loading, error } = useCatalogViewModel();
 
     const renderMovieItem = ({ item }: { item: Movie }) => (
-        <CardMovie data={item} onPress={() => router.push({ pathname: "/src/views/MovieDetails/MovieDetailsPage", params: { id: item.tmdbId } })} />
+        <CardMovie data={item} onPress={() => router.push({ pathname: "/movie-detail", params: { id: item.tmdbId } })} />
     );
 
     return (
@@ -38,8 +38,10 @@ export default function CatalogPage() {
             </View>
         }>
             {loading ?
-                <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} /> :
-                movies.length > 0 ?
+                <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />
+                : error ? (<Text style={[styles.empty, { color: theme.secondary, textAlign: "center", fontSize: 16 }]}>
+                    {error}
+                </Text>) : movies.length > 0 ?
                     <View style={styles.list}>
                         <FlatList
                             key="list"

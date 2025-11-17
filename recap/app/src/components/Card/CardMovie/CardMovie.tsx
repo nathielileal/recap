@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Image, Pressable } from "react-native";
-import { useThemeContext } from "../../provider/ThemeProvider";
 import { stylesheet } from "./CardMovie.styles";
+import { useThemeContext } from "../../../provider/ThemeProvider";
 
 interface Movie {
     tmdbId: number,

@@ -16,7 +16,7 @@ export default function WelcomePage() {
 
       <View style={styles.container}>
         <Svg height="100%" width="100%" viewBox="0 0 100 100" style={styles.shape}>
-          <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill="#000" />
+          <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill={theme.primary} />
         </Svg>
 
         <View style={styles.content}>

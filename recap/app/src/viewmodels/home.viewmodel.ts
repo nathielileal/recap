@@ -7,6 +7,7 @@ export function useHomeViewModel() {
     const [currentPage, setCurrentPage] = useState(1);
     const [canLoadMore, setCanLoadMore] = useState(true);
     const [searchMovies, setSearchMovies] = useState<Movie[]>([]);
+    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [empty, setEmpty] = useState(false);
     const [search, setSearch] = useState("");
@@ -24,8 +25,9 @@ export function useHomeViewModel() {
             setMovies(data ?? []);
             setCurrentPage(2);
             setCanLoadMore(data.length > 0);
-        } catch (error) {
-            console.warn("Erro ao carregar filmes. ", error);
+        } catch (apiError: any) {
+            setError(apiError.message || "Erro inesperado ao carregar filmes.");
+            setMovies([]);
         } finally {
             setLoading(false);
         }
@@ -45,8 +47,8 @@ export function useHomeViewModel() {
 
             setMovies(prev => [...prev, ...data]);
             setCurrentPage(prev => prev + 1);
-        } catch (error) {
-            console.warn("Erro ao carregar mais filmes:", error);
+        } catch (apiError: any) {
+            setError(apiError.message || "Erro inesperado ao carregar mais filmes.");
         } finally {
             setLoading(false);
         }
@@ -88,6 +90,7 @@ export function useHomeViewModel() {
         empty,
         search,
         loadMore,
-        onSearchChange
+        onSearchChange, 
+        error
     };
 }

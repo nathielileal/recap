@@ -15,7 +15,7 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: width,
-        height: height * 0.99,
+        height: height * 0.98,
     },
     formContent: {
         position: 'absolute',

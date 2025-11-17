@@ -5,6 +5,7 @@ import { CatalogService } from "../services/catalog.service";
 export function useCatalogViewModel() {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => { load() }, []);
 
@@ -15,8 +16,8 @@ export function useCatalogViewModel() {
             const data = await CatalogService.getMoviesFromCatalog();
 
             setMovies(data ?? []);
-        } catch (error) {
-            console.error("Erro ao carregar filmes do catálogo. ", error);
+        } catch (apiError: any) {
+            setError(apiError.message || "Erro inesperado ao carregar filmes da lista.");
         } finally {
             setLoading(false);
         }
@@ -25,5 +26,6 @@ export function useCatalogViewModel() {
     return {
         movies, 
         loading,
+        error
     };
 }

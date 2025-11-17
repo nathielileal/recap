@@ -11,17 +11,13 @@ interface Props {
     onClose: () => void,
 }
 
-const ListModal = ({ listId, initialName, onClose }: Props) => {
+export function ListModal({ listId, initialName, onClose }: Props) {
     const { name, setName, saveList, updateList } = useListsViewModel();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
 
     useEffect(() => {
         setName(initialName || ""); 
-
-        return () => {
-            setName("");
-        };
     }, [initialName, setName]); 
 
     const handleSave = async () => {
@@ -50,7 +46,7 @@ const ListModal = ({ listId, initialName, onClose }: Props) => {
 
                     <View>
                         <Text style={styles.title}>NOME:</Text>
-                        <TextInput value={name} onChangeText={setName} style={styles.input} autoCapitalize="none" placeholder="Digite o nome da lista" placeholderTextColor={theme.grey}></TextInput>
+                        <TextInput value={name} onChangeText={setName} style={styles.input} multiline autoCapitalize="none" placeholder="Digite o nome da lista" placeholderTextColor={theme.grey}></TextInput>
                     </View>
 
                     <View style={styles.btnView}>
@@ -63,5 +59,3 @@ const ListModal = ({ listId, initialName, onClose }: Props) => {
         </Modal>
     );
 };
-
-export default ListModal;

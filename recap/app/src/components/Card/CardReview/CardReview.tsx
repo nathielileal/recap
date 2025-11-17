@@ -3,12 +3,12 @@ import { router } from 'expo-router';
 import { ChatCircleIcon, HeartIcon, UserCircleIcon, WarningIcon } from "phosphor-react-native";
 import { useMemo } from 'react';
 import { Alert, Text, TouchableOpacity, View } from "react-native";
-import { getTimeAgo } from "../../../../lib/utils";
-import { Review } from "../../models/review";
-import { useThemeContext } from '../../provider/ThemeProvider';
-import { useReviewViewModel } from '../../viewmodels/review.viewmodel';
-import { StarRating } from "../StarRating/StarRating";
-import { stylesheet } from "./CardReview.styles";
+import { getTimeAgo } from '../../../../../lib/utils';
+import { Review } from '../../../models/review';
+import { useThemeContext } from '../../../provider/ThemeProvider';
+import { useReviewViewModel } from '../../../viewmodels/review.viewmodel';
+import { StarRating } from '../../StarRating/StarRating';
+import { stylesheet } from './CardReview.styles';
 
 interface Props {
     data: Review;

@@ -28,7 +28,6 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     },
     empty: {
         fontSize: 18,
-        marginVertical: 20,
         textAlign: "center",
         color: theme.terciary,
     },

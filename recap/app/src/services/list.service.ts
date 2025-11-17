@@ -29,7 +29,7 @@ export const ListService = {
 
     getMoviesPerList: async (listId: number): Promise<Movie[]> => {
         try {
-            const response = await api.get<Movie[]>(`/lists/${listId}/me`);
+            const response = await api.get<Movie[]>(`/lists/${listId}/movies`);
 
             return response.data;
         } catch (error) {

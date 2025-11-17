@@ -27,7 +27,7 @@ export default function SignUpPage() {
     <View style={styles.container}>
       <ImageBackground source={require('../../../../../assets/images/recap-screen.png')} style={styles.backgroundImage} resizeMode="cover">
         <Svg style={styles.svgShape} viewBox="0 0 100 100" preserveAspectRatio="none">
-          <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill={theme.primary} />
+          <Path d="M0,40 C15,15 70,50 100,35 L100,100 L0,100 Z" fill={theme.primary} />
         </Svg>
 
         <View style={styles.formContent}>
@@ -36,7 +36,7 @@ export default function SignUpPage() {
           <Text style={styles.label}>Email</Text>
           <TextInput
             placeholder="exemplo@domain.com"
-            placeholderTextColor={theme.grey}
+            placeholderTextColor={theme.darkGrey}
             value={email}
             onChangeText={setEmail}
             style={styles.input}
@@ -46,7 +46,7 @@ export default function SignUpPage() {
           <Text style={styles.label}>Nome de usuário</Text>
           <TextInput
             placeholder="Digite o nome de usuário"
-            placeholderTextColor={theme.grey}
+            placeholderTextColor={theme.darkGrey}
             value={username}
             onChangeText={setUsername}
             style={styles.input}
@@ -58,7 +58,7 @@ export default function SignUpPage() {
             <View style={styles.inputWrapper}>
               <TextInput
                 placeholder="Digite sua senha"
-                placeholderTextColor={theme.grey}
+                placeholderTextColor={theme.darkGrey}
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}
@@ -66,7 +66,7 @@ export default function SignUpPage() {
                 autoCapitalize='none'
               />
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
-                {showPassword ? <EyeSlashIcon color={theme.grey} size={24} /> : <EyeIcon color={theme.grey} size={24} />}
+                {showPassword ? <EyeSlashIcon color={theme.darkGrey} size={24} /> : <EyeIcon color={theme.darkGrey} size={24} />}
               </TouchableOpacity>
             </View>
           </View>
@@ -76,7 +76,7 @@ export default function SignUpPage() {
             <View style={styles.inputWrapper}>
               <TextInput
                 placeholder="Confirme sua senha"
-                placeholderTextColor={theme.grey}
+                placeholderTextColor={theme.darkGrey}
                 secureTextEntry={!showConfirm}
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
@@ -84,7 +84,7 @@ export default function SignUpPage() {
                 autoCapitalize='none'
               />
               <TouchableOpacity onPress={() => setShowConfirm(!showConfirm)} style={styles.eyeIcon}>
-                {showConfirm ? <EyeSlashIcon color={theme.grey} size={24} /> : <EyeIcon color={theme.grey} size={24} />}
+                {showConfirm ? <EyeSlashIcon color={theme.darkGrey} size={24} /> : <EyeIcon color={theme.darkGrey} size={24} />}
               </TouchableOpacity>
             </View>
           </View>

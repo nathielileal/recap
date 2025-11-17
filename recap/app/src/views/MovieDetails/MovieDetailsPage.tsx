@@ -1,17 +1,17 @@
 import { Text } from "@react-navigation/elements";
 import { router, useLocalSearchParams } from "expo-router";
 import { CalendarBlankIcon, CaretLeftIcon, ClockIcon, ListPlusIcon, NotePencilIcon, StarIcon } from "phosphor-react-native";
+import { useMemo } from "react";
 import { Alert, FlatList, Image, TouchableOpacity, View } from "react-native";
 import { API_IMAGE } from "../../../../constants/url";
 import { getYear } from "../../../../lib/utils";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
-import { CardReview } from "../../components/CardReview/CardReview";
+import { CardReview } from "../../components/Card/CardReview/CardReview";
 import { ReviewModal } from "../../components/Modal/Review/ReviewModal";
 import { Review } from "../../models/review";
 import { useThemeContext } from "../../provider/ThemeProvider";
 import { useDetailsViewModel } from "../../viewmodels/details.viewmodel";
 import { stylesheet } from "./MovieDetails.styles";
-import { useMemo } from "react";
 
 export default function MovieDetailsPage() {
     const { id } = useLocalSearchParams();

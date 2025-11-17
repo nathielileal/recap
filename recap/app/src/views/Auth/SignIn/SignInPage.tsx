@@ -37,7 +37,7 @@ export default function SignInPage() {
           <Text style={styles.label}>Email</Text>
           <TextInput
             placeholder="example@domain.com"
-            placeholderTextColor={theme.grey}
+            placeholderTextColor={theme.darkGrey}
             value={email}
             onChangeText={setEmail}
             style={styles.input}
@@ -49,7 +49,7 @@ export default function SignInPage() {
             <View style={styles.inputWrapper}>
               <TextInput
                 placeholder="Digite sua senha"
-                placeholderTextColor={theme.grey}
+                placeholderTextColor={theme.darkGrey}
                 secureTextEntry={!showPassword}
                 value={password}
                 onChangeText={setPassword}

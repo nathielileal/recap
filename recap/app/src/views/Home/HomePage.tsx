@@ -3,7 +3,7 @@ import { MagnifyingGlassIcon } from "phosphor-react-native";
 import { useMemo } from "react";
 import { ActivityIndicator, FlatList, Text, TextInput, View } from "react-native";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
-import { CardMovie } from "../../components/CardMovie/CardMovie";
+import { CardMovie } from "../../components/Card/CardMovie/CardMovie";
 import { Movie } from "../../models/movie";
 import { useThemeContext } from "../../provider/ThemeProvider";
 import { useHomeViewModel } from "../../viewmodels/home.viewmodel";
@@ -13,7 +13,7 @@ export default function HomePage() {
     const router = useRouter();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { movies, searchMovies, loading, empty, search, onSearchChange, loadMore } = useHomeViewModel();
+    const { movies, searchMovies, loading, empty, search, onSearchChange, loadMore, error } = useHomeViewModel();
 
     const renderMovieItem = ({ item }: { item: Movie }) => (
         <CardMovie data={item} onPress={() => router.push({ pathname: "/movie-detail", params: { id: item.tmdbId } })} />
@@ -31,7 +31,11 @@ export default function HomePage() {
             </View>
 
             <View style={styles.list}>
-                {search.length <= 2 ? (
+                {error ? (
+                    <Text style={[styles.empty, { color: theme.secondary, textAlign: "center", fontSize: 16 }]}>
+                        {error}
+                    </Text>
+                ) : search.length <= 2 ? (
                     <FlatList
                         key="list"
                         data={movies}

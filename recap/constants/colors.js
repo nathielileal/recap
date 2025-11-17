@@ -19,7 +19,7 @@ const lightTheme = {
     yellow: "#FFD700",
     grey: "#122c4f",
     darkGrey: "#D6D6D5",
-    primaryOpacity: "#739AB9",
+    primaryOpacity: "rgba(255, 252, 239, 0.2)",
     secondaryOpacity: "#800020",
 };
 
