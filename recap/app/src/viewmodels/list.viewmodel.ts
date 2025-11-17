@@ -5,16 +5,23 @@ import { ListService } from "../services/list.service";
 import { Movie } from "../models/movie";
 
 export const useListsViewModel = () => {
+  // geral
+  const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // list page
   const [lists, setLists] = useState<List[]>([]);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [userLists, setUserLists] = useState<List[]>([]);
   const [loading, setLoading] = useState(false);
-  const [loadingMovies, setLoadingMovies] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [name, setName] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [filter, setFilter] = useState<"public" | "private">("private");
   const [selectedList, setSelectedList] = useState<List | null>(null);
+
+  // movie page
+  const [loadingMovies, setLoadingMovies] = useState(false);
+  const [search, setSearch] = useState("");
+  const [searchMovies, setSearchMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
     load();
@@ -82,6 +89,23 @@ export const useListsViewModel = () => {
   const addMovieToList = async (listId: number, tmdbId: number) => {
     return await ListService.addMovieToList(listId, tmdbId);
   };
+  
+  const deleteMovieFromList = async (listId: number, tmdbId: number) => {
+    return await ListService.deleteMovieFromList(listId, tmdbId);
+  };
 
-  return { lists: userLists, name, setName, loading, isModalOpen, setIsModalOpen, saveList, updateList, deleteList, filter, setFilter, selectedList, setSelectedList, load, error, movies, loadMovies, loadingMovies, addMovieToList };
+  const onSearchChange = (text: string) => {
+    setSearch(text);
+
+    if (text.length > 2) {
+      // searchMovie(text);
+    } else {
+      setSearchMovies([]);
+    }
+  };
+
+  return {
+    lists: userLists, name, setName, loading, isModalOpen, setIsModalOpen, saveList, updateList, deleteList, filter, setFilter, selectedList, setSelectedList, load, error,
+    movies, loadMovies, loadingMovies, addMovieToList, deleteMovieFromList, search, searchMovies, onSearchChange,
+  };
 };

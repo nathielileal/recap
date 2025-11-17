@@ -125,4 +125,24 @@ export const ListService = {
             return { success: false, error: 'Ocorreu um erro desconhecido.' };
         }
     },
+
+    async deleteMovieFromList(listId: number, tmdbId: number): Promise<ApiResponse<List>> {
+        try {
+            const response = await api.delete(`/lists/${listId}/movies/${tmdbId}`);
+
+            if (response.status == 204 || response.status == 201 || response.status == 200) {
+                return { success: true };
+            }
+
+            return { success: false, error: 'Ocorreu um erro inesperado ao excluir o filme da lista.' };
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const apiError = error.response?.data?.error || error.response?.data?.message;
+
+                return { success: false, error: apiError || 'Ocorreu um erro ao tentar excluir o filme da lista. Tente novamente mais tarde.' };
+            }
+
+            return { success: false, error: 'Ocorreu um erro desconhecido.' };
+        }
+    },
 };

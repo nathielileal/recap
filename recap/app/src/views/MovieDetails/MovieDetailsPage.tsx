@@ -12,16 +12,22 @@ import { Review } from "../../models/review";
 import { useThemeContext } from "../../provider/ThemeProvider";
 import { useDetailsViewModel } from "../../viewmodels/details.viewmodel";
 import { stylesheet } from "./MovieDetails.styles";
+import { ListModal } from "../../components/Modal/Lists/ListModal";
 
 export default function MovieDetailsPage() {
+    
     const { id } = useLocalSearchParams();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { tmdbId, detail, loading, option, handleOption, modal, handleModal, reviews, getReviews, addToCatalog } = useDetailsViewModel(id);
+    const { tmdbId, detail, loading, option, handleOption, modal, handleModal, lists, handleLists, reviews, getReviews, addToCatalog } = useDetailsViewModel(id);
 
     const closeModal = async () => {
         handleModal();
         await getReviews();
+    };
+    
+    const closeLists = async () => {
+        handleLists();
     };
 
     const showReviews = ({ item }: { item: Review }) => {
@@ -76,7 +82,7 @@ export default function MovieDetailsPage() {
                 <View style={styles.headerItemRight}>
                     <View style={styles.functions}>
                         {/* listas */}
-                        <TouchableOpacity onPress={() => null}>
+                        <TouchableOpacity onPress={handleLists}>
                             <ListPlusIcon color={theme.terciary} size={24} weight="thin" />
                         </TouchableOpacity>
 
@@ -95,6 +101,10 @@ export default function MovieDetailsPage() {
         }>
             {modal && (
                 <ReviewModal id_movie={id.toString()} onClosed={closeModal} ></ReviewModal>
+            )}
+            
+            {lists && (
+                <ListModal tmdbId={Number(id ?? 0)} onClosed={closeLists} />
             )}
 
             <View>

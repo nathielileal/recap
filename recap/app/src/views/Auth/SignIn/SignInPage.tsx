@@ -62,7 +62,7 @@ export default function SignInPage() {
             </View>
 
             <View style={styles.forgotContainer}>
-              <TouchableOpacity onPress={() => router.replace('(auth)/recover')}>
+              <TouchableOpacity onPress={() => router.push('(auth)/recover')}>
                 <Text style={[styles.link, { fontSize: 12 }]}> Esqueceu a senha? </Text>
               </TouchableOpacity>
             </View>
@@ -80,7 +80,7 @@ export default function SignInPage() {
 
           <View style={styles.signupContainer}>
             <Text style={styles.signupText}>Não tem uma conta? </Text>
-            <TouchableOpacity onPress={() => router.replace('(auth)/sign-up')}>
+            <TouchableOpacity onPress={() => router.push('(auth)/sign-up')}>
               <Text style={styles.link}> Cadastrar</Text>
             </TouchableOpacity>
           </View>

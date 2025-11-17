@@ -9,7 +9,7 @@ import { useThemeContext } from "../../provider/ThemeProvider";
 import { useListsViewModel } from "../../viewmodels/list.viewmodel";
 import { stylesheet } from "./Lists.style";
 import { PlusIcon } from "phosphor-react-native";
-import { ListModal } from "../../components/Modal/List/ListModal";
+import { ListFormModal } from "../../components/Modal/ListForm/ListFormModal";
 
 const ListsPage = () => {
   const { theme } = useThemeContext();
@@ -74,7 +74,7 @@ const ListsPage = () => {
         <PlusIcon size={30} color={theme.terciary}></PlusIcon>
       </TouchableOpacity>
 
-      {isModalOpen && (<ListModal onClose={handleCloseModal} listId={selectedList?.id || 0} initialName={selectedList?.name || ""} />)}
+      {isModalOpen && (<ListFormModal onClose={handleCloseModal} listId={selectedList?.id || 0} initialName={selectedList?.name || ""} />)}
     </CamLenseScreen>
   );
 };

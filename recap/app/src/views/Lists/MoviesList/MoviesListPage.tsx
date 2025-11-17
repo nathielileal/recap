@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { router, useLocalSearchParams, useRouter } from "expo-router";
 import { CaretLeftIcon, PlusIcon, SwatchesIcon } from "phosphor-react-native";
 import { useEffect, useMemo } from "react";
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
@@ -11,7 +11,6 @@ import { useListsViewModel } from "../../../viewmodels/list.viewmodel";
 import { MoviesListModal } from "../../../components/Modal/SearchMovie/MoviesListModal";
 
 export default function MoviesListPage() {
-    const router = useRouter();
     const { listId, name } = useLocalSearchParams();
     const { toggleTheme, theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);

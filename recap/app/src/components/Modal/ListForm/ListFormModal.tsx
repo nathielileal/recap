@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from "react";
 import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useThemeContext } from "../../../provider/ThemeProvider";
 import { useListsViewModel } from "../../../viewmodels/list.viewmodel";
-import { stylesheet } from "./ListModal.styles";
+import { stylesheet } from "./ListFormModal.styles";
 
 interface Props {
     listId: number;
@@ -11,7 +11,7 @@ interface Props {
     onClose: () => void,
 }
 
-export function ListModal({ listId, initialName, onClose }: Props) {
+export function ListFormModal({ listId, initialName, onClose }: Props) {
     const { name, setName, saveList, updateList } = useListsViewModel();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);

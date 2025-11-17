@@ -49,7 +49,7 @@ export default function RecoverPage() {
 
           <View style={styles.signupContainer}>
             <Text style={styles.signupText}>Já tem uma conta? </Text>
-            <TouchableOpacity onPress={() => router.replace('(auth)/sign-in')}>
+            <TouchableOpacity onPress={() => router.push('(auth)/sign-in')}>
               <Text style={styles.link}> Entrar</Text>
             </TouchableOpacity>
           </View>

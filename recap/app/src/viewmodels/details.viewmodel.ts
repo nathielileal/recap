@@ -9,6 +9,7 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
     const [reviews, setReviews] = useState<Review[]>([]);
     const [detail, setDetail] = useState<Movie | null>(null);
     const [modal, setModal] = useState(false);
+    const [lists, setLists] = useState(false);
     const [loading, setLoading] = useState(false);
     const [option, setOption] = useState('A');
 
@@ -20,6 +21,10 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
 
     const handleModal = () => {
         setModal(!modal);
+    };
+    
+    const handleLists = () => {
+        setLists(!lists);
     };
 
     const getDetail = async () => {
@@ -67,9 +72,11 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
     };
 
     useEffect(() => {
+        console.log("id:" + id);
+
         getDetail();
         getReviews();
     }, [id]);
 
-    return { tmdbId, detail, loading, option, reviews, handleOption, modal, handleModal, getReviews, addToCatalog };
+    return { tmdbId, detail, loading, option, reviews, handleOption, modal, handleModal, lists, handleLists, getReviews, addToCatalog };
 }
