@@ -6,25 +6,19 @@ import { stylesheet } from "./ProfileModal.styles";
 import { useMemo } from "react";
 
 interface Props {
-    id_user: string;
+    userId: string;
+    initialName: string;
+    initialEmail: string;
     onClosed: () => void,
 }
 
-export function ProfileModal({ id_user, onClosed }: Props) {
+export function ProfileModal({ userId, initialName, initialEmail, onClosed }: Props) {
     const { username, setUsername, email, setEmail, password, setPassword, showPassword, setShowPassword } = useProfileViewModel();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
 
     const handleSave = async () => {
-        // const success = await saveReview();
-
-        // if (success) {
-            onClosed();
-
-        //     alert("Avaliação salva com sucesso!");
-        // } else {
-        //     alert("Erro ao salvar avaliação. Tente novamente.");
-        // }
+        onClosed();
     };
 
     return (
@@ -41,15 +35,15 @@ export function ProfileModal({ id_user, onClosed }: Props) {
 
                     <View>
                         <Text style={styles.title}>Nome de usuário:</Text>
-                        <TextInput value={username} onChangeText={setUsername} style={styles.input} autoCapitalize="none" placeholder="Insira seu nome de usuário" placeholderTextColor={theme.grey}></TextInput>
+                        <TextInput value={initialName ?? username} onChangeText={setUsername} style={styles.input} autoCapitalize="none" placeholder="Insira seu nome de usuário" placeholderTextColor={theme.grey}></TextInput>
 
                         <Text style={styles.title}>E-mail:</Text>
-                        <TextInput value={email} onChangeText={setEmail} style={styles.input} autoCapitalize="none" placeholder="exemplo@domain.com" placeholderTextColor={theme.grey}></TextInput>
+                        <TextInput value={initialEmail ?? email} onChangeText={setEmail} style={styles.input} autoCapitalize="none" placeholder="exemplo@domain.com" placeholderTextColor={theme.grey}></TextInput>
 
                         <Text style={styles.title}>Senha:</Text>
                         <View style={styles.password}>
                             <TextInput value={password} onChangeText={setPassword} secureTextEntry={!showPassword} style={[styles.input, { flex: 1 }]} autoCapitalize="none" placeholder="Insira a sua senha" placeholderTextColor={theme.grey}></TextInput>
-                           
+
                             <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
                                 {showPassword ? <EyeSlashIcon color={theme.grey} size={24} /> : <EyeIcon color={theme.grey} size={24} />}
                             </TouchableOpacity>

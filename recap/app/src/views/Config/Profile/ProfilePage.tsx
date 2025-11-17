@@ -14,8 +14,7 @@ export default function ProfilePage() {
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
   const { logout: contextLogout } = useAuthContext();
-  const { username, modal, handleModal } = useProfileViewModel();
-  const [image, setImage] = useState<string | null>(null);
+  const { user, error, username, modal, handleModal, image, setImage } = useProfileViewModel();
 
   const handleLogout = async () => {
     await contextLogout();
@@ -38,7 +37,6 @@ export default function ProfilePage() {
 
   const closeModal = async () => {
     handleModal();
-    // await getReviews();
   };
 
   return (
@@ -59,7 +57,7 @@ export default function ProfilePage() {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.name}>{username}</Text>
+      <Text style={styles.name}>{user?.name}</Text>
 
       <View style={styles.section}>
         <TouchableOpacity onPress={handleModal} style={[styles.btn, { backgroundColor: theme.primary }]}>
@@ -88,7 +86,7 @@ export default function ProfilePage() {
       </View>
 
       {modal && (
-        <ProfileModal id_user={"0"} onClosed={closeModal} ></ProfileModal>
+        <ProfileModal userId={user?.id ?? ''} initialName={user?.name ?? ''} initialEmail={user?.email ?? ''} onClosed={closeModal} ></ProfileModal>
       )}
     </View>
   );
