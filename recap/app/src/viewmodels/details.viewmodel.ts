@@ -27,7 +27,6 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
 
         try {
             setLoading(true);
-            // const response = await movieBackApi.get(`/movies/${id}`);
             const response = await movieApi.get(`/movies/${id}`);
             setDetail(response.data);
         } catch (error) {
@@ -60,7 +59,7 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
                 return result.error || result.message || 'Ocorreu um erro ao tentar adicionar filme ao catálogo pessoal. Tente novamente mais tarde.';
             }
 
-            return result.message || 'Filme adicionado ao catálogo com sucesso!';
+            return result.message || 'Filme adicionado ao seu catálogo pessoal com sucesso!';
         } catch (e) {
             setLoading(false);
             return 'Ocorreu um erro inesperado na comunicação.';

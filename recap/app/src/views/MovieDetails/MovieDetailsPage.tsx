@@ -1,6 +1,6 @@
 import { Text } from "@react-navigation/elements";
 import { router, useLocalSearchParams } from "expo-router";
-import { CalendarBlankIcon, CaretLeftIcon, ClockIcon, ListPlusIcon, NotePencilIcon, StarIcon } from "phosphor-react-native";
+import { CalendarBlankIcon, CaretLeftIcon, ClockIcon, ListPlusIcon, NotePencilIcon, StarIcon, UserListIcon } from "phosphor-react-native";
 import { useMemo } from "react";
 import { Alert, FlatList, Image, TouchableOpacity, View } from "react-native";
 import { API_IMAGE } from "../../../../constants/url";
@@ -75,12 +75,19 @@ export default function MovieDetailsPage() {
 
                 <View style={styles.headerItemRight}>
                     <View style={styles.functions}>
-                        <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
-                            <ListPlusIcon color={theme.terciary} size={25} weight="thin" />
+                        {/* listas */}
+                        <TouchableOpacity onPress={() => null}>
+                            <ListPlusIcon color={theme.terciary} size={24} weight="thin" />
                         </TouchableOpacity>
 
+                        {/* catálogo pessoal */}
+                        <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
+                            <UserListIcon color={theme.terciary} size={26} weight="thin" style={{ marginLeft: 3 }} />
+                        </TouchableOpacity>
+
+                        {/* avaliar */}
                         <TouchableOpacity onPress={handleModal}>
-                            <NotePencilIcon color={theme.terciary} size={25} weight="thin" />
+                            <NotePencilIcon color={theme.terciary} size={21} weight="thin" style={{ marginLeft: 3 }} />
                         </TouchableOpacity>
                     </View>
                 </View>

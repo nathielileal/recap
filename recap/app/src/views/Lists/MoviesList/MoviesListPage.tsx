@@ -8,7 +8,6 @@ import { Movie } from "../../../models/movie";
 import { useThemeContext } from "../../../provider/ThemeProvider";
 import { stylesheet } from "./MoviesList.styles";
 import { useListsViewModel } from "../../../viewmodels/list.viewmodel";
-import { ListModal } from "../../../components/Modal/List/ListModal";
 import { MoviesListModal } from "../../../components/Modal/SearchMovie/MoviesListModal";
 
 export default function MoviesListPage() {

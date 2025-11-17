@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
-import { CaretRightIcon, FilmScriptIcon, ImageSquareIcon, PencilSimpleIcon, SignOutIcon, UserIcon } from 'phosphor-react-native';
+import { CaretRightIcon, ImageSquareIcon, PencilSimpleIcon, SignOutIcon, UserIcon, UserListIcon } from 'phosphor-react-native';
 import React, { useMemo, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { ProfileModal } from '../../../components/Modal/Profile/ProfileModal';
@@ -71,7 +71,7 @@ export default function ProfilePage() {
         </TouchableOpacity>
         
         <TouchableOpacity onPress={() => router.push({ pathname: "/catalog"})} style={[styles.btn, { backgroundColor: theme.primary }]}>
-          <FilmScriptIcon color={theme.terciary} size={20} />
+          <UserListIcon color={theme.terciary} size={20} />
 
           <Text style={styles.optionText}>Ver catálogo pessoal</Text>
 
