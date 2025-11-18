@@ -8,6 +8,7 @@ import { StarRating } from '../../StarRating/StarRating';
 import { stylesheet } from './CardReview.styles';
 import { Rating } from '../../../models/rating';
 import { ReviewModal } from "../../Modal/Review/ReviewModal";
+import { useAuthUser } from "../../../context/useAuthUser";
 
 interface Props {
     data: Rating;
@@ -23,13 +24,16 @@ export function CardReview({ data, onClosed }: Props) {
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
 
+    const { currentUserId, isLoading } = useAuthUser();
+    const isUser = currentUserId === data.userId;
+
     const handleExpansion = () => {
         setIsExpanded(prev => !prev);
     };
 
     const handleClosed = () => {
-        handleModal(); 
-        onClosed(); 
+        handleModal();
+        onClosed();
     };
 
     const truncatedText = data.review.length > max_char ? data.review.substring(0, max_char).trim() + "..." : data.review;
@@ -43,7 +47,7 @@ export function CardReview({ data, onClosed }: Props) {
 
                     if (response.success) {
                         Alert.alert("Avaliação excuída com sucesso!");
-                        onClosed(); 
+                        onClosed();
                     } else {
                         const message = response.error || "Ocorreu um erro ao excluir a avaliação. Tente novamente mais tarde!";
                         Alert.alert("Falha ao excluir avaliação", message);
@@ -77,14 +81,16 @@ export function CardReview({ data, onClosed }: Props) {
                 </Text>
             </View>
 
-            <View style={styles.options}>
-                <TouchableOpacity style={styles.option} onPress={handleModal}>
-                    <PencilSimpleIcon size={20} color={theme.terciary} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.option} onPress={handleDelete}>
-                    <TrashSimpleIcon size={20} color={theme.secondary} />
-                </TouchableOpacity>
-            </View>
+            {isUser && (
+                <View style={styles.options}>
+                    <TouchableOpacity style={styles.option} onPress={handleModal}>
+                        <PencilSimpleIcon size={20} color={theme.terciary} />
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.option} onPress={handleDelete}>
+                        <TrashSimpleIcon size={20} color={theme.secondary} />
+                    </TouchableOpacity>
+                </View>
+            )}
 
             {modal && (
                 <ReviewModal onClosed={handleClosed} ratingId={data.id} tbmdId={data.tmdbId ?? 0} initialScore={data.score} initialReview={data.review} ></ReviewModal>
