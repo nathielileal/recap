@@ -4,10 +4,11 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     container: {
         marginBottom: 24,
         borderRadius: 12,
+        marginHorizontal: 10,
         flexDirection: "row",
-        justifyContent: "center",
         alignItems: "center",
-        backgroundColor: theme.primary,
+        justifyContent: "space-evenly",
+        backgroundColor: 'transparent',
     },
     item: {
         paddingVertical: 5,

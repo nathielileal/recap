@@ -1,38 +1,45 @@
 import { StyleSheet } from "react-native";
 
 export const stylesheet = (theme: any) => StyleSheet.create({
+    header: {
+        width: '100%',
+        paddingTop: 10,
+        paddingBottom: 15,
+        alignItems: 'center',
+        flexDirection: 'row',
+        paddingHorizontal: 20,
+        justifyContent: 'space-between',
+        backgroundColor: theme.primary,
+    },
+    headerItemLeft: {
+        flex: 1,
+    },
+    headerItemRight: {
+        flex: 1,
+        alignItems: 'flex-end',
+    },
+    headerTitle: {
+        fontSize: 20,
+        lineHeight: 25,
+        color: theme.terciary,
+        fontFamily: 'IBMPlexMono_400Regular',
+    },
     container: {
         flex: 1,
         backgroundColor: theme.primary
     },
     top: {
-        height: 60,
-        paddingTop: 50,
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 20,
-        justifyContent: "space-between",
-    },
-    topTitle: {
-        top: 40,
-        left: 0,
-        right: 0,
-        fontSize: 18,
-        lineHeight: 32,
-        fontWeight: "700",
-        textAlign: "center",
-        position: "absolute",
-        color: theme.terciary,
+        width: '100%',
+        paddingTop: 10,
+        paddingBottom: 15,
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
     },
     review: {
         paddingLeft: 20,
         alignItems: "flex-start",
         justifyContent: "center",
-    },
-    header: {
-        flexDirection: "row",
-        marginBottom: 5,
-        paddingTop: 40,
     },
     info: {
         flexDirection: "column",
@@ -47,11 +54,13 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         paddingLeft: 5,
         fontWeight: 'bold',
         color: theme.terciary,
+        fontFamily: 'IBMPlexMono_400Regular',
     },
     time: {
         fontSize: 10,
         paddingLeft: 10,
         color: theme.terciary,
+        fontFamily: 'IBMPlexMono_400Regular',
     },
     aboutText: {
         padding: 5,
@@ -128,8 +137,8 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         position: 'absolute',
-        borderTopColor: theme.terciary, 
-        backgroundColor: theme.primary, 
+        borderTopColor: theme.terciary,
+        backgroundColor: theme.primary,
     },
     input: {
         flex: 1,

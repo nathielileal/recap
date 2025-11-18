@@ -15,7 +15,6 @@ import { stylesheet } from "./MovieDetails.styles";
 import { ListModal } from "../../components/Modal/Lists/ListModal";
 
 export default function MovieDetailsPage() {
-    
     const { id } = useLocalSearchParams();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
@@ -31,7 +30,7 @@ export default function MovieDetailsPage() {
     };
 
     const showReviews = ({ item }: { item: Review }) => {
-        return (<CardReview data={item}></CardReview>);
+        return (<CardReview data={item} movie={detail?.title ?? ""}></CardReview>);
     }
 
     const handleCatalog = async (tmdbId: number) => {

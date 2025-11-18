@@ -5,7 +5,7 @@ import { FilterTabs } from "../../components/FilterTabs/FilterTabs";
 import { useThemeContext } from "../../provider/ThemeProvider";
 import { stylesheet } from "./Friends.style";
 import { useFriendsViewModel } from "../../viewmodels/friends.viewmodel";
-import { User } from "../../models/user";
+import { User } from "../../models/User";
 
 export default function FriendsPage() {
   const { users, filter, setFilter, search, setSearch, loading, error } = useFriendsViewModel();

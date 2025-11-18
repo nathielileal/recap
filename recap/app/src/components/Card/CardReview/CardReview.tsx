@@ -12,13 +12,14 @@ import { stylesheet } from './CardReview.styles';
 
 interface Props {
     data: Review;
+    movie: string;
     spoiler?: boolean;
 }
 
 const stars = Array.from({ length: 5 });
 const max_char = 220;
 
-export function CardReview({ data, spoiler }: Props) {
+export function CardReview({ data, movie, spoiler }: Props) {
     const { isExpanded, setIsExpanded, blur, setBlur, isLiked, setIsLiked, likes, setLikes, updateLikeReview } = useReviewViewModel(data.id_review, spoiler ?? data.spoiler, data.likes);
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
@@ -46,7 +47,11 @@ export function CardReview({ data, spoiler }: Props) {
     }
 
     const showComments = () => {
-        router.push({ pathname: "/src/views/Comment/CommentPage", params: { id: data.id_review } });
+        router.push({
+            pathname: "/src/views/Comment/CommentPage", params: {
+                movie: movie,id: data.id_review, user: data.user, title: data.title, description: data.description, date_created: data.date_created, rate: data.rate, initialComments: data.comments, initialLikes: data.likes
+            }
+        });
     }
 
     return (

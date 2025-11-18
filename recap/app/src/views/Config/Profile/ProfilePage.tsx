@@ -57,7 +57,7 @@ export default function ProfilePage() {
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.name}>{user?.name}</Text>
+      <Text style={styles.name}>{user?.name ?? 'Nome de usuário'}</Text>
 
       <View style={styles.section}>
         <TouchableOpacity onPress={handleModal} style={[styles.btn, { backgroundColor: theme.primary }]}>

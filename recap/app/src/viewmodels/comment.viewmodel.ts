@@ -9,10 +9,9 @@ import { CommentService } from "../services/comment.service";
 
 export function useCommentViewModel(id: string, id_comment?: string, id_ref?: string, spoiler?: boolean, like?: number) {
     const [review, setReview] = useState<Review | null>(null);
-    const [movie, setMovie] = useState<Movie | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState(false);
-    const [description, setDescription] = useState<string>('');
+    const [comment, setComment] = useState<string>('');
     const [isExpanded, setIsExpanded] = useState(false);
     const [isReviewLiked, setIsReviewLiked] = useState(false);
     const [reviewLikes, setReviewLikes] = useState(0);
@@ -30,37 +29,13 @@ export function useCommentViewModel(id: string, id_comment?: string, id_ref?: st
             setIsReviewLiked(liked);
         };
 
-        getReview();
         getComments();
         loadLikeStatus();
         loadReviewLikeStatus();
     }, [id, id_comment]);
 
     const clearForm = () => {
-        setDescription('');
-    }
-
-    const getReview = async () => {
-        if (!id) return;
-
-        try {
-            setLoading(true);
-
-            const response = await ReviewService.getReviewById(id);
-            setReview(response);
-            setReviewLikes(response?.likes ?? 0);
-
-            try {
-                const movie = await movieApi.get(`/movie/${response?.id_movie}`);
-                setMovie(movie.data);
-            } catch (error) {
-                console.error("Erro ao buscar detalhes do filme:", error);
-            }
-        } catch (error) {
-            console.error("Erro ao buscar avaliação:", error);
-        } finally {
-            setLoading(false);
-        }
+        setComment('');
     }
 
     const getComments = async () => {
@@ -76,9 +51,18 @@ export function useCommentViewModel(id: string, id_comment?: string, id_ref?: st
 
     const saveComment = async () => {
         const date = new Date();
-        const comment = { id_comment: Date.now().toString(), id_comment_ref: id_ref ?? '', id_review: id, id_user: Date.now().toString(), user: "teste", date_created: getYYYYMMDDHHMI(date), date_modified: getYYYYMMDDHHMI(date), description: description, likes: 0 };
-
-        const sucess = await CommentService.saveComment(comment);
+        const data = {
+            id_comment: Date.now().toString(),
+            id_comment_ref: id_ref ?? '',
+            id_review: id,
+            id_user: Date.now().toString(),
+            user: "teste",
+            date_created: getYYYYMMDDHHMI(date),
+            date_modified: getYYYYMMDDHHMI(date),
+            description: comment,
+            likes: 0,
+        };
+        const sucess = await CommentService.saveComment(data);
 
         if (sucess) {
             const comments = await ReviewService.updateCommentReview(id);
@@ -107,5 +91,5 @@ export function useCommentViewModel(id: string, id_comment?: string, id_ref?: st
         return await ReviewService.updateLikeReview(id);
     }
 
-    return { review, movie, comments, loading, description, setDescription, saveComment, clearForm, isExpanded, setIsExpanded, isReviewLiked, setIsReviewLiked, reviewLikes, setReviewLikes, updateLikeReview, isLiked, setIsLiked, likes, setLikes, updateLikeComment };
+    return { review, comments, loading, comment, setComment, saveComment, clearForm, isExpanded, setIsExpanded, isReviewLiked, setIsReviewLiked, reviewLikes, setReviewLikes, updateLikeReview, isLiked, setIsLiked, likes, setLikes, updateLikeComment };
 }

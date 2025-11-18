@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { CaretLeftIcon, ChatCircleIcon, HeartIcon, PaperPlaneRightIcon, UserCircleIcon } from "phosphor-react-native";
+import { CaretLeftIcon, ChatCircleIcon, HeartIcon, PaperPlaneRightIcon, SwatchesIcon, UserCircleIcon } from "phosphor-react-native";
 import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { getRate, getTimeAgo } from "../../../../lib/utils";
 import { StarRating } from "../../components/StarRating/StarRating";
@@ -7,22 +7,27 @@ import { Comment } from "../../models/comment";
 import { useThemeContext } from "../../provider/ThemeProvider";
 import { useCommentViewModel } from "../../viewmodels/comment.viewmodel";
 import { stylesheet } from "./Comment.styles";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 
 const stars = Array.from({ length: 5 });
 const max_char = 220;
 
 export default function CommentPage() {
-    const { id } = useLocalSearchParams();
-    const { theme } = useThemeContext();
+    const { movie, id, user, title, description, date_created, rate, initialComments, initialLikes } = useLocalSearchParams();
+    const { toggleTheme, theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { review, movie, comments, loading, description, setDescription, saveComment, clearForm, isExpanded, setIsExpanded, isReviewLiked, setIsReviewLiked, reviewLikes, setReviewLikes, updateLikeReview, isLiked, setIsLiked, likes, setLikes, updateLikeComment } = useCommentViewModel(id.toString());
+    const { comments, loading, comment, setComment, saveComment, clearForm, isExpanded, setIsExpanded, isReviewLiked, setIsReviewLiked, reviewLikes, setReviewLikes, updateLikeReview, isLiked, setIsLiked, likes, setLikes, updateLikeComment } = useCommentViewModel(id.toString());
+
+    useEffect(() => {
+        setReviewLikes(Number(initialLikes ?? 0));
+    }, [initialLikes]);
 
     const handleExpansion = () => {
         setIsExpanded(prev => !prev);
     };
 
-    const truncatedText = review?.description.length ?? 0 > max_char ? review?.description.substring(0, max_char).trim() + "..." : review?.description;
+    const truncatedText = description.length ?? 0 > max_char ? description.toString().substring(0, max_char).trim() + "..." : description;
 
     const handleReviewLikeClick = async () => {
         const sucesso = await updateLikeReview();
@@ -51,7 +56,7 @@ export default function CommentPage() {
     }
 
     const handleSendComment = async () => {
-        if (!description.trim()) {
+        if (!comment.trim()) {
             Alert.alert('Atenção', 'O comentário não pode estar vazio.');
             return;
         }
@@ -67,81 +72,91 @@ export default function CommentPage() {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.top}>
-                <TouchableOpacity onPress={() => router.back()} style={{ zIndex: 10 }}>
-                    <CaretLeftIcon color="#FFFFFF" size={32} weight="thin" />
-                </TouchableOpacity>
+        <CamLenseScreen title="" paddingVertical={1} paddingHorizontal={1} header={
+            <View style={styles.header}>
+                <View style={styles.headerItemLeft}>
+                    <TouchableOpacity onPress={() => router.back()} style={{ zIndex: 10 }}>
+                        <CaretLeftIcon color={theme.terciary} size={25} weight="thin" />
+                    </TouchableOpacity>
+                </View>
 
-                <Text style={styles.topTitle}>Comentários</Text>
+                <Text style={styles.headerTitle}>Catálogo pessoal</Text>
+
+                <View style={styles.headerItemRight}>
+                    <TouchableOpacity onPress={toggleTheme}>
+                        <SwatchesIcon color={theme.terciary} size={25} weight="thin" />
+                    </TouchableOpacity>
+                </View>
             </View>
+        }>
+            <View style={styles.container}>
+                <ScrollView>
+                    {loading ? (
+                        <Text>Carregando avaliação...</Text>
+                    ) : (
+                        <View>
+                            <View style={styles.review}>
+                                <View style={styles.top}>
+                                    <UserCircleIcon color={theme.terciary} size={50} weight="light" />
 
-            <ScrollView>
-                {loading ? (
-                    <Text>Carregando avaliação...</Text>
-                ) : (
-                    <View>
-                        <View style={styles.review}>
-                            <View style={styles.header}>
-                                <UserCircleIcon color={theme.terciary} size={50} weight="light" />
+                                    <View style={styles.info}>
+                                        <View style={styles.infoUser}>
+                                            <Text style={styles.user}>{user}</Text>
+                                            <Text style={styles.time}>{getTimeAgo(date_created)}</Text>
+                                        </View>
 
-                                <View style={styles.info}>
-                                    <View style={styles.infoUser}>
-                                        <Text style={styles.user}>{review?.user}</Text>
-                                        <Text style={styles.time}>{getTimeAgo(review?.date_created)}</Text>
+                                        <Text style={styles.aboutText}>{movie}</Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.options}>
+                                    <View style={styles.stars}>
+                                        {stars.map((_, index) => (<StarRating size={15} key={index + 1} index={index + 1} rate={Number(rate ?? 0)} ></StarRating>))}
+                                        <Text style={styles.rate}>{Number(rate ?? 0)}</Text>
+                                        <Text style={styles.rate}>{`(${getRate(Number(rate ?? 0))})`}</Text>
                                     </View>
 
-                                    <Text style={styles.aboutText}>{movie?.title ? `Avaliou o filme '${movie.title}'` : 'Não foi possível buscar o nome do filme avaliado.'}</Text>
-                                </View>
-                            </View>
-
-                            <View style={styles.options}>
-                                <View style={styles.stars}>
-                                    {stars.map((_, index) => (<StarRating size={15} key={index + 1} index={index + 1} rate={review?.rate ?? 0}></StarRating>))}
-                                    <Text style={styles.rate}>{review?.rate}</Text>
-                                    <Text style={styles.rate}>{`(${getRate(review?.rate)})`}</Text>
+                                    <TouchableOpacity style={styles.option} onPress={handleReviewLikeClick}>
+                                        <HeartIcon color={theme.secondary} size={15} weight={isReviewLiked ? "fill" : "regular"} />
+                                        <Text style={styles.rate}>{`${reviewLikes} ${reviewLikes === 1 ? 'curtida' : 'curtidas'}`}</Text>
+                                    </TouchableOpacity>
                                 </View>
 
-                                <TouchableOpacity style={styles.option} onPress={handleReviewLikeClick}>
-                                    <HeartIcon color={theme.secondary} size={15} weight={isReviewLiked ? "fill" : "regular"} />
-                                    <Text style={styles.rate}>{`${reviewLikes} ${reviewLikes === 1 ? 'curtida' : 'curtidas'}`}</Text>
-                                </TouchableOpacity>
+                                <Text style={styles.title}>{title != '' ? title : 'Essa avaliação não tem um título.'}</Text>
+
+                                <Text style={styles.description}>{isExpanded ? description : truncatedText}
+                                    {(description.length ?? 0) > max_char && (<Text onPress={handleExpansion} style={styles.more}>{isExpanded ? " Mostrar menos" : " Mostrar mais"}</Text>)}
+                                </Text>
+
+                                <View style={styles.divider}></View>
                             </View>
 
-                            <Text style={styles.title}>{review?.title != '' ? review?.title : 'Essa avaliação não tem um título.'}</Text>
+                            <View style={styles.list}>
+                                <View style={styles.comments}>
+                                    <View style={styles.options}>
+                                        <ChatCircleIcon color={theme.orange} size={20} />
+                                        <Text style={styles.comment}>{`${Number(initialComments ?? 0)} ${Number(initialComments ?? 0) === 1 ? 'comentário' : 'comentários'}`}</Text>
+                                    </View>
+                                </View>
 
-                            <Text style={styles.description}>{isExpanded ? review?.description : truncatedText}
-                                {(review?.description.length ?? 0) > max_char && (<Text onPress={handleExpansion} style={styles.more}>{isExpanded ? " Mostrar menos" : " Mostrar mais"}</Text>)}
-                            </Text>
-
-                            <View style={styles.divider}></View>
+                                {comments.map((item) => (
+                                    <View key={item.id_comment}>
+                                        <Text style={styles.title}>{item.description}</Text>
+                                    </View>
+                                ))}
+                            </View>
                         </View>
+                    )}
+                </ScrollView>
 
-                        <View style={styles.list}>
-                            <View style={styles.comments}>
-                                <View style={styles.options}>
-                                    <ChatCircleIcon color={theme.orange} size={20} />
-                                    <Text style={styles.comment}>{`${review?.comments} ${review?.comments === 1 ? 'comentário' : 'comentários'}`}</Text>
-                                </View>
-                            </View>
+                <View style={styles.bottom}>
+                    <TextInput value={comment} style={styles.input} multiline autoCapitalize="none" placeholder="Adicione um comentário" placeholderTextColor={theme.terciary} onChangeText={setComment} />
 
-                            {comments.map((item) => (
-                                <View key={item.id_comment}>
-                                    <Text style={styles.title}>{item.description}</Text>
-                                </View>
-                            ))}
-                        </View>
-                    </View>
-                )}
-            </ScrollView>
-
-            <View style={styles.bottom}>
-                <TextInput value={description} style={styles.input} multiline autoCapitalize="none" placeholder="Adicione um comentário" placeholderTextColor={theme.terciary} onChangeText={setDescription} />
-
-                <TouchableOpacity style={styles.btn} onPress={handleSendComment}>
-                    <PaperPlaneRightIcon color={theme.terciary} size={20} weight="light" />
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.btn} onPress={handleSendComment}>
+                        <PaperPlaneRightIcon color={theme.terciary} size={20} weight="light" />
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
+        </CamLenseScreen>
     );
 }

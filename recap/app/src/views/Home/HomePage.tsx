@@ -43,7 +43,7 @@ export default function HomePage() {
                         renderItem={renderMovieItem}
                         keyExtractor={(item) => String(item.tmdbId)}
                         showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{ paddingLeft: 55, alignItems: "flex-start", justifyContent: "space-between" }}
+                        contentContainerStyle={{ alignItems: "center", justifyContent: "space-between" }}
                         ListFooterComponent={loading && movies.length > 0 ? <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} /> : null}
                         onEndReached={loadMore}
                         onEndReachedThreshold={0.5}
