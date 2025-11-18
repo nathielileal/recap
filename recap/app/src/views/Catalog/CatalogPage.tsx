@@ -39,9 +39,11 @@ export default function CatalogPage() {
         }>
             {loading ?
                 <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />
-                : error ? (<Text style={[styles.empty, { color: theme.secondary, textAlign: "center", fontSize: 16 }]}>
-                    {error}
-                </Text>) : movies.length > 0 ?
+                : error ? (
+                    <Text style={[styles.empty, { color: theme.secondary, textAlign: "center", fontSize: 16 }]}>
+                        {error}
+                    </Text>
+                ) : movies.length > 0 ?
                     <View style={styles.list}>
                         <FlatList
                             key="list"

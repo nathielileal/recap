@@ -61,7 +61,7 @@ export function CardReview({ data, movie, spoiler }: Props) {
 
                 <View style={styles.info}>
                     <View style={styles.infoUser}>
-                        <Text style={styles.title}>{data.user}</Text>
+                        <Text style={styles.title}>@{data.user}</Text>
                         <Text style={styles.time}>{getTimeAgo(data.date_created)}</Text>
                     </View>
 

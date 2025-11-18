@@ -26,12 +26,12 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: theme.primary
+        borderRadius: 12,
+        backgroundColor: theme.primary,
     },
     top: {
         width: '100%',
         paddingTop: 10,
-        paddingBottom: 15,
         flexDirection: 'row',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
@@ -42,8 +42,8 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         justifyContent: "center",
     },
     info: {
-        flexDirection: "column",
         flex: 1,
+        flexDirection: "column",
     },
     infoUser: {
         flexDirection: "row",
@@ -55,6 +55,13 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         fontWeight: 'bold',
         color: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
+    },
+    commenter: {
+        fontSize: 12,
+        paddingLeft: 5,
+        fontWeight: 'bold',
+        color: theme.terciary,
+        fontFamily: 'IBMPlexMono_700Bold',
     },
     time: {
         fontSize: 10,
@@ -95,19 +102,20 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         alignItems: "center",
     },
     options: {
-        flexDirection: "row",
-        alignItems: "center",
+        width: "95%",
         paddingTop: 5,
+        flexDirection: "row",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
     },
     option: {
         flexDirection: "row",
         alignItems: "center",
-        paddingLeft: 60,
     },
     rate: {
         fontSize: 10,
-        color: theme.terciary,
         paddingLeft: 5,
+        color: theme.terciary,
     },
     divider: {
         margin: 5,
@@ -117,22 +125,38 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         backgroundColor: theme.terciary,
     },
     list: {
-        paddingLeft: 25,
         flexDirection: "column",
     },
     comments: {
+        marginBottom: 5,
+        paddingLeft: 25,
         flexDirection: "row",
     },
-    comment: {
+    count: {
         fontSize: 15,
         paddingLeft: 5,
         color: theme.terciary,
+    },
+    comment: {
+        padding: 10,
+        borderWidth: 1,
+        borderRadius: 15,
+        marginVertical: 5,
+        marginHorizontal: 20,
+        borderColor: theme.terciary,
+    },
+    commentLike: {
+        paddingTop: 5,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
     },
     bottom: {
         left: 0,
         right: 0,
         bottom: 0,
         padding: 15,
+        borderRadius: 12,
         borderTopWidth: 1,
         flexDirection: 'row',
         alignItems: 'center',

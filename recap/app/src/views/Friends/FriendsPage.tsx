@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Alert, FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { FilterTabs } from "../../components/FilterTabs/FilterTabs";
 import { useThemeContext } from "../../provider/ThemeProvider";
@@ -77,7 +77,7 @@ export default function FriendsPage() {
 
   const renderPage = () => {
     if (loading) {
-      return <Text style={styles.empty}>Carregando usuários...</Text>;
+      return <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />;
     }
 
     if (error) {

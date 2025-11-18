@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { getYYYYMMDDHHMI } from "../../../lib/utils";
 import { Comment } from "../models/comment";
-import { Movie } from "../models/movie";
 import { Review } from "../models/review";
 import { ReviewService } from "../services/review.service";
-import { movieApi } from "../services/movie.service";
 import { CommentService } from "../services/comment.service";
 
 export function useCommentViewModel(id: string, id_comment?: string, id_ref?: string, spoiler?: boolean, like?: number) {
@@ -34,10 +32,6 @@ export function useCommentViewModel(id: string, id_comment?: string, id_ref?: st
         loadReviewLikeStatus();
     }, [id, id_comment]);
 
-    const clearForm = () => {
-        setComment('');
-    }
-
     const getComments = async () => {
         try {
             const data = await CommentService.getCommentByIdReview(id);
@@ -51,17 +45,7 @@ export function useCommentViewModel(id: string, id_comment?: string, id_ref?: st
 
     const saveComment = async () => {
         const date = new Date();
-        const data = {
-            id_comment: Date.now().toString(),
-            id_comment_ref: id_ref ?? '',
-            id_review: id,
-            id_user: Date.now().toString(),
-            user: "teste",
-            date_created: getYYYYMMDDHHMI(date),
-            date_modified: getYYYYMMDDHHMI(date),
-            description: comment,
-            likes: 0,
-        };
+        const data = { id_comment: Date.now().toString(), id_review: id, id_user: Date.now().toString(), user: "teste", date_created: getYYYYMMDDHHMI(date), comment: comment, likes: 0, };
         const sucess = await CommentService.saveComment(data);
 
         if (sucess) {
@@ -91,5 +75,5 @@ export function useCommentViewModel(id: string, id_comment?: string, id_ref?: st
         return await ReviewService.updateLikeReview(id);
     }
 
-    return { review, comments, loading, comment, setComment, saveComment, clearForm, isExpanded, setIsExpanded, isReviewLiked, setIsReviewLiked, reviewLikes, setReviewLikes, updateLikeReview, isLiked, setIsLiked, likes, setLikes, updateLikeComment };
+    return { review, comments, loading, comment, setComment, saveComment, isExpanded, setIsExpanded, isReviewLiked, setIsReviewLiked, reviewLikes, setReviewLikes, updateLikeReview, isLiked, setIsLiked, likes, setLikes, updateLikeComment };
 }

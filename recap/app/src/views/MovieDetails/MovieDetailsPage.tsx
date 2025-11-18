@@ -2,7 +2,7 @@ import { Text } from "@react-navigation/elements";
 import { router, useLocalSearchParams } from "expo-router";
 import { CalendarBlankIcon, CaretLeftIcon, ClockIcon, ListPlusIcon, NotePencilIcon, StarIcon, UserListIcon } from "phosphor-react-native";
 import { useMemo } from "react";
-import { Alert, FlatList, Image, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, Image, TouchableOpacity, View } from "react-native";
 import { API_IMAGE } from "../../../../constants/url";
 import { getYear } from "../../../../lib/utils";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
@@ -24,7 +24,7 @@ export default function MovieDetailsPage() {
         handleModal();
         await getReviews();
     };
-    
+
     const closeLists = async () => {
         handleLists();
     };
@@ -82,17 +82,17 @@ export default function MovieDetailsPage() {
                     <View style={styles.functions}>
                         {/* listas */}
                         <TouchableOpacity onPress={handleLists}>
-                            <ListPlusIcon color={theme.terciary} size={24} weight="thin" />
+                            <ListPlusIcon color={theme.secondary} size={26} weight="thin" />
                         </TouchableOpacity>
 
                         {/* catálogo pessoal */}
                         <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
-                            <UserListIcon color={theme.terciary} size={26} weight="thin" style={{ marginLeft: 3 }} />
+                            <UserListIcon color={theme.orange} size={30} weight="thin" style={{ marginLeft: 10 }} />
                         </TouchableOpacity>
 
                         {/* avaliar */}
                         <TouchableOpacity onPress={handleModal}>
-                            <NotePencilIcon color={theme.terciary} size={21} weight="thin" style={{ marginLeft: 3 }} />
+                            <NotePencilIcon color={theme.yellow} size={24} weight="thin" style={{ marginLeft: 10 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -101,64 +101,62 @@ export default function MovieDetailsPage() {
             {modal && (
                 <ReviewModal id_movie={id.toString()} onClosed={closeModal} ></ReviewModal>
             )}
-            
+
             {lists && (
                 <ListModal tmdbId={Number(id ?? 0)} onClosed={closeLists} />
             )}
 
-            <View>
-                {loading ? (
-                    <Text>Carregando imagem...</Text>
-                ) : (
-                    <View>
-                        <Image style={styles.image} source={{ uri: `${API_IMAGE}${detail?.backdropPath ?? detail?.posterPath}` }} resizeMode="cover" />
+            {loading ? (
+                <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />
+            ) : (
+                <View>
+                    <Image style={styles.image} source={{ uri: `${API_IMAGE}${detail?.backdropPath ?? detail?.posterPath}` }} resizeMode="cover" />
 
-                        <Image style={styles.poster} source={{ uri: `${API_IMAGE}${detail?.posterPath}` }} />
+                    <Image style={styles.poster} source={{ uri: `${API_IMAGE}${detail?.posterPath}` }} />
 
-                        <Text style={styles.title}>{detail?.title}</Text>
+                    <Text style={styles.title}>{detail?.title}</Text>
 
-                        <View style={styles.description}>
-                            <View style={styles.descriptionGroup}>
-                                <CalendarBlankIcon color={theme.grey} size={25} weight="thin" />
+                    <View style={styles.description}>
+                        <View style={styles.descriptionGroup}>
+                            <CalendarBlankIcon color={theme.grey} size={25} weight="thin" />
 
-                                <Text style={styles.descriptionText}>{getYear(detail?.releaseDate ?? "")}</Text>
-                            </View>
+                            <Text style={styles.descriptionText}>{getYear(detail?.releaseDate ?? "")}</Text>
+                        </View>
 
-                            <View style={styles.descriptionGroup}>
-                                <ClockIcon color={theme.grey} size={25} weight="thin" />
+                        <View style={styles.descriptionGroup}>
+                            <ClockIcon color={theme.grey} size={25} weight="thin" />
 
-                                <Text style={styles.descriptionText}>{`${detail?.runtime ?? "0"} minutos`}</Text>
-                            </View>
+                            <Text style={styles.descriptionText}>{`${detail?.runtime ?? "0"} minutos`}</Text>
+                        </View>
 
-                            <View style={styles.descriptionGroup}>
-                                <StarIcon color={(detail?.average ?? 0) >= 7 ? theme.orange : theme.grey} size={20} weight={(detail?.average ?? 0) >= 7 ? "duotone" : "thin"} />
+                        <View style={styles.descriptionGroup}>
+                            <StarIcon color={(detail?.average ?? 0) >= 7 ? theme.orange : theme.grey} size={20} weight={(detail?.average ?? 0) >= 7 ? "duotone" : "thin"} />
 
-                                <Text style={[(detail?.average ?? 0) >= 7 ? styles.descriptionTextHighScore : styles.descriptionText]}>{(detail?.average ?? 0).toFixed(1)}</Text>
-                            </View>
+                            <Text style={[(detail?.average ?? 0) >= 7 ? styles.descriptionTextHighScore : styles.descriptionText]}>{(detail?.average ?? 0).toFixed(1)}</Text>
                         </View>
                     </View>
-                )}
 
-                <View style={styles.about}>
-                    <Text style={styles.aboutText}>{detail?.overview === "" ? "Ops! Parece que esse filme ainda não tem sinopse." : detail?.overview}</Text>
-                </View>
+                    <View style={styles.about}>
+                        <Text style={styles.aboutText}>{detail?.overview === "" ? "Ops! Parece que esse filme ainda não tem sinopse." : detail?.overview}</Text>
+                    </View>
 
-                <View style={styles.options}>
-                    <TouchableOpacity>
-                        <Text style={[styles.option, option === 'A' && styles.optionSelected]} onPress={() => handleOption('A')}>Avaliações</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={[styles.option, option === 'S' && styles.optionSelected]} onPress={() => handleOption('S')}>Sobre</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={[styles.option, option === 'E' && styles.optionSelected]} onPress={() => handleOption('E')}>Elenco</Text>
-                    </TouchableOpacity>
-                </View>
+                    <View style={styles.options}>
+                        <TouchableOpacity>
+                            <Text style={[styles.option, option === 'A' && styles.optionSelected]} onPress={() => handleOption('A')}>Avaliações</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Text style={[styles.option, option === 'S' && styles.optionSelected]} onPress={() => handleOption('S')}>Sobre</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Text style={[styles.option, option === 'E' && styles.optionSelected]} onPress={() => handleOption('E')}>Elenco</Text>
+                        </TouchableOpacity>
+                    </View>
 
-                <View style={styles.about}>
-                    {showInfo()}
+                    <View style={styles.about}>
+                        {showInfo()}
+                    </View>
                 </View>
-            </View>
+            )}
         </CamLenseScreen>
     );
 }

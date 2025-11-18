@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { CaretLeftIcon, ChatCircleIcon, HeartIcon, PaperPlaneRightIcon, SwatchesIcon, UserCircleIcon } from "phosphor-react-native";
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { getRate, getTimeAgo } from "../../../../lib/utils";
 import { StarRating } from "../../components/StarRating/StarRating";
 import { Comment } from "../../models/comment";
@@ -17,7 +17,7 @@ export default function CommentPage() {
     const { movie, id, user, title, description, date_created, rate, initialComments, initialLikes } = useLocalSearchParams();
     const { toggleTheme, theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { comments, loading, comment, setComment, saveComment, clearForm, isExpanded, setIsExpanded, isReviewLiked, setIsReviewLiked, reviewLikes, setReviewLikes, updateLikeReview, isLiked, setIsLiked, likes, setLikes, updateLikeComment } = useCommentViewModel(id.toString());
+    const { comments, loading, comment, setComment, saveComment, isExpanded, setIsExpanded, isReviewLiked, setIsReviewLiked, reviewLikes, setReviewLikes, updateLikeReview, isLiked, setIsLiked, likes, setLikes, updateLikeComment } = useCommentViewModel(id.toString());
 
     useEffect(() => {
         setReviewLikes(Number(initialLikes ?? 0));
@@ -40,10 +40,6 @@ export default function CommentPage() {
         }
     }
 
-    const showComments = ({ item }: { item: Comment }) => {
-        return (<Text style={styles.aboutText}>{item.description}</Text>);
-    }
-
     const handleCommentLikeClick = async (id: string) => {
         const sucesso = await updateLikeComment(id);
 
@@ -51,7 +47,7 @@ export default function CommentPage() {
             setIsLiked(prev => !prev);
             setLikes(prev => !isLiked ? (prev ?? 0) + 1 : (prev ?? 0) - 1);
         } else {
-            Alert.alert('Erro', 'Erro ao curtir essa avaliação. Por favor, tente novamente!');
+            Alert.alert('Erro', 'Erro ao curtir esse comentário. Por favor, tente novamente!');
         }
     }
 
@@ -64,7 +60,7 @@ export default function CommentPage() {
         const sucesso = await saveComment();
 
         if (sucesso) {
-            clearForm();
+            setComment('');
             Alert.alert('Sucesso', 'Comentário adicionado com sucesso!');
         } else {
             Alert.alert('Erro', 'Não foi possível enviar o comentário.');
@@ -92,7 +88,7 @@ export default function CommentPage() {
             <View style={styles.container}>
                 <ScrollView>
                     {loading ? (
-                        <Text>Carregando avaliação...</Text>
+                        <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />
                     ) : (
                         <View>
                             <View style={styles.review}>
@@ -101,11 +97,11 @@ export default function CommentPage() {
 
                                     <View style={styles.info}>
                                         <View style={styles.infoUser}>
-                                            <Text style={styles.user}>{user}</Text>
+                                            <Text style={styles.user}>@{user}</Text>
                                             <Text style={styles.time}>{getTimeAgo(date_created)}</Text>
                                         </View>
 
-                                        <Text style={styles.aboutText}>{movie}</Text>
+                                        <Text style={styles.aboutText}>Avaliou o filme '{movie}'</Text>
                                     </View>
                                 </View>
 
@@ -135,13 +131,25 @@ export default function CommentPage() {
                                 <View style={styles.comments}>
                                     <View style={styles.options}>
                                         <ChatCircleIcon color={theme.orange} size={20} />
-                                        <Text style={styles.comment}>{`${Number(initialComments ?? 0)} ${Number(initialComments ?? 0) === 1 ? 'comentário' : 'comentários'}`}</Text>
+                                        <Text style={styles.count}>{`${Number(initialComments ?? 0)} ${Number(initialComments ?? 0) === 1 ? 'comentário' : 'comentários'}`}</Text>
                                     </View>
                                 </View>
 
                                 {comments.map((item) => (
-                                    <View key={item.id_comment}>
-                                        <Text style={styles.title}>{item.description}</Text>
+                                    <View key={item.id_comment} style={styles.comment}>
+                                        <View style={styles.infoUser}>
+                                            <Text style={styles.commenter}>@{item.user}</Text>
+                                            <Text style={styles.time}>comentou {getTimeAgo(date_created)}</Text>
+                                        </View>
+
+                                        <View  style={styles.commentLike}>
+                                            <Text style={styles.description}>{item.comment}</Text>
+
+                                            <TouchableOpacity style={styles.option} onPress={() => handleCommentLikeClick(item.id_comment)}>
+                                                <HeartIcon color={theme.secondary} size={15} weight={isLiked ? "fill" : "regular"} />
+                                                <Text style={styles.rate}>{`${likes} ${likes === 1 ? 'curtida' : 'curtidas'}`}</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
                                 ))}
                             </View>

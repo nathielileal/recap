@@ -31,7 +31,9 @@ export default function HomePage() {
             </View>
 
             <View style={styles.list}>
-                {error ? (
+                {loading ? (
+                    <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />
+                ) : error ? (
                     <Text style={[styles.empty, { color: theme.secondary, textAlign: "center", fontSize: 16 }]}>
                         {error}
                     </Text>

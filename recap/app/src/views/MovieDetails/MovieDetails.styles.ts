@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const stylesheet = (theme: any) => StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.primary
+        backgroundColor: theme.primary,
     },
     header: {
         width: '100%',
@@ -39,30 +39,30 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         position: "absolute",
     },
     poster: {
+        left: 29,
+        top: 140,
+        right: 251,
         width: 100,
         height: 160,
         borderRadius: 16,
-        left: 29,
-        right: 251,
-        top: 140,
     },
     title: {
-        position: "absolute",
-        height: 50,
-        left: 140,
-        right: 32,
         top: 240,
-        color: theme.terciary,
+        right: 32,
+        left: 140,
+        height: 50,
         fontSize: 18,
         lineHeight: 20,
-        fontWeight: "700"
+        fontWeight: "700",
+        position: "absolute",
+        color: theme.terciary,
     },
     description: {
         width: "100%",
+        marginTop: 160,
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "center",
-        marginTop: 160,
     },
     descriptionGroup: {
         gap: 2,
@@ -72,18 +72,18 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     },
     descriptionText: {
         marginRight: 20,
-        color: theme.terciary
+        color: theme.terciary,
     },
     descriptionTextHighScore: {
         marginRight: 20,
-        color: theme.orange
+        color: theme.orange,
     },
     about: {
-        padding: 20
+        padding: 20,
     },
     aboutText: {
         color: theme.terciary,
-        textAlign: "justify"
+        textAlign: "justify",
     },
     options: {
         margin: 0,
@@ -104,6 +104,11 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         borderBottomColor: theme.terciary,
     },
     btn: {
-        backgroundColor: theme.secondary
+        backgroundColor: theme.secondary,
+    },
+    empty: {
+        fontSize: 16,
+        marginVertical: 20,
+        color: theme.terciary,
     }
 });
