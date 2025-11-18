@@ -82,8 +82,8 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         padding: 20,
     },
     aboutText: {
-        color: theme.terciary,
         textAlign: "justify",
+        color: theme.terciary,
     },
     options: {
         margin: 0,

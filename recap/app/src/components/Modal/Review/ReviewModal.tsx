@@ -8,23 +8,33 @@ import { StarRating } from "../../StarRating/StarRating";
 import { stylesheet } from "./ReviewModal.styles";
 
 interface Props {
-    id_movie: string;
+    ratingId?: number;
+    tbmdId: number;
     onClosed: () => void,
+    initialScore?: number;
+    initialReview?: string;
 }
 
 const stars = Array.from({ length: 5 });
 
-export function ReviewModal({ id_movie, onClosed }: Props) {
-    const { rating, setRating, title, setTitle, description, setDescription, isChecked, setChecked, saveReview, clearForm } = useReviewViewModel(id_movie);
+export function ReviewModal({ ratingId, tbmdId, onClosed, initialScore, initialReview }: Props) {
+    const { rate, setRate, description, setDescription, clearForm, saveRating, updateRating } = useReviewViewModel(tbmdId, initialScore, initialReview);
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
 
     const handleRatingChange = (value: number) => {
-        setRating(value);
+        setRate(value);
     };
 
     const handleSave = async () => {
-        const success = await saveReview();
+        const isPost = (ratingId ?? 0) === 0;
+        let success;
+
+        if (isPost) {
+            success = await saveRating();
+        } else {
+            success = await updateRating(ratingId ?? 0);
+        }
 
         if (success) {
             clearForm();
@@ -49,20 +59,12 @@ export function ReviewModal({ id_movie, onClosed }: Props) {
                     </View>
 
                     <View style={styles.stars}>
-                        {stars.map((_, index) => (<StarRating size={20} key={index + 1} index={index + 1} rate={rating} readonly={false} onPress={handleRatingChange}></StarRating>))}
+                        {stars.map((_, index) => (<StarRating size={20} key={index + 1} index={index + 1} rate={rate} readonly={false} onPress={handleRatingChange}></StarRating>))}
                     </View>
 
                     <View>
-                        <Text style={styles.title}>TÍTULO:</Text>
-                        <TextInput value={title} onChangeText={setTitle} style={styles.input} autoCapitalize="none" placeholder="Insira o título da sua avaliação" placeholderTextColor={theme.grey}></TextInput>
-
                         <Text style={styles.title}>DESCRIÇÃO:</Text>
                         <TextInput value={description} onChangeText={setDescription} style={styles.multiline} autoCapitalize="none" multiline={true} placeholder="Insira a descrição da sua avaliação" placeholderTextColor={theme.grey}></TextInput>
-
-                        <View style={styles.form}>
-                            <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked}></Checkbox>
-                            <Text style={styles.inputText}>Contém spoiler</Text>
-                        </View>
                     </View>
 
                     <View style={styles.btnView}>

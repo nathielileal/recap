@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Movie } from "../models/movie";
 import { movieApi, MovieService } from "../services/movie.service";
+import { RatingService } from "../services/rating.service";
 
 export function useHomeViewModel() {
     const [movies, setMovies] = useState<Movie[]>([]);
@@ -25,13 +26,26 @@ export function useHomeViewModel() {
             const page = 1;
             
             data = await MovieService.getMovies(1);
-
+            
             if (search) {
                 data = data.filter(movie => movie.title.toLowerCase().includes(search.toLowerCase()));
                 // data = await MovieService.searchMovies(strsearch, page);
             }
 
-            setMovies(data ?? []);
+            const movie = await Promise.all(
+                data.map(async (movie) => {
+                    try {
+                        const rating = await RatingService.getMovieRating(movie.tmdbId);
+                        
+                        return { ...movie, average: rating.average || 0 };
+                    } catch (e: any) {
+                        setError(e.message);
+                        return { ...movie, average: 0 }; 
+                    }
+                })
+            );
+
+            setMovies(movie ?? []);
             setCurrentPage(page + 1);
             setCanLoadMore(data.length > 0);
             setEmpty(data.length === 0 && strsearch.length > 0);

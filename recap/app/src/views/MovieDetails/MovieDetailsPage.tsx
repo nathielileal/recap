@@ -8,20 +8,20 @@ import { getYear } from "../../../../lib/utils";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { CardReview } from "../../components/Card/CardReview/CardReview";
 import { ReviewModal } from "../../components/Modal/Review/ReviewModal";
-import { Review } from "../../models/review";
 import { useThemeContext } from "../../provider/ThemeProvider";
 import { useDetailsViewModel } from "../../viewmodels/details.viewmodel";
 import { stylesheet } from "./MovieDetails.styles";
 import { ListModal } from "../../components/Modal/Lists/ListModal";
+import { Rating } from "../../models/rating";
 
 export default function MovieDetailsPage() {
     const { id } = useLocalSearchParams();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { tmdbId, detail, loading, option, handleOption, modal, handleModal, lists, handleLists, reviews, getReviews, addToCatalog } = useDetailsViewModel(id);
+    const { tmdbId, detail, loading, option, handleOption, modal, openCreateModal, closeReviewModal, lists, handleLists, reviews, getReviews, addToCatalog } = useDetailsViewModel(id);
 
     const closeModal = async () => {
-        handleModal();
+        closeReviewModal();
         await getReviews();
     };
 
@@ -29,8 +29,8 @@ export default function MovieDetailsPage() {
         handleLists();
     };
 
-    const showReviews = ({ item }: { item: Review }) => {
-        return (<CardReview data={item} movie={detail?.title ?? ""}></CardReview>);
+    const showReviews = ({ item }: { item: Rating }) => {
+        return (<CardReview data={item} movie={detail?.title ?? ""} onClosed={closeModal}></CardReview>);
     }
 
     const handleCatalog = async (tmdbId: number) => {
@@ -45,8 +45,9 @@ export default function MovieDetailsPage() {
                 return (
                     <FlatList
                         data={reviews}
+                        style={{ flex: 1 }}
                         renderItem={showReviews}
-                        keyExtractor={(item) => String(item.id_user)}
+                        keyExtractor={(item) => String(item.id)}
                         ListEmptyComponent={<Text style={styles.aboutText}>Esse filme ainda não possui nenhuma avaliação.</Text>}
                     />
                 );
@@ -91,7 +92,7 @@ export default function MovieDetailsPage() {
                         </TouchableOpacity>
 
                         {/* avaliar */}
-                        <TouchableOpacity onPress={handleModal}>
+                        <TouchableOpacity onPress={openCreateModal}>
                             <NotePencilIcon color={theme.yellow} size={24} weight="thin" style={{ marginLeft: 10 }} />
                         </TouchableOpacity>
                     </View>
@@ -99,7 +100,7 @@ export default function MovieDetailsPage() {
             </View>
         }>
             {modal && (
-                <ReviewModal id_movie={id.toString()} onClosed={closeModal} ></ReviewModal>
+                <ReviewModal tbmdId={Number(id ?? 0)} onClosed={closeModal} ></ReviewModal>
             )}
 
             {lists && (
@@ -109,7 +110,7 @@ export default function MovieDetailsPage() {
             {loading ? (
                 <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />
             ) : (
-                <View>
+                <View style={{ flex: 1 }}>
                     <Image style={styles.image} source={{ uri: `${API_IMAGE}${detail?.backdropPath ?? detail?.posterPath}` }} resizeMode="cover" />
 
                     <Image style={styles.poster} source={{ uri: `${API_IMAGE}${detail?.posterPath}` }} />
@@ -152,7 +153,7 @@ export default function MovieDetailsPage() {
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.about}>
+                    <View style={[styles.about, { flex: 1 }]}>
                         {showInfo()}
                     </View>
                 </View>

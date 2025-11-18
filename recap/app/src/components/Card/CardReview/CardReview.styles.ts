@@ -78,14 +78,15 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         color: theme.terciary,
     },
     options: {
-        flexDirection: "row",
-        alignItems: "center",
         paddingTop: 5,
+        flexDirection: "row",
+        alignItems: "flex-end",
+        justifyContent: "flex-end",
     },
     option: {
+        marginHorizontal: 5,
         flexDirection: "row",
         alignItems: "center",
-        paddingLeft: 5,
     },
     icon: {
         fontSize: 8,

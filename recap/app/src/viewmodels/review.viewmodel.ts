@@ -1,48 +1,39 @@
-import { useEffect, useState } from "react";
-import { getYYYYMMDDHHMI } from "../../../lib/utils";
-import { ReviewService } from "../services/review.service";
+import { useState } from "react";
+import { AuthService } from "../services/auth.service";
+import { RatingService } from "../services/rating.service";
+import { Rating } from "../models/rating";
 
-export function useReviewViewModel(id: string, spoiler? : boolean, like?: number,) {
-    // new review
-    const [rating, setRating] = useState(0);
-    const [title, setTitle] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
-    const [isChecked, setChecked] = useState(false);
-
-    // reviews
+export function useReviewViewModel(tmdbId: number, initialScore?: number, initialReview?: string) {
+    const [rate, setRate] = useState(initialScore ?? 0);
+    const [description, setDescription] = useState<string>(initialReview ?? '');
     const [isExpanded, setIsExpanded] = useState(false);
-    const [blur, setBlur] = useState(spoiler);
+    const [modal, setModal] = useState(false);
 
-    const [isLiked, setIsLiked] = useState(false); 
-    const [likes, setLikes] = useState(like);
-
-    useEffect(() => {
-        const loadLikeStatus = async () => {
-            const liked = await ReviewService.isReviewLiked(id);
-            setIsLiked(liked);
-        };
-        
-        loadLikeStatus();
-    }, [id]); 
+    const handleModal = () => {
+        setModal(!modal);
+    };
 
     const clearForm = () => {
-        setRating(0);
-        setTitle('');
+        setRate(0);
         setDescription('');
-        setChecked(false);
     }
 
-    const saveReview = async () => {
-        const date = new Date();
-        const review = { id_review: Date.now().toString(), id_movie: id, id_user: Date.now().toString(), user: "teste", title: title, date_created: getYYYYMMDDHHMI(date), date_modified: getYYYYMMDDHHMI(date), rate: rating, description: description, spoiler: isChecked, likes: 0, comments: 0 };
+    const saveRating = async () => {
+        const userId = await AuthService.getAuthIDUser();
+        const rating: Rating = { userId: userId ?? '', tmdbId: tmdbId, score: rate, review: description };
 
-        return await ReviewService.saveReview(review);
+        return await RatingService.saveRating(rating);
     }
 
-     const updateLikeReview = async () => {
-        return await ReviewService.updateLikeReview(id); 
+    const updateRating = async (ratingId: number) => {
+        const rating: Rating = { ratingId: ratingId, score: rate, review: description };
+
+        return await RatingService.updateRating(rating);
     }
 
-    return { rating, setRating, title, setTitle, description, setDescription, isChecked, setChecked, saveReview, clearForm, 
-        isExpanded, setIsExpanded, blur, setBlur, isLiked, setIsLiked, likes, setLikes, updateLikeReview };
+    const deleteRating = async (ratingId: number) => {
+        return await RatingService.deleteRating(ratingId);
+    }
+
+    return { rate, setRate, description, setDescription, clearForm, isExpanded, setIsExpanded, saveRating, updateRating, deleteRating, modal, handleModal };
 }

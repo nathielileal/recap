@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Movie } from "../models/movie";
-import { Review } from "../models/review";
 import { CatalogService } from "../services/catalog.service";
 import { movieApi } from "../services/movie.service";
-import { ReviewService } from "../services/review.service";
+import { Rating } from "../models/rating";
+import { RatingService } from "../services/rating.service";
 
 export function useDetailsViewModel(id: string | string[] | undefined) {
-    const [reviews, setReviews] = useState<Review[]>([]);
+    const [reviews, setReviews] = useState<Rating[]>([]);
     const [detail, setDetail] = useState<Movie | null>(null);
     const [modal, setModal] = useState(false);
     const [lists, setLists] = useState(false);
@@ -19,9 +19,8 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
         setOption(opt);
     };
 
-    const handleModal = () => {
-        setModal(!modal);
-    };
+    const openCreateModal = () => setModal(true);
+    const closeReviewModal = () => setModal(false);
     
     const handleLists = () => {
         setLists(!lists);
@@ -43,9 +42,10 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
 
     const getReviews = async () => {
         try {
-            const data = await ReviewService.getReviewByIdMovie(id?.toString() ?? '');
+            // const data = await ReviewService.getReviewByIdMovie(id?.toString() ?? '');
+            const data = await RatingService.getMovieRating(Number(id ?? 0));
 
-            setReviews(data);
+            setReviews(data.ratings);
         } catch (error) {
             console.error("Erro ao buscar reviews do cache:", error);
             setReviews([]);
@@ -76,5 +76,5 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
         getReviews();
     }, [id]);
 
-    return { tmdbId, detail, loading, option, reviews, handleOption, modal, handleModal, lists, handleLists, getReviews, addToCatalog };
+    return { tmdbId, detail, loading, option, reviews, handleOption, modal, openCreateModal, closeReviewModal, lists, handleLists, getReviews, addToCatalog };
 }
