@@ -50,7 +50,7 @@ export default function CatalogPage() {
                             renderItem={renderMovieItem}
                             keyExtractor={(item) => String(item.tmdbId)}
                             showsVerticalScrollIndicator={false}
-                            contentContainerStyle={{ paddingLeft: 55, paddingBottom: 100, alignItems: "flex-start", justifyContent: "space-between" }}
+                            contentContainerStyle={{ alignItems: "center", justifyContent: "space-between" }}
                         />
                     </View>
                     : <Text style={styles.empty}>Nenhum filme encontrado no seu catálogo pessoal.</Text>
