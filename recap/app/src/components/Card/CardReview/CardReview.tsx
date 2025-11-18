@@ -24,8 +24,8 @@ export function CardReview({ data, onClosed }: Props) {
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
 
-    const { currentUserId, isLoading } = useAuthUser();
-    const isUser = currentUserId === data.userId;
+    const { loggegId } = useAuthUser();
+    const isUser = loggegId === data.userId;
 
     const handleExpansion = () => {
         setIsExpanded(prev => !prev);

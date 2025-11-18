@@ -2,19 +2,17 @@ import { useState, useEffect } from 'react';
 import { AuthService } from '../services/auth.service';
 
 export function useAuthUser() {
-    const [currentUserId, setCurrentUserId] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [loggegId, setLoggedId] = useState<string | null>(null);
 
     useEffect(() => {
-        const fetchUser = async () => {
-            setIsLoading(true);
-            const id = await AuthService.getAuthIDUser();
-            setCurrentUserId(id);
-            setIsLoading(false);
-        };
-
-        fetchUser();
+        load();
     }, []);
 
-    return { currentUserId, isLoading };
+    const load = async () => {
+        const userId = await AuthService.getAuthIDUser();
+
+        setLoggedId(userId);
+    };
+
+    return { loggegId };
 }
