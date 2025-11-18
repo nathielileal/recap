@@ -1,32 +1,6 @@
 import { StyleSheet } from "react-native";
 
 export const stylesheet = (theme: any) => StyleSheet.create({
-  scroll: {
-    flexGrow: 1,
-    backgroundColor: theme.primary,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 12,
-  },
-  tabsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginBottom: 16,
-  },
-  tabItem: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  tabText: {
-    color: theme.grey,
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  tabActiveText: {
-    color: theme.terciary,
-    fontSize: 16,
-    fontWeight: "bold",
-  },
   listContainer: {
     gap: 16,
     width: "100%",
@@ -34,71 +8,55 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     marginBottom: 16,
   },
   card: {
+    margin: 5,
+    padding: 16,
+    borderWidth: 1,
+    borderRadius: 12,
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: theme.primary,
-    borderRadius: 12,
-    borderWidth: 1,
     borderColor: theme.terciary,
-    padding: 16,
-    margin: 5,
+    backgroundColor: theme.primary,
     justifyContent: "space-between",
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 12,
-    backgroundColor: theme.darkGrey,
   },
   cardContent: {
     flex: 1,
+    marginHorizontal: 10,
   },
   cardTitle: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: theme.terciary,
     marginBottom: 4,
+    fontWeight: "bold",
+    color: theme.terciary,
   },
-  cardSubtitle: {
-    fontSize: 14,
-    color: theme.grey,
-  },
-  addButtonSmall: {
-    backgroundColor: theme.secondary,
+  btn: {
+    marginLeft: 12,
+    borderRadius: 25,
     paddingVertical: 6,
     paddingHorizontal: 12,
-    borderRadius: 6,
-    marginLeft: 12,
   },
-  addButtonSmallText: {
-    color: theme.terciary,
+  btnText: {
     fontSize: 14,
-    fontWeight: "bold",
-  },
-  removeButton: {
-    backgroundColor: theme.darkGrey,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 6,
-    marginLeft: 12,
-  },
-  removeButtonText: {
     color: theme.terciary,
-    fontSize: 14,
-    fontWeight: "bold",
+    fontFamily: 'IBMPlexMono_700Bold',
   },
   input: {
+    height: 40,
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 25,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     backgroundColor: theme.darkGrey,
-    color: theme.terciary,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-    marginBottom: 12,
   },
-  emptyText: {
-    color: theme.grey,
-    textAlign: "center",
+  textInput: {
+    width: "80%",
+    paddingLeft: 5,
+    color: theme.terciary,
+  },
+  empty: {
     marginTop: 20,
+    textAlign: "center",
+    color: theme.terciary,
   },
 });

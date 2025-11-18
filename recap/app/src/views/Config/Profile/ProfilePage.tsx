@@ -1,4 +1,3 @@
-import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import { CaretRightIcon, ImageSquareIcon, PencilSimpleIcon, SignOutIcon, UserIcon, UserListIcon } from 'phosphor-react-native';
 import React, { useMemo, useState } from 'react';
@@ -8,6 +7,8 @@ import { useAuthContext } from '../../../context/AuthContext';
 import { useThemeContext } from '../../../provider/ThemeProvider';
 import { useProfileViewModel } from '../../../viewmodels/profile.viewlmodel';
 import { stylesheet } from '../Config.style';
+import icon from '../../../../../assets/images/icon.png';
+import { getTimeAgo } from '../../../../../lib/utils';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -20,44 +21,22 @@ export default function ProfilePage() {
     await contextLogout();
   };
 
-  const pickImage = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 1,
-      });
-
-      if (!result.canceled && result.assets && result.assets.length > 0) {
-        setImage(result.assets[0].uri);
-      }
-    } catch (err) {
-      console.warn("Erro ao selecionar imagem:", err);
-    }
-  };
-
   const closeModal = async () => {
     handleModal();
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.imageContainer}>
-        <TouchableOpacity onPress={pickImage}>
-          {image ? (
-            <Image source={{ uri: image }} style={styles.image} />
-          ) : (
-            <View style={styles.image}>
-              <ImageSquareIcon size={35} color={theme.secondary} />
-            </View>
-          )}
-        </TouchableOpacity>
+      <View style={styles.header}>
+        <View style={styles.icon}>
+          <Image source={icon} style={styles.image} />
+        </View>
 
-        <TouchableOpacity onPress={pickImage} style={styles.icon}>
-          <PencilSimpleIcon color={theme.terciary} size={20} />
-        </TouchableOpacity>
+        <View style={styles.info}>
+          <Text style={styles.name}>@{user?.name ?? 'Nome de usuário'}</Text>
+          <Text style={styles.details}>Criado {getTimeAgo(user?.createdAt) ?? 'agora'}</Text>
+        </View>
       </View>
-
-      <Text style={styles.name}>{user?.name ?? 'Nome de usuário'}</Text>
 
       <View style={styles.section}>
         <TouchableOpacity onPress={handleModal} style={[styles.btn, { backgroundColor: theme.primary }]}>
@@ -67,8 +46,8 @@ export default function ProfilePage() {
 
           <CaretRightIcon color={theme.terciary} size={20} />
         </TouchableOpacity>
-        
-        <TouchableOpacity onPress={() => router.push({ pathname: "/catalog"})} style={[styles.btn, { backgroundColor: theme.primary }]}>
+
+        <TouchableOpacity onPress={() => router.push({ pathname: "/catalog" })} style={[styles.btn, { backgroundColor: theme.primary }]}>
           <UserListIcon color={theme.terciary} size={20} />
 
           <Text style={styles.optionText}>Ver catálogo pessoal</Text>

@@ -13,7 +13,7 @@ export default function HomePage() {
     const router = useRouter();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { movies, searchMovies, loading, empty, search, onSearchChange, loadMore, error } = useHomeViewModel();
+    const { movies, loading, empty, search, setSearch, loadMore, error } = useHomeViewModel();
 
     const renderMovieItem = ({ item }: { item: Movie }) => (
         <CardMovie data={item} onPress={() => router.push({ pathname: "/movie-detail", params: { id: item.tmdbId } })} />
@@ -23,7 +23,7 @@ export default function HomePage() {
         <CamLenseScreen title="Filmes">
             <View style={styles.header}>
                 <View style={styles.input}>
-                    <TextInput placeholder="Buscar" placeholderTextColor={theme.terciary} style={styles.textInput} value={search} onChangeText={onSearchChange} />
+                    <TextInput placeholder="Buscar" placeholderTextColor={theme.terciary} style={styles.textInput} value={search} onChangeText={setSearch} autoCapitalize="none" />
                     <MagnifyingGlassIcon color={theme.terciary} size={25} weight="light"></MagnifyingGlassIcon>
                 </View>
 
@@ -35,7 +35,7 @@ export default function HomePage() {
                     <Text style={[styles.empty, { color: theme.secondary, textAlign: "center", fontSize: 16 }]}>
                         {error}
                     </Text>
-                ) : search.length <= 2 ? (
+                ) : (
                     <FlatList
                         key="list"
                         data={movies}
@@ -47,15 +47,6 @@ export default function HomePage() {
                         ListFooterComponent={loading && movies.length > 0 ? <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} /> : null}
                         onEndReached={loadMore}
                         onEndReachedThreshold={0.5}
-                    />
-                ) : (
-                    <FlatList
-                        key="search-list"
-                        data={searchMovies}
-                        numColumns={3}
-                        renderItem={renderMovieItem}
-                        showsVerticalScrollIndicator={false}
-                        contentContainerStyle={{ padding: 35, paddingBottom: 100, alignItems: "center", justifyContent: "space-between" }}
                     />
                 )}
             </View>

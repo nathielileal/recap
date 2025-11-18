@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import React, { useMemo } from "react";
-import { ActivityIndicator, Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, FlatList, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { ListCard } from "../../components/Card/ListCard";
 import { FilterTabs } from "../../components/FilterTabs/FilterTabs";
@@ -8,13 +8,13 @@ import { List } from "../../models/list";
 import { useThemeContext } from "../../provider/ThemeProvider";
 import { useListsViewModel } from "../../viewmodels/list.viewmodel";
 import { stylesheet } from "./Lists.style";
-import { PlusIcon } from "phosphor-react-native";
+import { MagnifyingGlassIcon, PlusIcon } from "phosphor-react-native";
 import { ListFormModal } from "../../components/Modal/ListForm/ListFormModal";
 
 const ListsPage = () => {
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
-  const { lists, loading, isModalOpen, setIsModalOpen, deleteList, filter, setFilter, selectedList, setSelectedList, load, error } = useListsViewModel();
+  const { lists, loading, search, setSearch, empty, isModalOpen, setIsModalOpen, deleteList, filter, setFilter, selectedList, setSelectedList, load, error } = useListsViewModel();
 
   const handleListPress = (list: List) => {
     setSelectedList(list);
@@ -25,7 +25,7 @@ const ListsPage = () => {
     setSelectedList(null);
     setIsModalOpen(false);
 
-    load();
+    load("");
   };
 
   const handleDelete = async (listId: number) => {
@@ -37,7 +37,7 @@ const ListsPage = () => {
 
           if (response.success) {
             Alert.alert("Lista excuída com sucesso!");
-            load();
+            load("");
           } else {
             const message = response.error || "Ocorreu um erro ao excluir a lista. Tente novamente mais tarde!";
             Alert.alert("Falha ao excluir lista", message);
@@ -60,6 +60,15 @@ const ListsPage = () => {
   return (
     <CamLenseScreen title="Listas">
       <FilterTabs firstOption="Todas as listas" secondOption="Minhas listas" filter={filter} setFilter={setFilter} />
+
+      <View style={styles.header}>
+        <View style={styles.input}>
+          <TextInput placeholder="Buscar" placeholderTextColor={theme.terciary} style={styles.textInput} value={search} onChangeText={setSearch} autoCapitalize="none" />
+          <MagnifyingGlassIcon color={theme.terciary} size={25} weight="light"></MagnifyingGlassIcon>
+        </View>
+
+        {empty && (<Text style={styles.empty}>Nenhum filme encontrado para "{search}"</Text>)}
+      </View>
 
       <View style={styles.listContainer}>
         {loading ? (

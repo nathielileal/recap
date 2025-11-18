@@ -1,5 +1,6 @@
-export const API_URL = 'https://unscheduled-cami-dowily.ngrok-free.dev';
-//export const API_URL = 'http://localhost:3000';  //to-do: alterar depois, só funciona enquanto rodar docker localmente
+//to-do: alterar depois, só funciona enquanto rodar docker localmente
+// export const API_URL = 'https://unscheduled-cami-dowily.ngrok-free.dev';
+export const API_URL = 'http://localhost:3000';  
 
 // tmdb
 export const API_TMDB = 'https://api.themoviedb.org/3';

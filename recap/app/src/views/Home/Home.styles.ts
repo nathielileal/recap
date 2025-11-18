@@ -9,13 +9,14 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         backgroundColor: theme.primary,
     },
     header: {
+        width: "95%",
         paddingBottom: 10,
     },
     input: {
         height: 40,
-        padding: 10,
+        padding: 15,
         marginTop: 5,
-        borderRadius: 16,
+        borderRadius: 25,
         alignItems: "center",
         flexDirection: "row",
         justifyContent: "space-between",
@@ -23,7 +24,7 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     },
     textInput: {
         width: "80%",
-        paddingLeft: 15,
+        paddingLeft: 5,
         color: theme.terciary,
     },
     empty: {

@@ -23,19 +23,21 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     marginBottom: 12,
     color: theme.secondary,
   },
+  header: {
+    flexDirection: "row",
+    alignItems: "flex-start"
+  },
   container: {
     flex: 1,
-    alignItems: "center",
+    alignItems: "flex-start",
   },
-  imageContainer: { 
-    width: 150,
-    height: 150,
-    borderRadius: 55, 
-    position: 'relative', 
+  icon: { 
+    borderRadius: 50, 
+    marginLeft: 40,
   },
   image: {
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 140,
     borderWidth: 2,
     borderRadius: 80,
     overflow: 'hidden',
@@ -43,24 +45,25 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     justifyContent: "center",
     borderColor: theme.secondary,
   },
-  icon: { 
-    right: 0,
-    bottom: 0, 
-    padding: 8, 
-    borderRadius: 50,
-    position: 'absolute',
-    backgroundColor: theme.secondary, 
+  info: {
+    marginHorizontal: 20,
   },
   name: {
     fontSize: 20,
-    fontWeight: "bold",
-    marginVertical: 20,
+    marginVertical: 10,
+    color: theme.terciary,
+    fontFamily: 'IBMPlexMono_700Bold',
+  },
+  details: {
+    fontSize: 12,
+    marginVertical: 5,
+    marginHorizontal: 5,
     color: theme.terciary,
     fontFamily: 'IBMPlexMono_400Regular',
   },
   section: {
-    width: "90%",
-    marginTop: 20,
+    width: "100%",
+    marginTop: 40,
   },
   btn: {
     borderWidth: 1,
@@ -85,7 +88,7 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     fontSize: 16,
     marginTop: 40,
     color: theme.terciary,
-    fontFamily: 'IBMPlexMono_400Regular',
+    fontFamily: 'IBMPlexMono_700Bold',
   },
   configRow: {
     marginVertical: 8,
@@ -95,6 +98,6 @@ export const stylesheet = (theme: any) => StyleSheet.create({
   },
   configText: {
     color: theme.terciary,
-    fontSize: 18,
+    fontSize: 16,
   },
 });

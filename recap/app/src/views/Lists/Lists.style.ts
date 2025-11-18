@@ -1,6 +1,29 @@
 import { StyleSheet } from "react-native";
 
 export const stylesheet = (theme: any) => StyleSheet.create({
+  header: {
+    width: "100%",
+    paddingBottom: 15,
+  },
+  input: {
+    height: 40,
+    padding: 15,
+    borderRadius: 25,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: theme.darkGrey,
+  },
+  textInput: {
+    width: "80%",
+    paddingLeft: 5,
+    color: theme.terciary,
+  },
+  empty: {
+    fontSize: 18,
+    textAlign: "center",
+    color: theme.terciary,
+  },
   listContainer: {
     flex: 1,
     width: "100%",

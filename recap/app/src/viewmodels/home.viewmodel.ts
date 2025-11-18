@@ -6,40 +6,58 @@ export function useHomeViewModel() {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [canLoadMore, setCanLoadMore] = useState(true);
-    const [searchMovies, setSearchMovies] = useState<Movie[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [empty, setEmpty] = useState(false);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        load();
-    }, []);
+        load(search);
+    }, [search]);
 
-    const load = async () => {
+    const load = async (strsearch: string) => {
         setLoading(true);
+        setError(null);
+        setEmpty(false);
 
         try {
-            const data = await MovieService.getMovies(1);
+            let data: Movie[] = [];
+            const page = 1;
+            
+            data = await MovieService.getMovies(1);
+
+            if (search) {
+                data = data.filter(movie => movie.title.toLowerCase().includes(search.toLowerCase()));
+                // data = await MovieService.searchMovies(strsearch, page);
+            }
 
             setMovies(data ?? []);
-            setCurrentPage(2);
+            setCurrentPage(page + 1);
             setCanLoadMore(data.length > 0);
+            setEmpty(data.length === 0 && strsearch.length > 0);
         } catch (apiError: any) {
             setError(apiError.message || "Erro inesperado ao carregar filmes.");
             setMovies([]);
+            setEmpty(false);
         } finally {
             setLoading(false);
         }
     };
 
     const loadMore = async () => {
-        if (loading || !canLoadMore || search.length > 2) return;
+        if (loading || !canLoadMore) return;
 
         setLoading(true);
 
         try {
-            const data = await MovieService.getMovies(currentPage);
+            let data: Movie[] = [];
+            
+            if (search.length > 0) {
+                data = data.filter(movie => movie.title.toLowerCase().includes(search.toLowerCase()));
+                // data = await MovieService.searchMovies(search, currentPage);
+            } else {
+                data = await MovieService.getMovies(currentPage);
+            }
 
             if (data.length === 0) {
                 setCanLoadMore(false);
@@ -54,43 +72,5 @@ export function useHomeViewModel() {
         }
     };
 
-    const searchMovie = async (query: string) => {
-        setLoading(true);
-
-        try {
-            const response = await movieApi.get("/search/movie", { params: { query } });
-
-            if (response.data.results.length === 0) {
-                setEmpty(true);
-                setSearchMovies([]);
-            } else {
-                setEmpty(false);
-                setSearchMovies(response.data.results);
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const onSearchChange = (text: string) => {
-        setSearch(text);
-
-        if (text.length > 2) {
-            searchMovie(text);
-        } else {
-            setSearchMovies([]);
-            setEmpty(false);
-        }
-    };
-
-    return {
-        movies,
-        searchMovies,
-        loading,
-        empty,
-        search,
-        loadMore,
-        onSearchChange, 
-        error
-    };
+    return { movies, loading, empty, search, setSearch, loadMore, error };
 }

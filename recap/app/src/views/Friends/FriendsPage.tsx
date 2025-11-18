@@ -1,56 +1,91 @@
 import React, { useMemo, useState } from "react";
-import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { FilterTabs } from "../../components/FilterTabs/FilterTabs";
 import { useThemeContext } from "../../provider/ThemeProvider";
 import { stylesheet } from "./Friends.style";
 import { useFriendsViewModel } from "../../viewmodels/friends.viewmodel";
-import { User } from "../../models/User";
+import { User } from "../../models/user";
+import { MagnifyingGlassIcon, UserCircleIcon } from "phosphor-react-native";
 
 export default function FriendsPage() {
-  const { users, filter, setFilter, search, setSearch, loading, error } = useFriendsViewModel();
+  const { load, users, filter, setFilter, search, setSearch, loading, error, follow, unfollow, following } = useFriendsViewModel();
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
 
-  const handleRemoveFriend = (id: string) => {
+  const handleRemoveFriend = async (followingId: string) => {
+    const response = await unfollow(followingId);
+
+    if (response.success) {
+      Alert.alert("Deixou de seguir usuário com sucesso!");
+      load();
+    } else {
+      Alert.alert("Falha ao deixar de seguir usuário", response.error);
+    }
   };
 
-  const handleAddFriend = (user: User) => {
+  const handleAddFriend = async (followingId: string) => {
+    const response = await follow(followingId);
+
+    if (response.success) {
+      Alert.alert("Usuário seguido com sucesso!");
+      load();
+    } else {
+      Alert.alert("Falha ao seguir usuário", response.error);
+    }
   };
+
+  const BtnFollow = (item: User) => {
+    return (
+      <TouchableOpacity style={[styles.btn, { backgroundColor: theme.darkGrey }]} onPress={() => handleAddFriend(item.id)}>
+        <Text style={styles.btnText}>Seguir</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  const BtnFollowing = (item: User) => {
+    return (
+      <TouchableOpacity style={[styles.btn, { backgroundColor: theme.secondary }]} onPress={() => handleRemoveFriend(item.id)} >
+        <Text style={styles.btnText}>Seguindo</Text>
+      </TouchableOpacity>);
+  }
 
   const renderCard = (item: User) => {
+    const isFollowing = following.has(item.id);
+    let button;
+
+    if (filter === "public") {
+      button = isFollowing ? BtnFollowing(item) : BtnFollow(item);
+    } else if (filter === "private") {
+      button = isFollowing ? BtnFollowing(item) : BtnFollow(item);
+    } else if (filter === "mine") {
+      button = BtnFollowing(item);
+    }
+
     return (
-      <View key={item.id} style={styles.card}>
-        <Image source={{ uri: "https://via.placeholder.com/50" }} style={styles.avatar} />
+      <View style={styles.card}>
+        <UserCircleIcon size={35} color={theme.secondaryOpacity}></UserCircleIcon>
 
         <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>{item.name}</Text>
+          <Text style={styles.cardTitle}>@{item.name}</Text>
         </View>
 
-        <TouchableOpacity style={[styles.addButtonSmall, { backgroundColor: theme.darkGrey }]} onPress={() => handleAddFriend(item)} >
-          <Text style={styles.addButtonSmallText}>
-            {"Seguir"}
-          </Text>
-        </TouchableOpacity>
+        {button}
       </View>
     )
   };
 
   const renderPage = () => {
     if (loading) {
-      return <Text style={styles.emptyText}>Carregando usuários...</Text>;
+      return <Text style={styles.empty}>Carregando usuários...</Text>;
     }
 
     if (error) {
-      return <Text style={[styles.emptyText, { color: theme.terciary }]}>Erro ao carregar: {error}</Text>;
+      return <Text style={[styles.empty, { color: theme.terciary }]}>Erro ao carregar: {error}</Text>;
     }
 
     if (users.length === 0) {
-      const emptyMessage = filter === "private"
-        ? "Você ainda não segue nenhum usuário."
-        : filter === "mine" ? "Você ainda não é seguido por nenhum usuário." : "Nenhum usuário encontrado.";
-
-      return <Text style={styles.emptyText}>{emptyMessage}</Text>;
+      return <Text style={styles.empty}>Nenhum usuário encontrado.</Text>;
     }
 
     return (
@@ -67,27 +102,14 @@ export default function FriendsPage() {
     <CamLenseScreen title="Amigos">
       <FilterTabs firstOption="Todos os usuários" secondOption="Seguidores" thirdOption="Seguindo" hasMoreTabs={true} filter={filter} setFilter={setFilter} />
 
-      {filter === "private" ? (
-        <View style={styles.listContainer}>
-          {renderPage()}
-        </View>
-      ) : filter === "mine" ? (
-        <View style={styles.listContainer}>
-          {renderPage()}
-        </View>
-      ) : (
-        <View style={{ width: "100%" }}>
-          <TextInput
-            style={styles.input}
-            placeholder="Buscar usuário..."
-            placeholderTextColor={theme.grey}
-            value={search}
-            onChangeText={setSearch}
-          />
+      <View style={{ width: "100%" }}>
+          <View style={styles.input}>
+            <TextInput placeholder="Buscar" placeholderTextColor={theme.terciary} style={styles.textInput} value={search} onChangeText={setSearch} autoCapitalize="none" />
+            <MagnifyingGlassIcon color={theme.terciary} size={25} weight="light"></MagnifyingGlassIcon>
+          </View>
 
           {renderPage()}
         </View>
-      )}
     </CamLenseScreen>
   );
 };

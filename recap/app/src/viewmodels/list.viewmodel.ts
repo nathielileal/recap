@@ -8,6 +8,8 @@ export const useListsViewModel = () => {
   // geral
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [empty, setEmpty] = useState(false);
 
   // list page
   const [lists, setLists] = useState<List[]>([]);
@@ -15,17 +17,16 @@ export const useListsViewModel = () => {
   const [userLists, setUserLists] = useState<List[]>([]);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
-  const [filter, setFilter] = useState<"public" | "private">("private");
+  const [filter, setFilter] = useState<"public" | "private" | "mine">("private");
   const [selectedList, setSelectedList] = useState<List | null>(null);
 
   // movie page
   const [loadingMovies, setLoadingMovies] = useState(false);
-  const [search, setSearch] = useState("");
   const [searchMovies, setSearchMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
-    load();
-  }, []);
+    load(search);
+  }, [search]);
 
   useEffect(() => {
     const applyFilter = async () => {
@@ -44,16 +45,25 @@ export const useListsViewModel = () => {
     applyFilter();
   }, [lists, filter]);
 
-  const load = async () => {
+  const load = async (strsearch: string) => {
     setLoading(true);
+    setEmpty(false);
 
     try {
-      const data = await ListService.getUserLists();
+      let data: List[] = [];
+      data = await ListService.getUserLists();
+
+      if (search) {
+        data = data.filter(movie => movie.name.toLowerCase().includes(search.toLowerCase()));
+        // data = await ListService.searchList(strsearch);
+      }
 
       setLists(data);
+      setEmpty(data.length === 0 && strsearch.length > 0);
     } catch (apiError: any) {
       setError(apiError.message || "Erro inesperado ao carregar listas.");
       setLists([]);
+      setEmpty(false);
     } finally {
       setLoading(false);
     }
@@ -89,7 +99,7 @@ export const useListsViewModel = () => {
   const addMovieToList = async (listId: number, tmdbId: number) => {
     return await ListService.addMovieToList(listId, tmdbId);
   };
-  
+
   const deleteMovieFromList = async (listId: number, tmdbId: number) => {
     return await ListService.deleteMovieFromList(listId, tmdbId);
   };
@@ -105,7 +115,7 @@ export const useListsViewModel = () => {
   };
 
   return {
-    lists: userLists, name, setName, loading, isModalOpen, setIsModalOpen, saveList, updateList, deleteList, filter, setFilter, selectedList, setSelectedList, load, error,
-    movies, loadMovies, loadingMovies, addMovieToList, deleteMovieFromList, search, searchMovies, onSearchChange,
+    lists: userLists, empty, name, setName, loading, isModalOpen, setIsModalOpen, saveList, updateList, deleteList, filter, setFilter, selectedList, setSelectedList, load, error,
+    movies, loadMovies, loadingMovies, addMovieToList, deleteMovieFromList, search, setSearch, searchMovies, onSearchChange,
   };
 };
