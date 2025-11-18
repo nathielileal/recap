@@ -1,4 +1,4 @@
-import { ChatCircleIcon, PencilSimpleIcon, TrashSimpleIcon, UserCircleIcon } from "phosphor-react-native";
+import { PencilSimpleIcon, TrashSimpleIcon, UserCircleIcon } from "phosphor-react-native";
 import { useMemo } from 'react';
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { getTimeAgo } from '../../../../../lib/utils';
@@ -12,7 +12,6 @@ import { useAuthUser } from "../../../context/useAuthUser";
 
 interface Props {
     data: Rating;
-    movie: string;
     onClosed: () => void,
 }
 

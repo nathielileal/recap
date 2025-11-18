@@ -1,4 +1,3 @@
-import { Checkbox } from 'expo-checkbox';
 import { XIcon } from "phosphor-react-native";
 import { useMemo } from 'react';
 import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";

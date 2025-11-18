@@ -30,7 +30,7 @@ export default function MovieDetailsPage() {
     };
 
     const showReviews = ({ item }: { item: Rating }) => {
-        return (<CardReview data={item} movie={detail?.title ?? ""} onClosed={closeModal}></CardReview>);
+        return (<CardReview data={item} onClosed={closeModal}></CardReview>);
     }
 
     const handleCatalog = async (tmdbId: number) => {
