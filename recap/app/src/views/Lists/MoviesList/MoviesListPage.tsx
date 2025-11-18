@@ -62,7 +62,7 @@ export default function MoviesListPage() {
                             renderItem={renderMovieItem}
                             keyExtractor={(item) => String(item.tmdbId)}
                             showsVerticalScrollIndicator={false}
-                            contentContainerStyle={{ paddingLeft: 55, paddingBottom: 100, alignItems: "flex-start", justifyContent: "space-between" }}
+                            contentContainerStyle={{ paddingLeft: 35, paddingBottom: 100, alignItems: "flex-start", justifyContent: "space-between" }}
                         />
                     </View>
                     : <Text style={styles.empty}>Nenhum filme encontrado na lista.</Text>
