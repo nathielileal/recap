@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
+import { Social } from '../models/social';
 
 export const useProfileViewModel = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -17,8 +18,13 @@ export const useProfileViewModel = () => {
   const [passwordError, setPasswordError] = useState('');
   const [modal, setModal] = useState(false);
 
+  const [following, setFollowing] = useState<number>(0);
+  const [followers, setFollowers] = useState<number>(0);
+
   useEffect(() => {
     load();
+    getFollowing();
+    getFollowers();
   }, []);
 
   const load = async () => {
@@ -59,6 +65,26 @@ export const useProfileViewModel = () => {
     }
   };
 
+  const getFollowing = async () => {
+    try {
+      const follows: Social[] = await UserService.getFollowing();
+
+      setFollowing(follows.length);
+    } catch (apiError: any) {
+      setFollowing(0);
+    } 
+  }
+ 
+  const getFollowers = async () => {
+    try {
+      const follows: Social[] = await UserService.getFollowers();
+
+      setFollowers(follows.length);
+    } catch (apiError: any) {
+      setFollowers(0);
+    } 
+  }
+
   const logout = async () => {
     await AuthService.clearSession();
   };
@@ -69,6 +95,6 @@ export const useProfileViewModel = () => {
 
   return {
     user, error, loading, username, setUsername, email, setEmail, password, setPassword, image, setImage, emailError, passwordError, 
-    validateAndSave, logout, filter, setFilter, modal, handleModal, showPassword, setShowPassword
+    validateAndSave, logout, filter, setFilter, modal, handleModal, showPassword, setShowPassword, following, followers
   };
 };

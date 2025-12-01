@@ -32,6 +32,14 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         textAlign: "center",
         color: theme.terciary,
     },
+    title: {
+        fontSize: 20,
+        marginBottom: 10,
+        textAlign: "left",
+        fontWeight: "bold",
+        marginHorizontal: 50,
+        color: theme.terciary,
+    },
     list: {
         flex: 1,
         width: width,

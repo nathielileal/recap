@@ -5,7 +5,7 @@ import { useThemeContext } from "../../../provider/ThemeProvider";
 
 interface Movie {
     tmdbId: number,
-    posterPath: string;
+    poster_path: string;
 }
 
 interface Props {
@@ -19,7 +19,7 @@ export function CardMovie({ data, ...rest }: Props) {
 
     return (
         <Pressable {...rest} style={styles.cardMovie}>
-            <Image source={{ uri: `https://image.tmdb.org/t/p/w500${data.posterPath}`, }} style={styles.cardImage} ></Image>
+            <Image source={{ uri: `https://image.tmdb.org/t/p/w500${data.poster_path}`, }} style={styles.cardImage} ></Image>
         </Pressable>
     );
 }

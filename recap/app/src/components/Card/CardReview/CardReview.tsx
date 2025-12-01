@@ -12,13 +12,14 @@ import { useAuthUser } from "../../../context/useAuthUser";
 
 interface Props {
     data: Rating;
+    username: string;
     onClosed: () => void,
 }
 
 const stars = Array.from({ length: 5 });
 const max_char = 220;
 
-export function CardReview({ data, onClosed }: Props) {
+export function CardReview({ data, username, onClosed }: Props) {
     const { isExpanded, setIsExpanded, deleteRating, modal, handleModal } = useReviewViewModel(0);
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
@@ -63,7 +64,7 @@ export function CardReview({ data, onClosed }: Props) {
 
                 <View style={styles.info}>
                     <View style={styles.infoUser}>
-                        <Text style={styles.title}>@{data.userId}</Text>
+                        <Text style={styles.title}>@{username}</Text>
                         <Text style={styles.time}>{getTimeAgo(data.updatedAt ?? data.createdAt ?? '')}</Text>
                     </View>
 

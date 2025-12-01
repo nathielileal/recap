@@ -11,7 +11,7 @@ export const MovieService = {
             tmdbId: item.tmdbId,
             title: item.title,
             overview: item.overview,
-            posterPath: item.posterPath,
+            poster_path: item.poster_path,
             releaseDate: item.releaseDate,
         }));
 

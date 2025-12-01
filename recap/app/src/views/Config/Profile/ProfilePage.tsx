@@ -15,7 +15,7 @@ export default function ProfilePage() {
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
   const { logout: contextLogout } = useAuthContext();
-  const { user, error, username, modal, handleModal, image, setImage } = useProfileViewModel();
+  const { user, modal, handleModal, following, followers } = useProfileViewModel();
 
   const handleLogout = async () => {
     await contextLogout();
@@ -33,8 +33,27 @@ export default function ProfilePage() {
         </View>
 
         <View style={styles.info}>
-          <Text style={styles.name}>@{user?.name ?? 'Nome de usuário'}</Text>
+          <Text style={styles.name}>@{user?.name ?? 'usuário'}</Text>
           <Text style={styles.details}>Criado {getTimeAgo(user?.createdAt) ?? 'agora'}</Text>
+
+          <View style={styles.options}>
+            <View style={styles.option}>
+              <Text style={styles.follow}>Seguindo</Text>
+              <Text style={styles.follows}>{following}</Text>
+            </View>
+           
+            <View style={styles.option}>
+              <Text style={styles.follow}>Seguidores</Text>
+              <Text style={styles.follows}>{followers}</Text>
+            </View>
+          </View>
+
+           <View style={styles.options}>
+            <View style={styles.option}>
+              <Text style={styles.follow}>Avaliações</Text>
+              <Text style={styles.follows}>{following}</Text>
+            </View>
+          </View>
         </View>
       </View>
 
@@ -50,7 +69,7 @@ export default function ProfilePage() {
         <TouchableOpacity onPress={() => router.push({ pathname: "/catalog" })} style={[styles.btn, { backgroundColor: theme.primary }]}>
           <UserListIcon color={theme.terciary} size={20} />
 
-          <Text style={styles.optionText}>Ver catálogo pessoal</Text>
+          <Text style={styles.optionText}>Watchlist</Text>
 
           <CaretRightIcon color={theme.terciary} size={20} />
         </TouchableOpacity>

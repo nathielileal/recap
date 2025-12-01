@@ -3,6 +3,7 @@ import { List } from "../models/list";
 import { AuthService } from "../services/auth.service";
 import { ListService } from "../services/list.service";
 import { Movie } from "../models/movie";
+import { CatalogService } from "../services/catalog.service";
 
 export const useListsViewModel = () => {
   // geral
@@ -116,6 +117,6 @@ export const useListsViewModel = () => {
 
   return {
     lists: userLists, empty, name, setName, loading, isModalOpen, setIsModalOpen, saveList, updateList, deleteList, filter, setFilter, selectedList, setSelectedList, load, error,
-    movies, loadMovies, loadingMovies, addMovieToList, deleteMovieFromList, search, setSearch, searchMovies, onSearchChange,
+    movies, loadMovies, loadingMovies, addMovieToList, deleteMovieFromList, search, setSearch, searchMovies, onSearchChange
   };
 };

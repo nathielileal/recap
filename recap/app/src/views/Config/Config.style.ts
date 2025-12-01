@@ -50,16 +50,38 @@ export const stylesheet = (theme: any) => StyleSheet.create({
   },
   name: {
     fontSize: 20,
-    marginVertical: 10,
     color: theme.terciary,
     fontFamily: 'IBMPlexMono_700Bold',
   },
   details: {
     fontSize: 12,
-    marginVertical: 5,
+    marginVertical: 20,
     marginHorizontal: 5,
     color: theme.terciary,
     fontFamily: 'IBMPlexMono_400Regular',
+  },
+  options: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  option: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 5,
+  },
+  follow: {
+    fontSize: 10,
+    marginRight: 5,
+    marginVertical: 5,
+    color: theme.terciary,
+    fontFamily: 'IBMPlexMono_400Regular',
+  },
+  follows: {
+    fontSize: 12,
+    marginRight: 5,
+    fontWeight: "bold",
+    color: theme.terciary,
   },
   section: {
     width: "100%",

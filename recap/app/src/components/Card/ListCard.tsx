@@ -46,7 +46,7 @@ export function ListCard({ data, onEditPress, onDeletePress, showInfo, children,
         <View style={styles.cardText}>
           <Text style={styles.cardTitle}>{data.name}</Text>
           {showInfo ?? <Text style={styles.cardDescription}>{data.description ?? 'Descrição da lista'}</Text>}
-          {showInfo ?? <Text style={styles.cardDescription}>{`${data.movies.length} ${data.movies.length === 1 ? 'filme' : 'filmes'}`}</Text>}
+          <Text style={styles.cardDescription}>{`${data.movies.length} ${data.movies.length === 1 ? 'filme' : 'filmes'}`}</Text>
 
           {children || options}
         </View>

@@ -19,19 +19,29 @@ export default function HomePage() {
         <CardMovie data={item} onPress={() => router.push({ pathname: "/movie-detail", params: { id: item.tmdbId } })} />
     );
 
+    const footer = () => {
+        const isLoading = loading && movies.length > 0;
+
+        return (
+            <View style={{ height: 50, justifyContent: 'center', alignItems: 'center' }}>
+                {isLoading ?? (<ActivityIndicator size={50} color={theme.terciary} />)}
+            </View>
+        );
+    };
+
     return (
-        <CamLenseScreen title="Filmes">
+        <CamLenseScreen title="Página Inicial">
             <View style={styles.header}>
                 <View style={styles.input}>
                     <TextInput placeholder="Buscar" placeholderTextColor={theme.terciary} style={styles.textInput} value={search} onChangeText={setSearch} autoCapitalize="none" />
                     <MagnifyingGlassIcon color={theme.terciary} size={25} weight="light"></MagnifyingGlassIcon>
                 </View>
-
-                {empty && (<Text style={styles.empty}>Nenhum filme encontrado para "{search}"</Text>)}
             </View>
 
             <View style={styles.list}>
-                {loading ? (
+                {empty && (<Text style={styles.empty}>Nenhum filme encontrado para "{search}"</Text>)}
+                {!empty && !search && (<Text style={styles.title}>Filmes Populares</Text>)}
+                {loading && movies.length === 0 ? (
                     <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />
                 ) : error ? (
                     <Text style={[styles.empty, { color: theme.secondary, textAlign: "center", fontSize: 16 }]}>
@@ -46,7 +56,7 @@ export default function HomePage() {
                         keyExtractor={(item) => String(item.tmdbId)}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ alignItems: "center", justifyContent: "space-between" }}
-                        ListFooterComponent={loading && movies.length > 0 ? <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} /> : null}
+                        ListFooterComponent={footer}
                         onEndReached={loadMore}
                         onEndReachedThreshold={0.5}
                     />

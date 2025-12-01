@@ -4,6 +4,8 @@ import { CatalogService } from "../services/catalog.service";
 import { movieApi } from "../services/movie.service";
 import { Rating } from "../models/rating";
 import { RatingService } from "../services/rating.service";
+import { User } from "../models/user";
+import { UserService } from "../services/user.service";
 
 export function useDetailsViewModel(id: string | string[] | undefined) {
     const [reviews, setReviews] = useState<Rating[]>([]);
@@ -12,6 +14,7 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
     const [lists, setLists] = useState(false);
     const [loading, setLoading] = useState(false);
     const [option, setOption] = useState('A');
+    const [user, setUser] = useState<User | null>(null);
 
     const tmdbId = Number(id);
 
@@ -42,13 +45,23 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
 
     const getReviews = async () => {
         try {
-            // const data = await ReviewService.getReviewByIdMovie(id?.toString() ?? '');
             const data = await RatingService.getMovieRating(Number(id ?? 0));
 
             setReviews(data.ratings);
         } catch (error) {
             console.error("Erro ao buscar reviews do cache:", error);
             setReviews([]);
+        }
+    };
+    
+    const getUser = async (userId: string) => {
+        try {
+            const data = await UserService.getUserById(userId);
+
+            setUser(data);
+        } catch (error) {
+            console.error("Erro ao buscar informações do usuário", error);
+            setUser(null);
         }
     };
 
@@ -61,13 +74,13 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
             setLoading(false);
 
             if (!result?.success) {
-                return result.error || result.message || 'Ocorreu um erro ao tentar adicionar filme ao catálogo pessoal. Tente novamente mais tarde.';
+                return result.error || result.message || 'Ocorreu um erro ao tentar adicionar filme à sua watchlist. Tente novamente mais tarde.';
             }
 
-            return result.message || 'Filme adicionado ao seu catálogo pessoal com sucesso!';
+            return result.message || 'Filme adicionado à sua watchlist com sucesso!';
         } catch (e) {
             setLoading(false);
-            return 'Ocorreu um erro inesperado na comunicação.';
+            return 'Ocorreu um erro inesperado.';
         }
     };
 
@@ -76,5 +89,5 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
         getReviews();
     }, [id]);
 
-    return { tmdbId, detail, loading, option, reviews, handleOption, modal, openCreateModal, closeReviewModal, lists, handleLists, getReviews, addToCatalog };
+    return { tmdbId, detail, loading, option, reviews, handleOption, modal, openCreateModal, closeReviewModal, lists, handleLists, getReviews, addToCatalog, user };
 }

@@ -66,16 +66,25 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     },
     descriptionGroup: {
         gap: 2,
+        width: "80%",
+        flexDirection: "row",
+        alignItems: "flex-start",
+        justifyContent: "space-between",
+    },
+    descriptionOption: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
     },
     descriptionText: {
-        marginRight: 20,
         color: theme.terciary,
     },
+    voteText: {
+        fontSize: 10,
+        marginLeft: 5,
+        color: theme.terciary,
+        fontFamily: 'IBMPlexMono_400Regular',
+    },
     descriptionTextHighScore: {
-        marginRight: 20,
         color: theme.orange,
     },
     about: {
@@ -83,6 +92,10 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     },
     aboutText: {
         textAlign: "justify",
+        color: theme.terciary,
+    },
+    emptyText: {
+        textAlign: "center",
         color: theme.terciary,
     },
     options: {
@@ -93,22 +106,19 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         justifyContent: "space-evenly",
     },
     option: {
-        color: theme.terciary,
-        fontWeight: 'bold',
+        fontSize: 12,
         textAlign: 'center',
+        color: theme.terciary,
     },
     optionSelected: {
         paddingBottom: 5,
         paddingHorizontal: 5,
         borderBottomWidth: 1,
+        color: theme.terciary,
         borderBottomColor: theme.terciary,
+        fontFamily: 'IBMPlexMono_400Regular',
     },
     btn: {
         backgroundColor: theme.secondary,
     },
-    empty: {
-        fontSize: 16,
-        marginVertical: 20,
-        color: theme.terciary,
-    }
 });

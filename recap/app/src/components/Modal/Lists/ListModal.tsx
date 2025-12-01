@@ -22,7 +22,7 @@ export function ListModal({ tmdbId, onClosed }: Props) {
 
         if (result.success) {
             Alert.alert("Filme adiciona à lista com sucesso!");
-            load();
+            load('');
         } else {
             const message = result.error || "Ocorreu um erro inesperado ao tentar adicionar o filme à lista.";
             Alert.alert("Falha ao adicionar filme", message);
@@ -34,7 +34,7 @@ export function ListModal({ tmdbId, onClosed }: Props) {
 
         if (result.success) {
             Alert.alert("Filme excluído da lista com sucesso!");
-            load();
+            load('');
         } else {
             const message = result.error || "Ocorreu um erro ao excluir o filme da lista. Tente novamente mais tarde!";
             Alert.alert("Falha ao excluir filme", message);

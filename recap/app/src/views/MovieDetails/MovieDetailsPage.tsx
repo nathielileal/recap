@@ -18,7 +18,7 @@ export default function MovieDetailsPage() {
     const { id } = useLocalSearchParams();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { tmdbId, detail, loading, option, handleOption, modal, openCreateModal, closeReviewModal, lists, handleLists, reviews, getReviews, addToCatalog } = useDetailsViewModel(id);
+    const { tmdbId, detail, loading, option, handleOption, modal, openCreateModal, closeReviewModal, lists, handleLists, reviews, getReviews, addToCatalog, user } = useDetailsViewModel(id);
 
     const closeModal = async () => {
         closeReviewModal();
@@ -30,7 +30,7 @@ export default function MovieDetailsPage() {
     };
 
     const showReviews = ({ item }: { item: Rating }) => {
-        return (<CardReview data={item} onClosed={closeModal}></CardReview>);
+        return (<CardReview data={item} username={user?.name ?? 'usuário'} onClosed={closeModal}></CardReview>);
     }
 
     const handleCatalog = async (tmdbId: number) => {
@@ -48,19 +48,19 @@ export default function MovieDetailsPage() {
                         style={{ flex: 1 }}
                         renderItem={showReviews}
                         keyExtractor={(item) => String(item.id)}
-                        ListEmptyComponent={<Text style={styles.aboutText}>Esse filme ainda não possui nenhuma avaliação.</Text>}
+                        ListEmptyComponent={<Text style={styles.emptyText}>Esse filme ainda não possui nenhuma avaliação feita pela comunidade.</Text>}
                     />
                 );
             case 'S':
                 return (
                     <View>
-                        <Text style={styles.aboutText}>Informações complementares do filme.</Text>
+                        <Text style={styles.emptyText}>Informações complementares do filme.</Text>
                     </View>
                 );
             case 'E':
                 return (
                     <View>
-                        <Text style={styles.aboutText}>Informações complementares do elenco.</Text>
+                        <Text style={styles.emptyText}>Informações complementares do elenco.</Text>
                     </View>
                 );
             default:
@@ -111,29 +111,32 @@ export default function MovieDetailsPage() {
                 <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />
             ) : (
                 <View style={{ flex: 1 }}>
-                    <Image style={styles.image} source={{ uri: `${API_IMAGE}${detail?.backdropPath ?? detail?.posterPath}` }} resizeMode="cover" />
+                    <Image style={styles.image} source={{ uri: `${API_IMAGE}${detail?.backdropPath ?? detail?.poster_path}` }} resizeMode="cover" />
 
-                    <Image style={styles.poster} source={{ uri: `${API_IMAGE}${detail?.posterPath}` }} />
+                    <Image style={styles.poster} source={{ uri: `${API_IMAGE}${detail?.poster_path}` }} />
 
                     <Text style={styles.title}>{detail?.title}</Text>
 
                     <View style={styles.description}>
                         <View style={styles.descriptionGroup}>
-                            <CalendarBlankIcon color={theme.grey} size={25} weight="thin" />
+                            <View style={styles.descriptionOption}>
+                                <CalendarBlankIcon color={theme.grey} size={25} weight="thin" style={{ marginRight: 5 }} />
 
-                            <Text style={styles.descriptionText}>{getYear(detail?.releaseDate ?? "")}</Text>
-                        </View>
+                                <Text style={styles.descriptionText}>{getYear(detail?.releaseDate ?? "")}</Text>
+                            </View>
 
-                        <View style={styles.descriptionGroup}>
-                            <ClockIcon color={theme.grey} size={25} weight="thin" />
+                            <View style={styles.descriptionOption}>
+                                <ClockIcon color={theme.grey} size={25} weight="thin"  style={{ marginRight: 5 }} />
 
-                            <Text style={styles.descriptionText}>{`${detail?.runtime ?? "0"} minutos`}</Text>
-                        </View>
+                                <Text style={styles.descriptionText}>{`${detail?.runtime ?? "0"} minutos`}</Text>
+                            </View>
 
-                        <View style={styles.descriptionGroup}>
-                            <StarIcon color={(detail?.average ?? 0) >= 7 ? theme.orange : theme.grey} size={20} weight={(detail?.average ?? 0) >= 7 ? "duotone" : "thin"} />
+                            <View style={styles.descriptionOption}>
+                                <StarIcon color={(detail?.vote_average ?? 0) >= 7 ? theme.orange : theme.grey} size={25} weight={(detail?.vote_average ?? 0) >= 7 ? "duotone" : "thin"}  style={{ marginRight: 5 }} />
 
-                            <Text style={[(detail?.average ?? 0) >= 7 ? styles.descriptionTextHighScore : styles.descriptionText]}>{(detail?.average ?? 0).toFixed(1)}</Text>
+                                <Text style={[(detail?.vote_average ?? 0) >= 7 ? styles.descriptionTextHighScore : styles.descriptionText]}>{(detail?.vote_average ?? 0).toFixed(1)}</Text>
+                                <Text style={styles.voteText}>(TMDB)</Text>
+                            </View>
                         </View>
                     </View>
 
@@ -143,13 +146,13 @@ export default function MovieDetailsPage() {
 
                     <View style={styles.options}>
                         <TouchableOpacity>
-                            <Text style={[styles.option, option === 'A' && styles.optionSelected]} onPress={() => handleOption('A')}>Avaliações</Text>
+                            <Text style={[option === 'A' ? styles.optionSelected : styles.option]} onPress={() => handleOption('A')}>Avaliações da comunidade ({(reviews.length)})</Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Text style={[styles.option, option === 'S' && styles.optionSelected]} onPress={() => handleOption('S')}>Sobre</Text>
+                            <Text style={[option === 'S' ? styles.optionSelected : styles.option]} onPress={() => handleOption('S')}>Sobre</Text>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Text style={[styles.option, option === 'E' && styles.optionSelected]} onPress={() => handleOption('E')}>Elenco</Text>
+                            <Text style={[option === 'E' ? styles.optionSelected : styles.option]} onPress={() => handleOption('E')}>Elenco</Text>
                         </TouchableOpacity>
                     </View>
 

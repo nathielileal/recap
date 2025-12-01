@@ -28,7 +28,7 @@ export default function CatalogPage() {
                     </TouchableOpacity>
                 </View>
 
-                <Text style={styles.headerTitle}>Catálogo pessoal</Text>
+                <Text style={styles.headerTitle}>Watchlist</Text>
 
                 <View style={styles.headerItemRight}>
                     <TouchableOpacity onPress={toggleTheme}>
