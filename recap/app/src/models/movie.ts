@@ -8,4 +8,7 @@ export interface Movie {
     runtime?: string; // to-do: ainda não tem na api
     vote_average?: number;
     average?: number;
+    isInCatalog?: boolean;
+    isFavorite?: boolean;
+    isWatched?: boolean;
 }

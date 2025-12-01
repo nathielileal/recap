@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { CaretLeftIcon, SwatchesIcon } from "phosphor-react-native";
 import { useMemo } from "react";
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
@@ -10,10 +10,11 @@ import { useCatalogViewModel } from "../../viewmodels/catalog.viewmodel";
 import { stylesheet } from "./Catalog.styles";
 
 export default function CatalogPage() {
+    const { type } = useLocalSearchParams();
     const router = useRouter();
     const { toggleTheme, theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { movies, loading, error } = useCatalogViewModel();
+    const { movies, loading, error } = useCatalogViewModel(type);
 
     const renderMovieItem = ({ item }: { item: Movie }) => (
         <CardMovie data={item} onPress={() => router.push({ pathname: "/movie-detail", params: { id: item.tmdbId } })} />

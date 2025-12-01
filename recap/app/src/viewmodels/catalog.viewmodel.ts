@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Movie } from "../models/movie";
 import { CatalogService } from "../services/catalog.service";
 
-export function useCatalogViewModel() {
+export function useCatalogViewModel(type: string | string[]) {
     const [movies, setMovies] = useState<Movie[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -13,7 +13,16 @@ export function useCatalogViewModel() {
         setLoading(true);
 
         try {
-            const data = await CatalogService.getMoviesFromCatalog();
+            let data;
+
+            console.log(type);
+            if (type === 'W') {
+                data = await CatalogService.getMoviesFromCatalog();
+            } else if (type === 'F') {
+                data = await CatalogService.getMoviesFromCatalog();
+            } else {
+                data = await CatalogService.getMoviesFromCatalog();
+            }
 
             setMovies(data ?? []);
         } catch (apiError: any) {
@@ -24,7 +33,7 @@ export function useCatalogViewModel() {
     };
 
     return {
-        movies, 
+        movies,
         loading,
         error
     };

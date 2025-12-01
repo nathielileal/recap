@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { CaretRightIcon, ImageSquareIcon, PencilSimpleIcon, SignOutIcon, UserIcon, UserListIcon } from 'phosphor-react-native';
+import { BookmarkSimpleIcon, CaretRightIcon, FilmStripIcon, HeartStraightIcon, ImageSquareIcon, PencilSimpleIcon, SignOutIcon, UserIcon, UserListIcon } from 'phosphor-react-native';
 import React, { useMemo, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { ProfileModal } from '../../../components/Modal/Profile/ProfileModal';
@@ -41,14 +41,14 @@ export default function ProfilePage() {
               <Text style={styles.follow}>Seguindo</Text>
               <Text style={styles.follows}>{following}</Text>
             </View>
-           
+
             <View style={styles.option}>
               <Text style={styles.follow}>Seguidores</Text>
               <Text style={styles.follows}>{followers}</Text>
             </View>
           </View>
 
-           <View style={styles.options}>
+          <View style={styles.options}>
             <View style={styles.option}>
               <Text style={styles.follow}>Avaliações</Text>
               <Text style={styles.follows}>{following}</Text>
@@ -66,10 +66,26 @@ export default function ProfilePage() {
           <CaretRightIcon color={theme.terciary} size={20} />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => router.push({ pathname: "/catalog" })} style={[styles.btn, { backgroundColor: theme.primary }]}>
-          <UserListIcon color={theme.terciary} size={20} />
+        <TouchableOpacity onPress={() => router.push({ pathname: "/catalog", params: { type: "F" } })} style={[styles.btn, { backgroundColor: theme.primary }]}>
+          <HeartStraightIcon color={theme.terciary} size={20} />
+
+          <Text style={styles.optionText}>Favoritos</Text>
+
+          <CaretRightIcon color={theme.terciary} size={20} />
+        </TouchableOpacity>
+        
+        <TouchableOpacity onPress={() => router.push({ pathname: "/catalog", params: { type: "W" } })} style={[styles.btn, { backgroundColor: theme.primary }]}>
+          <BookmarkSimpleIcon color={theme.terciary} size={20} />
 
           <Text style={styles.optionText}>Watchlist</Text>
+
+          <CaretRightIcon color={theme.terciary} size={20} />
+        </TouchableOpacity>
+        
+        <TouchableOpacity onPress={() => router.push({ pathname: "/catalog", params: { type: "A" } })} style={[styles.btn, { backgroundColor: theme.primary }]}>
+          <FilmStripIcon color={theme.terciary} size={20} />
+
+          <Text style={styles.optionText}>Assistidos</Text>
 
           <CaretRightIcon color={theme.terciary} size={20} />
         </TouchableOpacity>

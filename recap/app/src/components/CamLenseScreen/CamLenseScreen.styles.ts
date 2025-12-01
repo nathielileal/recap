@@ -22,6 +22,10 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         flex: 1, 
         alignItems: 'flex-end',
     },
+    functions: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
     logo: {
         gap: 3,
         flexDirection: 'row',

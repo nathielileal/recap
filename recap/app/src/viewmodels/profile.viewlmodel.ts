@@ -7,7 +7,7 @@ import { Social } from '../models/social';
 export const useProfileViewModel = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState<"public" | "private">("public");
+  const [filter, setFilter] = useState<"public" | "private" | "mine">("public");
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');

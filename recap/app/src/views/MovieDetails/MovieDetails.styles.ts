@@ -46,27 +46,30 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         height: 160,
         borderRadius: 16,
     },
-    title: {
+    content: {
         top: 240,
-        right: 32,
         left: 140,
-        height: 50,
+        right: 20,
+        width: 'auto',
+        position: 'absolute',
+    },
+    title: {
+        height: 30,
         fontSize: 18,
         lineHeight: 20,
         fontWeight: "700",
-        position: "absolute",
         color: theme.terciary,
     },
     description: {
+        marginTop: 5,
         width: "100%",
-        marginTop: 160,
-        alignItems: "center",
         flexDirection: "row",
-        justifyContent: "center",
+        alignItems: "flex-start",
+        justifyContent: "flex-start",
     },
     descriptionGroup: {
         gap: 2,
-        width: "80%",
+        width: "90%",
         flexDirection: "row",
         alignItems: "flex-start",
         justifyContent: "space-between",
@@ -76,7 +79,12 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         alignItems: "center",
     },
     descriptionText: {
+        fontSize: 11,
         color: theme.terciary,
+    },
+    descriptionTextHighScore: {
+        fontSize: 11,
+        color: theme.orange,
     },
     voteText: {
         fontSize: 10,
@@ -84,8 +92,24 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         color: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
     },
-    descriptionTextHighScore: {
-        color: theme.orange,
+    actions: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+    },
+    action: {
+        padding: 5,
+        borderRadius: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        backgroundColor: theme.secondaryOpacity,
+    },
+    actionText: {
+        fontSize: 12,
+        marginHorizontal: 10,
+        color: theme.terciary,
+        fontFamily: 'IBMPlexMono_400Regular',
     },
     about: {
         padding: 20,

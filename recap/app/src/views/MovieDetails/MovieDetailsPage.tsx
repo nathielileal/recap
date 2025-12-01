@@ -1,6 +1,6 @@
 import { Text } from "@react-navigation/elements";
 import { router, useLocalSearchParams } from "expo-router";
-import { CalendarBlankIcon, CaretLeftIcon, ClockIcon, ListPlusIcon, NotePencilIcon, StarIcon, UserListIcon } from "phosphor-react-native";
+import { BookmarkSimpleIcon, CalendarBlankIcon, CaretLeftIcon, ClockIcon, EyesIcon, FilmStripIcon, HeartStraightIcon, ListPlusIcon, NotePencilIcon, StarIcon, UserListIcon } from "phosphor-react-native";
 import { useMemo } from "react";
 import { ActivityIndicator, Alert, FlatList, Image, TouchableOpacity, View } from "react-native";
 import { API_IMAGE } from "../../../../constants/url";
@@ -34,7 +34,13 @@ export default function MovieDetailsPage() {
     }
 
     const handleCatalog = async (tmdbId: number) => {
-        const message = await addToCatalog(tmdbId);
+        let message = '';
+
+        if (!detail?.isInCatalog) { // trocar para get do catalogo
+            message = await addToCatalog(tmdbId);
+        } else {
+            message = 'Esse filme já foi adicionado à sua watchlist';
+        }
 
         Alert.alert(message);
     };
@@ -81,19 +87,19 @@ export default function MovieDetailsPage() {
 
                 <View style={styles.headerItemRight}>
                     <View style={styles.functions}>
-                        {/* listas */}
-                        <TouchableOpacity onPress={handleLists}>
-                            <ListPlusIcon color={theme.secondary} size={26} weight="thin" />
-                        </TouchableOpacity>
-
-                        {/* catálogo pessoal */}
+                        {/* favoritar */}
                         <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
-                            <UserListIcon color={theme.orange} size={30} weight="thin" style={{ marginLeft: 10 }} />
+                            <HeartStraightIcon color={theme.secondary} size={25} weight="thin" />
                         </TouchableOpacity>
 
-                        {/* avaliar */}
-                        <TouchableOpacity onPress={openCreateModal}>
-                            <NotePencilIcon color={theme.yellow} size={24} weight="thin" style={{ marginLeft: 10 }} />
+                        {/* watchlist */}
+                        <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
+                            <BookmarkSimpleIcon color={theme.orange} size={25} weight="thin" style={{ marginLeft: 10 }} />
+                        </TouchableOpacity>
+
+                        {/* assistido */}
+                        <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
+                            <FilmStripIcon color={theme.yellow} size={25} weight="thin" style={{ marginLeft: 10 }} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -115,29 +121,47 @@ export default function MovieDetailsPage() {
 
                     <Image style={styles.poster} source={{ uri: `${API_IMAGE}${detail?.poster_path}` }} />
 
-                    <Text style={styles.title}>{detail?.title}</Text>
+                    <View style={styles.content}>
+                        <Text style={styles.title}>{detail?.title}</Text>
 
-                    <View style={styles.description}>
-                        <View style={styles.descriptionGroup}>
-                            <View style={styles.descriptionOption}>
-                                <CalendarBlankIcon color={theme.grey} size={25} weight="thin" style={{ marginRight: 5 }} />
+                        <View style={styles.description}>
+                            <View style={styles.descriptionGroup}>
+                                <View style={styles.descriptionOption}>
+                                    <CalendarBlankIcon color={theme.grey} size={20} weight="thin" style={{ marginRight: 5 }} />
 
-                                <Text style={styles.descriptionText}>{getYear(detail?.releaseDate ?? "")}</Text>
-                            </View>
+                                    <Text style={styles.descriptionText}>{getYear(detail?.releaseDate ?? "")}</Text>
+                                </View>
 
-                            <View style={styles.descriptionOption}>
-                                <ClockIcon color={theme.grey} size={25} weight="thin"  style={{ marginRight: 5 }} />
+                                <View style={styles.descriptionOption}>
+                                    <ClockIcon color={theme.grey} size={20} weight="thin" style={{ marginRight: 5 }} />
 
-                                <Text style={styles.descriptionText}>{`${detail?.runtime ?? "0"} minutos`}</Text>
-                            </View>
+                                    <Text style={styles.descriptionText}>{`${detail?.runtime ?? "0"} minutos`}</Text>
+                                </View>
 
-                            <View style={styles.descriptionOption}>
-                                <StarIcon color={(detail?.vote_average ?? 0) >= 7 ? theme.orange : theme.grey} size={25} weight={(detail?.vote_average ?? 0) >= 7 ? "duotone" : "thin"}  style={{ marginRight: 5 }} />
+                                <View style={styles.descriptionOption}>
+                                    <StarIcon color={(detail?.vote_average ?? 0) >= 7 ? theme.orange : theme.grey} size={20} weight={(detail?.vote_average ?? 0) >= 7 ? "duotone" : "thin"} style={{ marginRight: 5 }} />
 
-                                <Text style={[(detail?.vote_average ?? 0) >= 7 ? styles.descriptionTextHighScore : styles.descriptionText]}>{(detail?.vote_average ?? 0).toFixed(1)}</Text>
-                                <Text style={styles.voteText}>(TMDB)</Text>
+                                    <Text style={[(detail?.vote_average ?? 0) >= 7 ? styles.descriptionTextHighScore : styles.descriptionText]}>{(detail?.vote_average ?? 0).toFixed(1)}</Text>
+                                    <Text style={styles.voteText}>(TMDB)</Text>
+                                </View>
                             </View>
                         </View>
+                    </View>
+
+                    <View style={{ height: 160 }} />
+
+                    <View style={styles.actions}>
+                        {/* avaliar */}
+                        <TouchableOpacity onPress={openCreateModal} style={styles.action}>
+                            <NotePencilIcon color={theme.terciary} size={24} weight="regular" style={{ marginLeft: 10 }} />
+                            <Text style={styles.actionText}>Avaliar filme</Text>
+                        </TouchableOpacity>
+
+                        {/* listas */}
+                        <TouchableOpacity onPress={handleLists} style={styles.action}>
+                            <ListPlusIcon color={theme.terciary} size={26} weight="regular" style={{ marginLeft: 10 }} />
+                            <Text style={styles.actionText}>Adicionar à lista</Text>
+                        </TouchableOpacity>
                     </View>
 
                     <View style={styles.about}>
@@ -160,7 +184,8 @@ export default function MovieDetailsPage() {
                         {showInfo()}
                     </View>
                 </View>
-            )}
-        </CamLenseScreen>
+            )
+            }
+        </CamLenseScreen >
     );
 }

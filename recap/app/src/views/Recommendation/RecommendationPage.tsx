@@ -1,16 +1,27 @@
 import React, { useMemo } from "react";
-import { Text } from "react-native";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { stylesheet } from "./Recommendation.style";
 import { useThemeContext } from "../../provider/ThemeProvider";
+import { useRecommendationViewModel } from "../../viewmodels/recommendation.vielmodel";
+import { ScrollView, View } from "react-native";
+import { FilterTabs } from "../../components/FilterTabs/FilterTabs";
+import UserRecommendationPage from "./User/UserRecommendationPage";
+import TextRecommendationPage from "./Text/TextRecommendationPage";
 
 export default function RecommendationPage() {
+  const { loading, filter, setFilter } = useRecommendationViewModel();
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
 
   return (
-    <CamLenseScreen title="Recomendações">
-      <Text style={styles.empty}>Não é possível pedir uma recomendação personalizada no momento.</Text>
+    <CamLenseScreen title='Recomendação'>
+      <View style={styles.card}>
+        <FilterTabs firstOption="Baseada no seu perfil" secondOption="Buscar por texto" filter={filter} setFilter={setFilter} />
+
+        <ScrollView style={styles.innerScroll} showsVerticalScrollIndicator={true}>
+          {filter === 'public' ? (<UserRecommendationPage />) : (<TextRecommendationPage />)}
+        </ScrollView>
+      </View>
     </CamLenseScreen>
   );
 };
