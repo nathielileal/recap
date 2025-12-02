@@ -3,7 +3,6 @@ import { List } from "../models/list";
 import { AuthService } from "../services/auth.service";
 import { ListService } from "../services/list.service";
 import { Movie } from "../models/movie";
-import { CatalogService } from "../services/catalog.service";
 
 export const useListsViewModel = () => {
   // geral
@@ -56,7 +55,6 @@ export const useListsViewModel = () => {
 
       if (search) {
         data = data.filter(movie => movie.name.toLowerCase().includes(search.toLowerCase()));
-        // data = await ListService.searchList(strsearch);
       }
 
       setLists(data);

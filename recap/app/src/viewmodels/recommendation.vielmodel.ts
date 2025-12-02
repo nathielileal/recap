@@ -1,32 +1,38 @@
-import { useEffect, useState } from 'react';
-import { AuthService } from '../services/auth.service';
-import { UserService } from '../services/user.service';
-import { User } from '../models/user';
-import { Social } from '../models/social';
+import { useState } from 'react';
+import { RecommendationService } from '../services/recommendation.service';
+import { RecommendationType } from '../models/recommendation';
+import { Movie } from '../models/movie';
+import { MovieService } from '../services/movie.service';
 
 export const useRecommendationViewModel = () => {
+    const [rec, setRec] = useState<RecommendationType[]>([]);
     const [filter, setFilter] = useState<"public" | "private" | "mine">("public");
     const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        load();
-    }, []);
+    const [movie, setMovie] = useState<Movie[]>([]);
 
     const load = async () => {
-        // setLoading(true);
+        setLoading(true);
 
-        // try {
-        //   const data = await UserService.getUser();
+        try {
+            const data = await RecommendationService.getRecommendationByUser();
+            const recommendation = data?.[0]?.movies || [];
 
-        //   setUser(data);
-        // } catch (apiError: any) {
-        //   setError(apiError.message || "Erro inesperado ao carregar informações do usuário.");
-        //   setUser(null);
+            const moviePromises = recommendation
+                .filter(item => item.tmdbId > 0)
+                .map(item => MovieService.getMoviesById(item.tmdbId));
 
-        // } finally {
-        //   setLoading(false);
-        // }
+            const movies = await Promise.all(moviePromises);
+
+            setRec(data);
+            setMovie(movies);
+        } catch (apiError: any) {
+            setRec([]);
+            setMovie([]);
+            console.error('Erro ao carregar recomendações:', apiError);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    return { loading, filter, setFilter };
+    return { rec, load, loading, filter, setFilter, movie };
 };

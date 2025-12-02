@@ -19,7 +19,6 @@ export function useDetailsViewModel(id: string | string[] | undefined) {
 
         const ids = Array.isArray(id) ? id[0] : id;
 
-        console.log("Parsed tmdbId:", Number(ids));
         return Number(ids);
     }, [id]);
 

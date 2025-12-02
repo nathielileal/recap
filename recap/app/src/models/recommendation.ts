@@ -1,5 +1,5 @@
 export interface Recommendation {
-    recommendations: [];
+    recommendations: RecommendationType[];
 }
 
 export interface RecommendationType {

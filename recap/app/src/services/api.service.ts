@@ -50,7 +50,6 @@ export async function applyUserIdHeader(config: InternalAxiosRequestConfig): Pro
     const userId = await AuthService.getAuthIDUser(); 
     
     if (userId) {
-        console.log("Adding x-user-id header:", userId);
         config.headers['x-user-id'] = userId;
     }
     

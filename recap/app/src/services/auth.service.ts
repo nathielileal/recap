@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import { API_URL } from '../../../constants/url';
 import { ApiResponse } from '../models/api-response';
-import { User } from '../models/user';
+import { User } from '../models/User';
 
 // const AUTH_URL = getApiUrl('auth');
 const AUTH_URL = API_URL;
@@ -62,8 +62,6 @@ export const AuthService = {
 
       await AsyncStorage.setItem('id_user', uid);
       await AsyncStorage.setItem('auth_token', token);
-
-      console.log(uid);
 
       return { success: true, token };
     } catch (error) {

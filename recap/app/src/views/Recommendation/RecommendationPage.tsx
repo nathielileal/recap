@@ -18,9 +18,7 @@ export default function RecommendationPage() {
       <View style={styles.card}>
         <FilterTabs firstOption="Baseada no seu perfil" secondOption="Buscar por texto" filter={filter} setFilter={setFilter} />
 
-        <ScrollView style={styles.innerScroll} showsVerticalScrollIndicator={true}>
           {filter === 'public' ? (<UserRecommendationPage />) : (<TextRecommendationPage />)}
-        </ScrollView>
       </View>
     </CamLenseScreen>
   );
