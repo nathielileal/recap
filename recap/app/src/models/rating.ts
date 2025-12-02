@@ -10,14 +10,13 @@ export interface Rating {
     updatedAt?: string;
 }
 
-// save: userId, tmdbId, score, review
-// update: ratingId, score, review
-// delete: ratingId
-
 export interface MovieRating {
     tmdbId: number;
     average: number;
     ratings: Rating[];
 }
 
-// get-movie: tmdbId, average, ratings
+export interface UserRating {
+    userId: string;
+    ratings: Rating[];
+}

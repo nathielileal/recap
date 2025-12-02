@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ApiResponse } from "../models/api-response";
-import { Movie } from "../models/movie";
+import { Catalog, Movie } from "../models/movie";
 import { createApiInstance } from "./api.service";
 import { AuthService } from "./auth.service";
 
@@ -12,9 +12,10 @@ interface CatalogResponse {
 export const api = createApiInstance('catalog');
 
 export const CatalogService = {
-    getMoviesFromCatalog: async (page: number = 1): Promise<Movie[]> => {
+    getMoviesFromCatalog: async (userId: string): Promise<Movie[]> => {
         try {
-            const response = await api.get<CatalogResponse>('/catalog/me');
+            const id = userId === '' || userId === undefined ? 'me' : userId;
+            const response = await api.get<CatalogResponse>(`/catalog/${id}`);
             const data = response.data.movies;
 
             const movies = data.map(item => ({
@@ -32,6 +33,21 @@ export const CatalogService = {
             }));
 
             return movies;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                throw new Error(error.response?.data?.error || 'Erro ao buscar filmes do catálogo.');
+            }
+
+            throw new Error('Ocorreu um erro desconhecido.');
+        }
+    },
+
+    getCatalog: async (userId: string): Promise<Catalog> => {
+        try {
+            const id = userId === '' || userId === undefined ? 'me' : userId;
+            const response = await api.get<Catalog>(`/catalog/${id}`);
+
+            return response.data;
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 throw new Error(error.response?.data?.error || 'Erro ao buscar filmes do catálogo.');

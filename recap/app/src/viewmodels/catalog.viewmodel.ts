@@ -13,7 +13,7 @@ export function useCatalogViewModel(type: string | string[]) {
         setLoading(true);
 
         try {
-            const data = await CatalogService.getMoviesFromCatalog();
+            const data = await CatalogService.getMoviesFromCatalog('');
 
             const movies = data.filter((movie: Movie) => {
                 switch (type) {

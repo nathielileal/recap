@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ApiResponse } from "../models/api-response";
-import { MovieRating, Rating } from "../models/rating";
+import { MovieRating, Rating, UserRating } from "../models/rating";
 import { createApiInstance } from "./api.service";
 
 export const api = createApiInstance('rating');
@@ -13,7 +13,21 @@ export const RatingService = {
             return response.data;
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                throw new Error(error.response?.data?.error || 'Erro ao buscar filmes da lista.');
+                throw new Error(error.response?.data?.error || 'Erro ao buscar avaliações do filme.');
+            }
+
+            throw new Error('Ocorreu um erro desconhecido.');
+        }
+    },
+
+    getUserRating: async (userId: string): Promise<UserRating> => {
+        try {
+            const response = await api.get<UserRating>(`/ratings/user/${userId}`);
+
+            return response.data;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                throw new Error(error.response?.data?.error || 'Erro ao buscar avaliações do usuário.');
             }
 
             throw new Error('Ocorreu um erro desconhecido.');

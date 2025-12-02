@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 export const stylesheet = (theme: any) => StyleSheet.create({
   card: {
     flex: 1,
-    width: "100%",
     alignItems: "center",
     justifyContent: "flex-start"
   },
@@ -14,7 +13,7 @@ export const stylesheet = (theme: any) => StyleSheet.create({
   container: {
   },
   context: {
-    flex: 1,
+    marginBottom: 15,
     alignItems: "center",
     flexDirection: "column",
     justifyContent: "center",
@@ -33,6 +32,14 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     color: theme.terciary,
     fontFamily: 'IBMPlexMono_300Light',
   },
+  empty: {
+    fontSize: 12,
+    marginVertical: 10,
+    textAlign: 'center',
+    marginHorizontal: 10,
+    color: theme.secondary,
+    fontFamily: 'IBMPlexMono_700Bold',
+  },
   btn: {
     padding: 10,
     borderRadius: 50,
@@ -48,9 +55,29 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     color: theme.terciary,
   },
   divider: {
-    height: 1,
+    height: 10,
     width: '100%',
     marginVertical: 15,
     backgroundColor: theme.terciary,
+  },
+  input: {
+    flex: 3,
+    padding: 10,
+    borderRadius: 25,
+    marginVertical: 20,
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    backgroundColor: theme.darkGrey,
+  },
+  textInput: {
+    width: "90%",
+    paddingLeft: 5,
+    color: theme.terciary,
+    textAlignVertical: 'top',
+  },
+  header: {
+    alignItems: "center",
+    flexDirection: "row",
   },
 });

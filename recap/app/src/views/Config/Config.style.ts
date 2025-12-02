@@ -69,6 +69,7 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     borderColor: theme.secondary,
   },
   info: {
+    marginTop: 5,
     marginHorizontal: 15,
   },
   name: {
@@ -78,7 +79,7 @@ export const stylesheet = (theme: any) => StyleSheet.create({
   },
   details: {
     fontSize: 12,
-    marginVertical: 20,
+    marginVertical: 15,
     marginHorizontal: 5,
     color: theme.terciary,
     fontFamily: 'IBMPlexMono_400Regular',

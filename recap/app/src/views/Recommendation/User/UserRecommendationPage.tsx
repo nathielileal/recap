@@ -9,7 +9,7 @@ import { CardMovie } from "../../../components/Card/CardMovie/CardMovie";
 import { router } from "expo-router";
 
 export default function UserRecommendationPage() {
-  const { rec, load, loading, movie } = useRecommendationViewModel();
+  const { rec, load, loading, movie, hasRecommendations } = useRecommendationViewModel();
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
 
@@ -31,28 +31,36 @@ export default function UserRecommendationPage() {
           <Text style={styles.btnText}>Gerar Recomendações</Text>
         </TouchableOpacity>
       </View>
-
-      {rec.length > 0 && (
-        <View style={styles.divider}></View>
-      )}
     </>
   );
 
+  const empty = () => {
+    if (loading && movie.length === 0) {
+      return (<ActivityIndicator size="large" color={theme.secondary} style={{ marginTop: 50 }} />);
+    }
+
+    let message = 'Clique em "Gerar Recomendações" para descobrir novos filmes.';
+
+    if (!hasRecommendations && !loading) {
+      message = 'Nenhuma recomendação gerada. Avalie alguns filmes para receber sugestões personalizadas.';
+    }
+    
+    return (
+      <Text style={[hasRecommendations ? styles.about : styles.empty, { marginTop: 20 }]}>{message}</Text>
+    );
+  };
+
   return (
     <View style={[styles.container, { flex: 1, width: '100%' }]}>
-      {loading && movie.length > 0 && (
-        <ActivityIndicator size="large" color={theme.secondary} style={{ marginVertical: 20 }} />
-      )}
-
       <FlatList
         data={movie}
         renderItem={renderMovie}
         numColumns={3}
         keyExtractor={(item, index) => `${item.tmdbId}-${index}`}
-        contentContainerStyle={{ padding: 2 }}
+        contentContainerStyle={{ padding: 2, alignItems: "center", justifyContent: "center" }}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={header}
-        ListEmptyComponent={() => (<Text style={[styles.about, { textAlign: 'center', marginTop: 20 }]}>Clique em "Gerar Recomendações" para descobrir novos filmes.</Text>)}
+        ListEmptyComponent={empty}
       />
     </View>
   );

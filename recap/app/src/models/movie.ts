@@ -12,3 +12,8 @@ export interface Movie {
     isFavorite?: boolean;
     isWatched?: boolean;
 }
+
+export interface Catalog {
+    userId: string;
+    movies: Movie[];
+}

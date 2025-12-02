@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 import { API_URL } from '../../../constants/url';
 import { ApiResponse } from '../models/api-response';
-import { User } from '../models/User';
+import { User } from '../models/user';
 
 // const AUTH_URL = getApiUrl('auth');
 const AUTH_URL = API_URL;
@@ -51,6 +51,7 @@ export const AuthService = {
 
         return { success: false, error: errorMsg || 'Erro no cadastro. Tente novamente.' };
       }
+
       return { success: false, error: 'Ocorreu um erro desconhecido.' };
     }
   },
@@ -71,6 +72,7 @@ export const AuthService = {
 
         return { success: false, error: errorMsg || 'Email ou senha incorretos.' };
       }
+
       return { success: false, error: 'Ocorreu um erro desconhecido.' };
     }
   },
@@ -91,6 +93,7 @@ export const AuthService = {
 
         return { success: false, error: errorMsg || 'Não foi possível enviar o e-mail.' };
       }
+      
       return { success: false, error: 'Ocorreu um erro desconhecido.' };
     }
   },

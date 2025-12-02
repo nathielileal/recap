@@ -1,6 +1,6 @@
-import { router, useLocalSearchParams, useRouter } from 'expo-router';
+import { router, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { BookmarkSimpleIcon, CaretLeftIcon, CaretRightIcon, FilmStripIcon, HeartStraightIcon, PencilSimpleIcon, SignOutIcon, SwatchesIcon, UserIcon } from 'phosphor-react-native';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { ProfileModal } from '../../../components/Modal/Profile/ProfileModal';
 import { useAuthContext } from '../../../context/AuthContext';
@@ -16,7 +16,7 @@ export default function ProfilePage() {
   const { toggleTheme, theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
   const { logout: contextLogout } = useAuthContext();
-  const { user, modal, handleModal, following, followers } = useProfileViewModel(id as string);
+  const { user, modal, handleModal, following, followers, ratings, watchlist } = useProfileViewModel(id as string);
 
   const isCurrentUser = !id;
 
@@ -40,19 +40,24 @@ export default function ProfilePage() {
 
         <View style={styles.options}>
           <View style={styles.option}>
-            <Text style={styles.follow}>Seguindo</Text>
-            <Text style={styles.follows}>{following}</Text>
+            <Text style={styles.follow}>Avaliações</Text>
+            <Text style={styles.follows}>{ratings}</Text>
           </View>
 
           <View style={styles.option}>
-            <Text style={styles.follow}>Seguidores</Text>
-            <Text style={styles.follows}>{followers}</Text>
+            <Text style={styles.follow}>Watchlist</Text>
+            <Text style={styles.follows}>{watchlist}</Text>
           </View>
         </View>
 
         <View style={styles.options}>
           <View style={styles.option}>
-            <Text style={styles.follow}>Avaliações</Text>
+            <Text style={styles.follow}>Seguidores</Text>
+            <Text style={styles.follows}>{followers}</Text>
+          </View>
+
+          <View style={styles.option}>
+            <Text style={styles.follow}>Seguindo</Text>
             <Text style={styles.follows}>{following}</Text>
           </View>
         </View>

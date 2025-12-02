@@ -3,6 +3,8 @@ import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { Social } from '../models/social';
+import { RatingService } from '../services/rating.service';
+import { CatalogService } from '../services/catalog.service';
 
 export const useProfileViewModel = (id: string) => {
   const [user, setUser] = useState<User | null>(null);
@@ -20,12 +22,16 @@ export const useProfileViewModel = (id: string) => {
 
   const [following, setFollowing] = useState<number>(0);
   const [followers, setFollowers] = useState<number>(0);
+  const [ratings, setRatings] = useState<number>(0);
+  const [watchlist, setWatchlist] = useState<number>(0);
 
   useEffect(() => {
-    load();
+    getWatchlist();
     getFollowing();
     getFollowers();
-  }, []);
+    getRatings();
+    load();
+  }, [id]);
 
   const load = async () => {
     setLoading(true);
@@ -74,9 +80,9 @@ export const useProfileViewModel = (id: string) => {
       setFollowing(follows.length);
     } catch (apiError: any) {
       setFollowing(0);
-    } 
+    }
   }
- 
+
   const getFollowers = async () => {
     try {
       const userId = id ?? await AuthService.getAuthIDUser();
@@ -85,7 +91,29 @@ export const useProfileViewModel = (id: string) => {
       setFollowers(follows.length);
     } catch (apiError: any) {
       setFollowers(0);
-    } 
+    }
+  }
+
+  const getRatings = async () => {
+    try {
+      const userId = id ?? await AuthService.getAuthIDUser();
+      const ratings = await RatingService.getUserRating(userId);
+
+      setRatings(ratings.ratings.length);
+    } catch (apiError: any) {
+      setRatings(0);
+    }
+  }
+
+  const getWatchlist = async () => {
+    try {
+      const userId = id ?? await AuthService.getAuthIDUser();
+      const movies = await CatalogService.getCatalog(userId);
+
+      setWatchlist(movies.movies.length);
+    } catch (apiError: any) {
+      setWatchlist(0);
+    }
   }
 
   const logout = async () => {
@@ -97,7 +125,7 @@ export const useProfileViewModel = (id: string) => {
   };
 
   return {
-    user, error, loading, username, setUsername, email, setEmail, password, setPassword, image, setImage, emailError, passwordError, 
-    validateAndSave, logout, filter, setFilter, modal, handleModal, showPassword, setShowPassword, following, followers
+    user, error, loading, username, setUsername, email, setEmail, password, setPassword, image, setImage, emailError, passwordError,
+    validateAndSave, logout, filter, setFilter, modal, handleModal, showPassword, setShowPassword, following, followers, ratings, watchlist
   };
 };
