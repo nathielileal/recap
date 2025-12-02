@@ -4,7 +4,7 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { Social } from '../models/social';
 
-export const useProfileViewModel = () => {
+export const useProfileViewModel = (id: string) => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<"public" | "private" | "mine">("public");
@@ -31,7 +31,8 @@ export const useProfileViewModel = () => {
     setLoading(true);
 
     try {
-      const data = await UserService.getUser();
+      const userId = id ?? await AuthService.getAuthIDUser();
+      const data = await UserService.getUser(userId);
 
       setUser(data);
     } catch (apiError: any) {
@@ -67,7 +68,8 @@ export const useProfileViewModel = () => {
 
   const getFollowing = async () => {
     try {
-      const follows: Social[] = await UserService.getFollowing();
+      const userId = id ?? await AuthService.getAuthIDUser();
+      const follows: Social[] = await UserService.getFollowing(userId);
 
       setFollowing(follows.length);
     } catch (apiError: any) {
@@ -77,7 +79,8 @@ export const useProfileViewModel = () => {
  
   const getFollowers = async () => {
     try {
-      const follows: Social[] = await UserService.getFollowers();
+      const userId = id ?? await AuthService.getAuthIDUser();
+      const follows: Social[] = await UserService.getFollowers(userId);
 
       setFollowers(follows.length);
     } catch (apiError: any) {

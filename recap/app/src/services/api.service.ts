@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios';
 import { API_URL } from '../../../constants/url';
 import { AuthService } from './auth.service';
 
@@ -33,13 +33,26 @@ export function applyAuthInterceptor(apiInstance: AxiosInstance): void {
 }
 
 // método genérico para mandar a req com token
-export function createApiInstance(serviceName: string): AxiosInstance {
-  // const baseURL = getApiUrl(serviceName);
+export function createApiInstance(serviceName: string, applyAuth: boolean = true): AxiosInstance {
   const baseURL = API_URL;
 
   const api = axios.create({ baseURL });
 
-  applyAuthInterceptor(api);
+  if (applyAuth) {
+        applyAuthInterceptor(api);
+    }
 
   return api;
+}
+
+// envia o userId na req
+export async function applyUserIdHeader(config: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
+    const userId = await AuthService.getAuthIDUser(); 
+    
+    if (userId) {
+        console.log("Adding x-user-id header:", userId);
+        config.headers['x-user-id'] = userId;
+    }
+    
+    return config;
 }

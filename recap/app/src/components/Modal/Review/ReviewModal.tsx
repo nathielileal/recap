@@ -1,6 +1,6 @@
 import { XIcon } from "phosphor-react-native";
 import { useMemo } from 'react';
-import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Modal, Platform, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { useThemeContext } from '../../../provider/ThemeProvider';
 import { useReviewViewModel } from '../../../viewmodels/review.viewmodel';
 import { StarRating } from "../../StarRating/StarRating";
@@ -47,32 +47,34 @@ export function ReviewModal({ ratingId, tbmdId, onClosed, initialScore, initialR
 
     return (
         <Modal visible transparent animationType="slide">
-            <View style={styles.container}>
-                <View style={styles.modal}>
-                    <View style={styles.header}>
-                        <Text style={styles.headerTitle}>Avaliar filme</Text>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.container}>
+                        <View style={styles.modal}>
+                            <View style={styles.header}>
+                                <Text style={styles.headerTitle}>Avaliar filme</Text>
 
-                        <TouchableOpacity onPress={() => onClosed()}>
-                            <XIcon color={theme.secondary} size={25} weight="thin" style={styles.closeBtn}></XIcon>
-                        </TouchableOpacity>
-                    </View>
+                                <TouchableOpacity onPress={() => onClosed()}>
+                                    <XIcon color={theme.secondary} size={25} weight="thin" style={styles.closeBtn}></XIcon>
+                                </TouchableOpacity>
+                            </View>
 
-                    <View style={styles.stars}>
-                        {stars.map((_, index) => (<StarRating size={20} key={index + 1} index={index + 1} rate={rate} readonly={false} onPress={handleRatingChange}></StarRating>))}
-                    </View>
+                            <View style={styles.stars}>
+                                {stars.map((_, index) => (<StarRating size={20} key={index + 1} index={index + 1} rate={rate} readonly={false} onPress={handleRatingChange}></StarRating>))}
+                            </View>
 
-                    <View>
-                        <Text style={styles.title}>DESCRIÇÃO:</Text>
-                        <TextInput value={description} onChangeText={setDescription} style={styles.multiline} autoCapitalize="none" multiline={true} placeholder="Insira a descrição da sua avaliação" placeholderTextColor={theme.grey}></TextInput>
-                    </View>
+                            <View>
+                                <Text style={styles.title}>DESCRIÇÃO:</Text>
+                                <TextInput value={description} onChangeText={setDescription} style={styles.multiline} autoCapitalize="none" multiline={true} placeholder="Insira a descrição da sua avaliação" placeholderTextColor={theme.grey}></TextInput>
+                            </View>
 
-                    <View style={styles.btnView}>
-                        <TouchableOpacity style={styles.btn} onPress={handleSave}>
-                            <Text style={styles.btnText}>SALVAR</Text>
-                        </TouchableOpacity>
+                            <View style={styles.btnView}>
+                                <TouchableOpacity style={styles.btn} onPress={handleSave}>
+                                    <Text style={styles.btnText}>SALVAR</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     </View>
-                </View>
-            </View>
+            </TouchableWithoutFeedback>
         </Modal>
     );
 }

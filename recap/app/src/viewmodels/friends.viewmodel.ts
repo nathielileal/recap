@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { User } from "../models/user";
 import { UserService } from "../services/user.service";
 import { Social } from "../models/social";
+import { AuthService } from "../services/auth.service";
 
 export function useFriendsViewModel() {
     const [filter, setFilter] = useState<"public" | "private" | "mine">("mine");
@@ -24,26 +25,41 @@ export function useFriendsViewModel() {
         setError(null);
 
         try {
-            const follows: Social[] = await UserService.getFollowing();
-            const users = new Set(follows.map(u => u.followingId));
-            setFollowing(users);
+            const loggedUserId = await AuthService.getAuthIDUser();
+            const follows: Social[] = await UserService.getFollowing(loggedUserId ?? '');
+            const usersSet = new Set(follows.map(u => u.followingId));
 
-            let data: User[] = [];
+            setFollowing(usersSet);
+
+            let data: (User | null)[] = [];
+            let allUsers: Social[] = [];
+            let key: 'followerId' | 'followingId';
 
             if (filter === "public") {
                 data = await UserService.getUsers();
             } else {
-                const allUsers = filter === "private" ? await UserService.getFollowers() : follows;
-                const userId = filter === "private" ? 'followerId' : 'followingId';
+                allUsers = filter === "private" ? await UserService.getFollowers(loggedUserId ?? ''): follows;
+                key = filter === "private" ? 'followerId' : 'followingId';
 
-                data = await Promise.all(allUsers.map(user => UserService.getUserById(user[userId])));
+                const user = allUsers.filter(entry => {
+                    const targetId = entry[key];
+                    return targetId && targetId !== 'undefined';
+                });
+
+                data = await Promise.all(user.map(entry => UserService.getUserById(entry[key])));
+            }
+
+            let results: User[] = data.filter((user): user is User => user !== null && user !== undefined);
+
+            if (loggedUserId) {
+                results = results.filter(user => user.id !== loggedUserId);
             }
 
             if (search) {
-                data = data.filter(user => user.name.toLowerCase().includes(search.toLowerCase()));
+                results = results.filter(user => user.name.toLowerCase().includes(search.toLowerCase()));
             }
-            
-            setUsers(data);
+
+            setUsers(results);
         } catch (apiError: any) {
             setError(apiError.message || "Erro inesperado ao carregar usuários.");
             setUsers([]);
@@ -53,7 +69,8 @@ export function useFriendsViewModel() {
     };
 
     const follow = async (followingId: string) => {
-        const response = await UserService.follow(followingId);
+        const loggedUserId = await AuthService.getAuthIDUser();
+        const response = await UserService.follow(followingId, loggedUserId ?? '');
 
         if (response.success) {
             setFollowing(prev => new Set(prev).add(followingId));
@@ -64,7 +81,8 @@ export function useFriendsViewModel() {
     };
 
     const unfollow = async (followingId: string) => {
-        const response = await UserService.unfollow(followingId);
+        const loggedUserId = await AuthService.getAuthIDUser();
+        const response = await UserService.unfollow(followingId, loggedUserId ?? '');
 
         if (response.success) {
             setFollowing(prev => {

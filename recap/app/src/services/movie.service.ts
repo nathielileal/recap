@@ -1,7 +1,14 @@
 import { Movie } from "../models/movie";
-import { createApiInstance } from "./api.service";
+import { applyUserIdHeader, createApiInstance } from "./api.service";
 
-export const movieApi = createApiInstance('movies');
+export const movieApi = createApiInstance('movies', true);
+
+movieApi.interceptors.request.use(
+    applyUserIdHeader,
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 export const MovieService = {
     getMovies: async (page: number = 1): Promise<Movie[]> => {
@@ -16,5 +23,10 @@ export const MovieService = {
         }));
 
         return movies;
+    },
+    getMoviesById: async (id: number): Promise<Movie> => {
+        const response = await movieApi.get<Movie>(`/movies/${id}`);
+
+        return response.data;
     },
 };

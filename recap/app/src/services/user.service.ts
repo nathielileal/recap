@@ -7,9 +7,9 @@ import { Social } from "../models/social";
 export const api = createApiInstance('user');
 
 export const UserService = {
-    getUser: async (): Promise<User> => {
+    getUser: async (id: string): Promise<User> => {
         try {
-            const response = await api.get<User>('/user/me');
+            const response = await api.get<User>(`/user/${id}`);
 
             return response.data;
         } catch (error) {
@@ -50,9 +50,9 @@ export const UserService = {
     },
 
     // social
-    getFollowers: async (): Promise<Social[]> => {
+    getFollowers: async (id: string): Promise<Social[]> => {
         try {
-            const response = await api.get<Social[]>('/users/me/followers');
+            const response = await api.get<Social[]>(`/users/${id}/followers`);
 
             return response.data;
         } catch (error) {
@@ -64,9 +64,9 @@ export const UserService = {
         }
     },
 
-    getFollowing: async (): Promise<Social[]> => {
+    getFollowing: async (id: string): Promise<Social[]> => {
         try {
-            const response = await api.get<Social[]>('/users/me/following');
+            const response = await api.get<Social[]>(`/users/${id}/following`);
 
             return response.data;
         } catch (error) {
@@ -78,9 +78,9 @@ export const UserService = {
         }
     },
 
-    async follow(followingId: string): Promise<ApiResponse<Social>> {
+    async follow(followingId: string, id: string): Promise<ApiResponse<Social>> {
         try {
-            const response = await api.post(`/users/me/follow`, { targetId: followingId });
+            const response = await api.post(`/users/${id}/follow`, { targetId: followingId });
 
             if (response.status == 201 || response.status == 200) {
                 return { success: true };
@@ -98,9 +98,9 @@ export const UserService = {
         }
     },
 
-    async unfollow(followingId: string): Promise<ApiResponse<Social>> {
+    async unfollow(followingId: string, id: string): Promise<ApiResponse<Social>> {
         try {
-            const response = await api.post(`/users/me/unfollow`, { targetId: followingId });
+            const response = await api.post(`/users/${id}/unfollow`, { targetId: followingId });
 
             if (response.status == 201 || response.status == 200) {
                 return { success: true };

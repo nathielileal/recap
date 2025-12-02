@@ -13,18 +13,22 @@ export function useCatalogViewModel(type: string | string[]) {
         setLoading(true);
 
         try {
-            let data;
+            const data = await CatalogService.getMoviesFromCatalog();
 
-            console.log(type);
-            if (type === 'W') {
-                data = await CatalogService.getMoviesFromCatalog();
-            } else if (type === 'F') {
-                data = await CatalogService.getMoviesFromCatalog();
-            } else {
-                data = await CatalogService.getMoviesFromCatalog();
-            }
+            const movies = data.filter((movie: Movie) => {
+                switch (type) {
+                    case 'Favoritos':
+                        return movie.isFavorite === true;
 
-            setMovies(data ?? []);
+                    case 'Assistidos':
+                        return movie.isWatched === true;
+
+                    default:
+                        return movie.isInCatalog === true;
+                }
+            });
+
+            setMovies(movies ?? []);
         } catch (apiError: any) {
             setError(apiError.message || "Erro inesperado ao carregar filmes da lista.");
         } finally {

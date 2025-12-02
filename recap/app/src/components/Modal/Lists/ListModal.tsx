@@ -1,6 +1,6 @@
 import { MinusCircleIcon, MinusIcon, PlusCircleIcon, PlusIcon, XIcon } from "phosphor-react-native";
 import React, { useEffect, useMemo } from "react";
-import { Alert, FlatList, Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Keyboard, Modal, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { useThemeContext } from "../../../provider/ThemeProvider";
 import { useListsViewModel } from "../../../viewmodels/list.viewmodel";
 import { stylesheet } from "./ListModal.styles";
@@ -28,7 +28,7 @@ export function ListModal({ tmdbId, onClosed }: Props) {
             Alert.alert("Falha ao adicionar filme", message);
         }
     }
-    
+
     const handleDeleteMovie = async (listId: number) => {
         const result = await deleteMovieFromList(listId, tmdbId);
 
@@ -62,27 +62,29 @@ export function ListModal({ tmdbId, onClosed }: Props) {
 
     return (
         <Modal visible transparent animationType="slide">
-            <View style={styles.container}>
-                <View style={styles.modal}>
-                    <View style={styles.header}>
-                        <Text style={styles.headerTitle}>Adicionar à lista</Text>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+                    <View style={styles.modal}>
+                        <View style={styles.header}>
+                            <Text style={styles.headerTitle}>Adicionar à lista</Text>
 
-                        <TouchableOpacity onPress={() => onClosed()}>
-                            <XIcon color={theme.secondary} size={25} weight="thin"></XIcon>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => onClosed()}>
+                                <XIcon color={theme.secondary} size={25} weight="thin"></XIcon>
+                            </TouchableOpacity>
+                        </View>
+
+                        <FlatList
+                            key="lists"
+                            data={lists}
+                            numColumns={1}
+                            renderItem={renderItem}
+                            style={{ marginTop: 15 }}
+                            keyExtractor={(item) => String(item.id)}
+                            showsVerticalScrollIndicator={false}
+                        />
                     </View>
-
-                    <FlatList
-                        key="lists"
-                        data={lists}
-                        numColumns={1}
-                        renderItem={renderItem}
-                        style={{ marginTop: 15 }}
-                        keyExtractor={(item) => String(item.id)}
-                        showsVerticalScrollIndicator={false}
-                    />
                 </View>
-            </View>
+            </TouchableWithoutFeedback>
         </Modal>
     );
 };

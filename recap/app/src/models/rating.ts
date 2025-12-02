@@ -2,6 +2,7 @@ export interface Rating {
     id?: number;
     ratingId?: number;
     userId?: string,
+    username?: string;
     tmdbId?: number;
     score: number;
     review: string;

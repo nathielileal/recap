@@ -7,6 +7,7 @@ import { stylesheet } from "./Friends.style";
 import { useFriendsViewModel } from "../../viewmodels/friends.viewmodel";
 import { User } from "../../models/user";
 import { MagnifyingGlassIcon, UserCircleIcon } from "phosphor-react-native";
+import { router } from "expo-router";
 
 export default function FriendsPage() {
   const { load, users, filter, setFilter, search, setSearch, loading, error, follow, unfollow, following } = useFriendsViewModel();
@@ -63,15 +64,17 @@ export default function FriendsPage() {
     }
 
     return (
-      <View style={styles.card}>
-        <UserCircleIcon size={35} color={theme.secondaryOpacity}></UserCircleIcon>
+      <TouchableOpacity onPress={() => router.push({ pathname: "/profile", params: { id: item.id } })} key={item.id}>
+        <View style={styles.card}>
+          <UserCircleIcon size={35} color={theme.secondaryOpacity}></UserCircleIcon>
 
-        <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>@{item.name}</Text>
+          <View style={styles.cardContent}>
+            <Text style={styles.cardTitle}>@{item.name}</Text>
+          </View>
+
+          {button}
         </View>
-
-        {button}
-      </View>
+      </TouchableOpacity>
     )
   };
 
@@ -103,13 +106,13 @@ export default function FriendsPage() {
       <FilterTabs firstOption="Todos os usuários" secondOption="Seguidores" thirdOption="Seguindo" hasMoreTabs={true} filter={filter} setFilter={setFilter} />
 
       <View style={{ width: "100%" }}>
-          <View style={styles.input}>
-            <TextInput placeholder="Buscar" placeholderTextColor={theme.terciary} style={styles.textInput} value={search} onChangeText={setSearch} autoCapitalize="none" />
-            <MagnifyingGlassIcon color={theme.terciary} size={25} weight="light"></MagnifyingGlassIcon>
-          </View>
-
-          {renderPage()}
+        <View style={styles.input}>
+          <TextInput placeholder="Buscar" placeholderTextColor={theme.terciary} style={styles.textInput} value={search} onChangeText={setSearch} autoCapitalize="none" />
+          <MagnifyingGlassIcon color={theme.terciary} size={25} weight="light"></MagnifyingGlassIcon>
         </View>
+
+        {renderPage()}
+      </View>
     </CamLenseScreen>
   );
 };

@@ -77,7 +77,7 @@ const ListsPage = () => {
           <Text style={{ color: theme.secondary, textAlign: "center", fontSize: 16 }}>
             {error}
           </Text>
-        ) : lists.length === 0 ? (
+        ) : lists.length === 0 && !search ? (
           <Text style={{ color: theme.terciary, textAlign: "center", fontSize: 16 }}>Nenhuma lista criada ainda.</Text>
         ) : (
           <FlatList

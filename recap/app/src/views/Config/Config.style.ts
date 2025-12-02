@@ -27,13 +27,36 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start"
   },
+  headerCam: {
+    width: '100%',
+    paddingTop: 10,
+    paddingBottom: 15,
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
+    backgroundColor: theme.primary,
+  },
+  headerItemLeft: {
+    flex: 1,
+  },
+  headerItemRight: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  headerTitle: {
+    fontSize: 20,
+    lineHeight: 25,
+    color: theme.terciary,
+    fontFamily: 'IBMPlexMono_400Regular',
+  },
   container: {
     flex: 1,
     alignItems: "flex-start",
   },
-  icon: { 
-    borderRadius: 50, 
-    marginLeft: 40,
+  icon: {
+    borderRadius: 50,
+    marginLeft: 30,
   },
   image: {
     width: 140,
@@ -46,7 +69,7 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     borderColor: theme.secondary,
   },
   info: {
-    marginHorizontal: 20,
+    marginHorizontal: 15,
   },
   name: {
     fontSize: 20,

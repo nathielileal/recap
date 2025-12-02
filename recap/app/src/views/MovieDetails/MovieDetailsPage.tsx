@@ -18,7 +18,7 @@ export default function MovieDetailsPage() {
     const { id } = useLocalSearchParams();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { tmdbId, detail, loading, option, handleOption, modal, openCreateModal, closeReviewModal, lists, handleLists, reviews, getReviews, addToCatalog, user } = useDetailsViewModel(id);
+    const { tmdbId, detail, loading, option, handleOption, modal, openCreateModal, closeReviewModal, lists, handleLists, reviews, getReviews, addToCatalog, setFavorite, setWatched, getDetail } = useDetailsViewModel(id);
 
     const closeModal = async () => {
         closeReviewModal();
@@ -30,19 +30,43 @@ export default function MovieDetailsPage() {
     };
 
     const showReviews = ({ item }: { item: Rating }) => {
-        return (<CardReview data={item} username={user?.name ?? 'usuário'} onClosed={closeModal}></CardReview>);
+        return (<CardReview data={item} username={item.username ?? 'usuário'} onClosed={closeModal}></CardReview>);
     }
 
     const handleCatalog = async (tmdbId: number) => {
         let message = '';
 
-        if (!detail?.isInCatalog) { // trocar para get do catalogo
+        if (!detail?.isInCatalog) {
             message = await addToCatalog(tmdbId);
         } else {
             message = 'Esse filme já foi adicionado à sua watchlist';
         }
 
+        await getDetail();
         Alert.alert(message);
+    };
+
+    const handleFavorite = async (tmdbId: number) => {
+        let message;
+
+        if (detail?.isInCatalog) {
+            message = await setFavorite(tmdbId, !detail?.isFavorite);
+        } else {
+            message = 'Adicione o filme à sua watchlist antes de marcá-lo como favorito.';
+        }
+
+        Alert.alert(message ?? '');
+    };
+
+    const handleWatched = async (tmdbId: number) => {
+        let message;
+        if (detail?.isInCatalog) {
+            message = await setWatched(tmdbId, !detail?.isWatched);
+        } else {
+            message = 'Adicione o filme à sua watchlist antes de marcá-lo como assistido.';
+        }
+
+        Alert.alert(message ?? '');
     };
 
     const showInfo = () => {
@@ -88,18 +112,18 @@ export default function MovieDetailsPage() {
                 <View style={styles.headerItemRight}>
                     <View style={styles.functions}>
                         {/* favoritar */}
-                        <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
-                            <HeartStraightIcon color={theme.secondary} size={25} weight="thin" />
+                        <TouchableOpacity onPress={() => handleFavorite(tmdbId)}>
+                            <HeartStraightIcon color={theme.secondary} size={25} weight={detail?.isFavorite ? "fill" : "thin"} />
                         </TouchableOpacity>
 
                         {/* watchlist */}
                         <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
-                            <BookmarkSimpleIcon color={theme.orange} size={25} weight="thin" style={{ marginLeft: 10 }} />
+                            <BookmarkSimpleIcon color={theme.orange} size={25} weight={detail?.isInCatalog ? "fill" : "thin"} style={{ marginLeft: 10 }} />
                         </TouchableOpacity>
 
                         {/* assistido */}
-                        <TouchableOpacity onPress={() => handleCatalog(tmdbId)}>
-                            <FilmStripIcon color={theme.yellow} size={25} weight="thin" style={{ marginLeft: 10 }} />
+                        <TouchableOpacity onPress={() => handleWatched(tmdbId)}>
+                            <FilmStripIcon color={theme.yellow} size={25} weight={detail?.isWatched ? "fill" : "thin"} style={{ marginLeft: 10 }} />
                         </TouchableOpacity>
                     </View>
                 </View>

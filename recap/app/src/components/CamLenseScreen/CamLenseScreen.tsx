@@ -1,6 +1,6 @@
 import { BellSimpleRingingIcon, CircleIcon, SwatchesIcon } from 'phosphor-react-native';
 import React, { useMemo } from 'react';
-import { SafeAreaView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { Keyboard, SafeAreaView, StatusBar, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { useAuthContext } from '../../context/AuthContext';
 import { useThemeContext } from '../../provider/ThemeProvider';
 import { SessionExpiredScreen } from '../SessionExpired/SessionExpiredScreen';
@@ -36,7 +36,7 @@ export function CamLenseScreen({ title, header, children, paddingVertical, paddi
                     <TouchableOpacity onPress={() => router.push({ pathname: "/notification" })}>
                         <BellSimpleRingingIcon color={theme.terciary} size={25} weight="light" />
                     </TouchableOpacity>
-                    
+
                     <TouchableOpacity onPress={toggleTheme}>
                         <SwatchesIcon color={theme.terciary} size={25} weight="light" />
                     </TouchableOpacity>
@@ -47,14 +47,14 @@ export function CamLenseScreen({ title, header, children, paddingVertical, paddi
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            {/* status bar do sistema operacional */}
-            <StatusBar barStyle={currentThemeKey === 'dark' ? 'light-content' : 'dark-content'} /> 
+                {/* status bar do sistema operacional */}
+                <StatusBar barStyle={currentThemeKey === 'dark' ? 'light-content' : 'dark-content'} />
 
-            {header || genericHeader}
+                {header || genericHeader}
 
-            <View style={[styles.container, { paddingVertical: paddingVertical ?? 18, paddingHorizontal: paddingHorizontal ?? 20 }]}>
-                {sessionExpired ? <SessionExpiredScreen /> : children}
-            </View>
+                <View style={[styles.container, { paddingVertical: paddingVertical ?? 18, paddingHorizontal: paddingHorizontal ?? 20 }]}>
+                    {sessionExpired ? <SessionExpiredScreen /> : children}
+                </View>
         </SafeAreaView>
     );
 };

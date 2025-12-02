@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import React, { useMemo } from 'react';
-import { Alert, ImageBackground, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, ImageBackground, Keyboard, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import { useThemeContext } from '../../../provider/ThemeProvider';
 import { useAuthViewModel } from '../../../viewmodels/auth.viewmodel';
@@ -22,39 +22,41 @@ export default function RecoverPage() {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={require('../../../../../assets/images/recap-screen.png')} style={styles.backgroundImage} resizeMode="cover">
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ImageBackground source={require('../../../../../assets/images/recap-screen.png')} style={styles.backgroundImage} resizeMode="cover">
 
-        <Svg style={styles.svgShape} viewBox="0 0 85 85" preserveAspectRatio="none">
-          <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill={theme.primary} />
-        </Svg>
+          <Svg style={styles.svgShape} viewBox="0 0 85 85" preserveAspectRatio="none">
+            <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill={theme.primary} />
+          </Svg>
 
-        <View style={styles.formContent}>
-          <Text style={styles.signInText}>Recuperar senha</Text>
+          <View style={styles.formContent}>
+            <Text style={styles.signInText}>Recuperar senha</Text>
 
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            placeholder="example@domain.com"
-            placeholderTextColor={theme.grey}
-            value={email}
-            onChangeText={setEmail}
-            style={styles.input}
-            autoCapitalize='none'
-          />
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              placeholder="example@domain.com"
+              placeholderTextColor={theme.grey}
+              value={email}
+              onChangeText={setEmail}
+              style={styles.input}
+              autoCapitalize='none'
+            />
 
-          {authError && <Text style={styles.errorText}>{authError}</Text>}
+            {authError && <Text style={styles.errorText}>{authError}</Text>}
 
-          <TouchableOpacity style={styles.btn} onPress={handleRecover} disabled={isLoading} >
-            <Text style={styles.btnText}>{isLoading ? 'Carregando...' : 'Enviar'}</Text>
-          </TouchableOpacity>
-
-          <View style={styles.signupContainer}>
-            <Text style={styles.signupText}>Já tem uma conta? </Text>
-            <TouchableOpacity onPress={() => router.push('(auth)/sign-in')}>
-              <Text style={styles.link}> Entrar</Text>
+            <TouchableOpacity style={styles.btn} onPress={handleRecover} disabled={isLoading} >
+              <Text style={styles.btnText}>{isLoading ? 'Carregando...' : 'Enviar'}</Text>
             </TouchableOpacity>
+
+            <View style={styles.signupContainer}>
+              <Text style={styles.signupText}>Já tem uma conta? </Text>
+              <TouchableOpacity onPress={() => router.push('(auth)/sign-in')}>
+                <Text style={styles.link}> Entrar</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ImageBackground>
+        </ImageBackground>
+      </TouchableWithoutFeedback>
     </View>
   );
 }

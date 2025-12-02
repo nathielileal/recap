@@ -9,7 +9,7 @@ import NotificationPage from './Notification/NotificationPage';
 import ProfilePage from './Profile/ProfilePage';
 
 export default function ConfigPage() {
-  const { loading, filter, setFilter } = useProfileViewModel();
+  const { loading, filter, setFilter } = useProfileViewModel('');
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
 
