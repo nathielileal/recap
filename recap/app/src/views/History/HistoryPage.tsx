@@ -12,7 +12,7 @@ import { RecommendationType } from '../../models/recommendation';
 export default function HistoryPage() {
     const { toggleTheme, theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { rec, movie, get, loading } = useRecommendationViewModel();
+    const { rec, movie, get, loading, rate } = useRecommendationViewModel();
 
     useFocusEffect(
         useCallback(() => {
@@ -21,7 +21,7 @@ export default function HistoryPage() {
     );
 
     const showRec = ({ item }: { item: RecommendationType }) => {
-        return (<CardRec data={item} movies={movie} ></CardRec>);
+        return (<CardRec data={item} movies={movie} rate={rate}></CardRec>);
     }
 
     return (

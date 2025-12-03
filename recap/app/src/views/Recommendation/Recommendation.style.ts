@@ -26,7 +26,7 @@ export const stylesheet = (theme: any) => StyleSheet.create({
   },
   about: {
     fontSize: 10,
-    marginVertical: 5,
+    marginVertical: 10,
     textAlign: 'center',
     marginHorizontal: 10,
     color: theme.terciary,
@@ -43,7 +43,6 @@ export const stylesheet = (theme: any) => StyleSheet.create({
   btn: {
     padding: 10,
     borderRadius: 50,
-    marginVertical: 10,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -64,7 +63,6 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     flex: 3,
     padding: 10,
     borderRadius: 25,
-    marginVertical: 20,
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "space-between",
@@ -80,4 +78,20 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  footer: {
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 10,
+    alignItems: "center",
+    flexDirection: "column",
+    borderColor: theme.terciary,
+  },
+  review: {
+    marginVertical: 5,
+    fontSize: 10,
+    color: theme.terciary,
+  },
+  options: {
+    flexDirection: "row",
+  }
 });

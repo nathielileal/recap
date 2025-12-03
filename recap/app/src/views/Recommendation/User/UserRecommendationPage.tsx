@@ -3,19 +3,23 @@ import { useRecommendationViewModel } from "../../../viewmodels/recommendation.v
 import { useThemeContext } from "../../../provider/ThemeProvider";
 import { stylesheet } from "../Recommendation.style";
 import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
-import { FilmReelIcon, VinylRecordIcon } from "phosphor-react-native";
+import { FilmReelIcon, ThumbsDownIcon, ThumbsUpIcon, VinylRecordIcon } from "phosphor-react-native";
 import { Movie } from "../../../models/movie";
 import { CardMovie } from "../../../components/Card/CardMovie/CardMovie";
 import { router } from "expo-router";
 
 export default function UserRecommendationPage() {
-  const { rec, load, loading, movie, hasRecommendations } = useRecommendationViewModel();
+  const { rec, load, loading, movie, hasRecommendations, rate, like } = useRecommendationViewModel();
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
 
   const renderMovie = ({ item }: { item: Movie }) => (
     <CardMovie data={item} onPress={() => router.push({ pathname: "/(protected)/(app)/movie-detail", params: { id: item.tmdbId } })} />
   );
+
+  const handleRate = async (liked: boolean | null) => {
+    await rate(rec[0].id ?? '', liked);
+  }
 
   const header = (
     <>
@@ -34,6 +38,27 @@ export default function UserRecommendationPage() {
     </>
   );
 
+  const footer = () => {
+    return (
+      <View>
+        {movie.length > 0 && !loading && (
+          <View style={styles.footer}>
+            <Text style={styles.review}>Essa avaliação foi útil?</Text>
+
+            <View style={styles.options}>
+              <TouchableOpacity onPress={() => handleRate(like === true ? null : true)}>
+                <ThumbsUpIcon size={20} color={theme.terciary} weight={like != null && like === true ? 'fill' : 'light'} style={{ marginHorizontal: 10 }}></ThumbsUpIcon>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleRate(like === false ? null : false)}>
+                <ThumbsDownIcon size={20} color={theme.terciary} weight={like != null && like === false ? 'fill' : 'light'} style={{ marginHorizontal: 10 }}></ThumbsDownIcon>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      </View>
+    );
+  };
+
   const empty = () => {
     if (loading && movie.length === 0) {
       return (<ActivityIndicator size="large" color={theme.secondary} style={{ marginTop: 50 }} />);
@@ -44,7 +69,7 @@ export default function UserRecommendationPage() {
     if (!hasRecommendations && !loading) {
       message = 'Nenhuma recomendação gerada. Avalie alguns filmes para receber sugestões personalizadas.';
     }
-    
+
     return (
       <Text style={[hasRecommendations ? styles.about : styles.empty, { marginTop: 20 }]}>{message}</Text>
     );
@@ -61,6 +86,8 @@ export default function UserRecommendationPage() {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={header}
         ListEmptyComponent={empty}
+        ListFooterComponent={footer}
+        ListFooterComponentStyle={{ width: '100%', marginVertical: 30, justifyContent: "flex-end", alignItems: "flex-end" }}
       />
     </View>
   );

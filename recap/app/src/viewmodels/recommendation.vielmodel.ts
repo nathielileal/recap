@@ -11,6 +11,7 @@ export const useRecommendationViewModel = () => {
     const [movie, setMovie] = useState<Movie[]>([]);
     const [search, setSearch] = useState('');
     const [hasRecommendations, setHasRecommendations] = useState(true);
+    const [like, setLike] = useState<boolean | null>(null);
 
     const get = useCallback(async () => {
         setLoading(true);
@@ -26,6 +27,7 @@ export const useRecommendationViewModel = () => {
             }
 
             const movielist: Promise<Movie>[] = [];
+           
             data.forEach(recommendation => {
                 recommendation.movies?.forEach(item => {
                     if (item.tmdbId > 0) {
@@ -35,9 +37,12 @@ export const useRecommendationViewModel = () => {
             });
 
             const movies = await Promise.all(movielist);
-
+            const map = new Map();
+          
+            movies.forEach(movie => {map.set(movie.tmdbId, movie);});
+          
             setRec(data);
-            setMovie(movies);
+            setMovie(Array.from(map.values()));
             setHasRecommendations(data.length > 0);
         } catch (apiError: any) {
             setRec([]);
@@ -72,6 +77,7 @@ export const useRecommendationViewModel = () => {
             const movies = await Promise.all(moviePromises);
 
             setRec(data);
+            setLike(data[0].liked ?? false);
             setMovie(movies);
         } catch (apiError: any) {
             setRec([]);
@@ -124,5 +130,23 @@ export const useRecommendationViewModel = () => {
         }
     };
 
-    return { rec, load, get, loading, filter, setFilter, movie, hasRecommendations, search, setSearch, saveTextRec };
+    const rate = async (id: string, liked: boolean | null) => {
+        setLike(liked);
+        const result = await RecommendationService.rateRecommendation(id, liked);
+
+        if (result.success) {
+            setRec(prevRec =>
+                prevRec.map(recommendation => {
+                    if (recommendation.id === id) {
+                        return { ...recommendation, liked: liked };
+                    }
+                    return recommendation;
+                })
+            );
+        }
+
+        return result;
+    };
+
+    return { rec, load, get, loading, filter, setFilter, movie, hasRecommendations, search, setSearch, saveTextRec, rate, like };
 };

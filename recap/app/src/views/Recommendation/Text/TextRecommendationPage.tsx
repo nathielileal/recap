@@ -3,13 +3,13 @@ import { useRecommendationViewModel } from "../../../viewmodels/recommendation.v
 import { useThemeContext } from "../../../provider/ThemeProvider";
 import { stylesheet } from "../Recommendation.style";
 import { ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { MagnifyingGlassIcon } from "phosphor-react-native";
+import { MagnifyingGlassIcon, ThumbsDownIcon, ThumbsUpIcon } from "phosphor-react-native";
 import { Movie } from "../../../models/movie";
 import { CardMovie } from "../../../components/Card/CardMovie/CardMovie";
 import { router } from "expo-router";
 
 export default function TextRecommendationPage() {
-  const { loading, movie, hasRecommendations, search, setSearch, saveTextRec } = useRecommendationViewModel();
+  const { rec, loading, movie, hasRecommendations, search, setSearch, saveTextRec } = useRecommendationViewModel();
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
 
@@ -20,8 +20,6 @@ export default function TextRecommendationPage() {
   const header = (
     <>
       <View style={styles.context}>
-        <Text style={styles.about}>Descreva o tipo de filme que você quer assistir e a IA vai sugerir títulos.</Text>
-
         <View style={styles.header}>
           <View style={styles.input}>
             <TextInput placeholder="Ex: Filmes com viagem no tempo" placeholderTextColor={theme.terciary} value={search} onChangeText={setSearch} style={styles.textInput} multiline autoCapitalize="none" />
@@ -32,12 +30,15 @@ export default function TextRecommendationPage() {
             <Text style={styles.btnText}>Buscar</Text>
           </TouchableOpacity>
         </View>
+
+        <Text style={styles.about}>Descreva o tipo de filme que você quer assistir e a IA irá sugerir títulos.</Text>
+
       </View>
     </>
   );
 
   const empty = () => {
-    if (loading && movie.length === 0) {
+    if (loading) {
       return (<ActivityIndicator size="large" color={theme.secondary} style={{ marginTop: 50 }} />);
     }
 
@@ -54,17 +55,19 @@ export default function TextRecommendationPage() {
 
   return (
     <View style={[styles.container, { flex: 1, width: '100%' }]}>
-      <FlatList
-        data={movie}
-        renderItem={renderMovie}
-        numColumns={3}
-        keyExtractor={(item, index) => `${item.tmdbId}-${index}`}
-        contentContainerStyle={{ padding: 2, alignItems: "center", justifyContent: "center" }}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={header}
-        ListEmptyComponent={empty}
-        columnWrapperStyle={{ justifyContent: 'flex-start', paddingHorizontal: 5 }}
-      />
+      {loading
+        ? <ActivityIndicator size="large" color={theme.secondary} style={{ marginTop: 50 }} />
+        : <FlatList
+          data={movie}
+          renderItem={renderMovie}
+          numColumns={3}
+          keyExtractor={(item, index) => `${item.tmdbId}-${index}`}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={header}
+          ListEmptyComponent={empty}
+          contentContainerStyle={{ padding: 2, alignItems: "center", justifyContent: "center" }}
+          columnWrapperStyle={{ justifyContent: 'flex-start', paddingHorizontal: 5 }}
+        />}
     </View>
   );
 };

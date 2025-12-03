@@ -61,9 +61,8 @@ export const RecommendationService = {
         }
     },
 
-    async rateRecommendation(liked: boolean): Promise<ApiResponse<RecommendationType>> {
+    async rateRecommendation(id: string, liked: boolean | null): Promise<ApiResponse<RecommendationType>> {
         try {
-            const id = await AuthService.getAuthIDUser();
             const response = await api.patch(`/recommendations/${id}/rate`, { liked: liked });
 
             if (response.status == 201 || response.status == 200) {

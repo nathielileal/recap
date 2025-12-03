@@ -33,4 +33,8 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         paddingLeft: 10,
         color: theme.terciary,
     },
+    options: {
+        flexDirection: "row",
+        justifyContent: 'flex-end'
+    }
 });

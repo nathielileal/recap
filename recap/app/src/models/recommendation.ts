@@ -11,7 +11,7 @@ export interface RecommendationType {
 
     // user
     id?: string;
-    liked?: boolean;
+    liked?: boolean | null;
     userId?: string;
     createdAt?: string;
     textPrompt?: string;
