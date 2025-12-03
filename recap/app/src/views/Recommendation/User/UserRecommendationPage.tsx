@@ -88,6 +88,7 @@ export default function UserRecommendationPage() {
         ListEmptyComponent={empty}
         ListFooterComponent={footer}
         ListFooterComponentStyle={{ width: '100%', marginVertical: 30, justifyContent: "flex-end", alignItems: "flex-end" }}
+        ListHeaderComponentStyle={{ width: '100%', marginBottom: 10 }}
       />
     </View>
   );
