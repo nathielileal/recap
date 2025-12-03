@@ -9,7 +9,7 @@ import { CardMovie } from "../../../components/Card/CardMovie/CardMovie";
 import { router } from "expo-router";
 
 export default function TextRecommendationPage() {
-  const { rec, load, loading, movie, hasRecommendations, search, setSearch, saveTextRec } = useRecommendationViewModel();
+  const { loading, movie, hasRecommendations, search, setSearch, saveTextRec } = useRecommendationViewModel();
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
 

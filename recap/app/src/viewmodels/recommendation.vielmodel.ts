@@ -54,7 +54,7 @@ export const useRecommendationViewModel = () => {
         setHasRecommendations(false);
 
         try {
-            const data = await RecommendationService.getRecommendationByUser();
+            const data = await RecommendationService.getRecommendation();
             const recommendation = data?.[0]?.movies || [];
 
             setHasRecommendations(recommendation.length > 0);

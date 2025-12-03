@@ -7,6 +7,20 @@ import { AuthService } from "./auth.service";
 export const api = createApiInstance('rating');
 
 export const RecommendationService = {
+    getRecommendation: async (): Promise<RecommendationType[]> => {
+        try {
+            const response = await api.get<Recommendation>(`/recommendations/me`);
+
+            return response.data.recommendations || [];
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                throw new Error(error.response?.data?.error || 'Erro ao gerar recomendações.');
+            }
+
+            throw new Error('Ocorreu um erro desconhecido.');
+        }
+    },
+
     getRecommendationByUser: async (): Promise<RecommendationType[]> => {
         try {
             const userId = await AuthService.getAuthIDUser();
