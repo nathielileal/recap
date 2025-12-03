@@ -9,7 +9,7 @@ export function applyAuthInterceptor(apiInstance: AxiosInstance): void {
       const token = await AuthService.getAuthToken();
 
       if (token) {
-        console.log(token);
+        // console.log(token);
         config.headers.Authorization = `Bearer ${token}`;
       }
 

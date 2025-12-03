@@ -1,3 +1,5 @@
+import { Movie } from "./movie";
+
 export interface Recommendation {
     recommendations: RecommendationType[];
 }
@@ -13,10 +15,5 @@ export interface RecommendationType {
     userId?: string;
     createdAt?: string;
     textPrompt?: string;
-    movies?: RecommendationMovie[];
-}
-
-export interface RecommendationMovie {
-    title: string; 
-    tmdbId: number;
+    movies?: Movie[];
 }

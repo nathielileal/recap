@@ -3,7 +3,7 @@ import { useRecommendationViewModel } from "../../../viewmodels/recommendation.v
 import { useThemeContext } from "../../../provider/ThemeProvider";
 import { stylesheet } from "../Recommendation.style";
 import { ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { FilmReelIcon, MagnifyingGlassIcon, VinylRecordIcon } from "phosphor-react-native";
+import { MagnifyingGlassIcon } from "phosphor-react-native";
 import { Movie } from "../../../models/movie";
 import { CardMovie } from "../../../components/Card/CardMovie/CardMovie";
 import { router } from "expo-router";

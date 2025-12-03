@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { RecommendationService } from '../services/recommendation.service';
 import { RecommendationType } from '../models/recommendation';
 import { Movie } from '../models/movie';
@@ -11,6 +11,43 @@ export const useRecommendationViewModel = () => {
     const [movie, setMovie] = useState<Movie[]>([]);
     const [search, setSearch] = useState('');
     const [hasRecommendations, setHasRecommendations] = useState(true);
+
+    const get = useCallback(async () => {
+        setLoading(true);
+        setHasRecommendations(false);
+
+        try {
+            const data = await RecommendationService.getRecommendationByUser();
+
+            if (data.length === 0) {
+                setRec([]);
+                setMovie([]);
+                return;
+            }
+
+            const movielist: Promise<Movie>[] = [];
+            data.forEach(recommendation => {
+                recommendation.movies?.forEach(item => {
+                    if (item.tmdbId > 0) {
+                        movielist.push(MovieService.getMoviesById(item.tmdbId));
+                    }
+                });
+            });
+
+            const movies = await Promise.all(movielist);
+
+            setRec(data);
+            setMovie(movies);
+            setHasRecommendations(data.length > 0);
+        } catch (apiError: any) {
+            setRec([]);
+            setMovie([]);
+            setHasRecommendations(false);
+            console.error('Erro ao carregar recomendações:', apiError);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
     const load = async () => {
         setLoading(true);
@@ -52,8 +89,6 @@ export const useRecommendationViewModel = () => {
         try {
             const data = await RecommendationService.saveTextRecommendation(text);
 
-            console.log('data: ' + data.results);
-
             if (!data.success || !data.results) {
                 setRec([]);
                 setMovie([]);
@@ -89,5 +124,5 @@ export const useRecommendationViewModel = () => {
         }
     };
 
-    return { rec, load, loading, filter, setFilter, movie, hasRecommendations, search, setSearch, saveTextRec };
+    return { rec, load, get, loading, filter, setFilter, movie, hasRecommendations, search, setSearch, saveTextRec };
 };

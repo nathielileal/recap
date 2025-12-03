@@ -50,7 +50,7 @@ export default function ReviewPage() {
                 ) : review.length > 0 && (
                     <FlatList
                         data={review}
-                        style={{ flex: 1, marginVertical: 10 }}
+                        style={{ flex: 1, marginVertical: 10, marginHorizontal: 20 }}
                         renderItem={showReviews}
                         keyExtractor={(item) => String(item.id)}
                     />

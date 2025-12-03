@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ApiResponse } from "../models/api-response";
 import { createApiInstance } from "./api.service";
-import { Recommendation, RecommendationMovie, RecommendationType } from "../models/recommendation";
+import { Recommendation, RecommendationType } from "../models/recommendation";
 import { AuthService } from "./auth.service";
 
 export const api = createApiInstance('rating');
