@@ -15,7 +15,7 @@ export function AuthRedirector() {
     useEffect(() => {
         if (!isLoading && isAuthenticated !== null) {
             if (isAuthenticated) {
-                if (inAuthGroup) router.replace("/(tabs)");
+                if (inAuthGroup) router.replace("/(protected)");
             } else {
                 if (!inAuthGroup) router.replace("/(auth)");
             }

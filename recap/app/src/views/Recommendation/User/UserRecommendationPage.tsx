@@ -14,7 +14,7 @@ export default function UserRecommendationPage() {
   const styles = useMemo(() => stylesheet(theme), [theme]);
 
   const renderMovie = ({ item }: { item: Movie }) => (
-    <CardMovie data={item} onPress={() => router.push({ pathname: "/movie-detail", params: { id: item.tmdbId } })} />
+    <CardMovie data={item} onPress={() => router.push({ pathname: "/(protected)/(app)/movie-detail", params: { id: item.tmdbId } })} />
   );
 
   const header = (

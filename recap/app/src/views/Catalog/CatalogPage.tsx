@@ -17,7 +17,7 @@ export default function CatalogPage() {
     const { movies, loading, error } = useCatalogViewModel(type);
 
     const renderMovieItem = ({ item }: { item: Movie }) => (
-        <CardMovie data={item} onPress={() => router.push({ pathname: "/movie-detail", params: { id: item.tmdbId } })} />
+        <CardMovie data={item} onPress={() => router.push({ pathname: "/(protected)/(app)/movie-detail", params: { id: item.tmdbId } })} />
     );
 
     return (

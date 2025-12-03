@@ -17,7 +17,7 @@ export default function MoviesListPage() {
     const { isModalOpen, setIsModalOpen, error, movies, loadMovies, loadingMovies } = useListsViewModel();
 
     const renderMovieItem = ({ item }: { item: Movie }) => (
-        <CardMovie data={item} onPress={() => router.push({ pathname: "/movie-detail", params: { id: item.tmdbId } })} />
+        <CardMovie data={item} onPress={() => router.push({ pathname: "/(protected)/(app)/movie-detail", params: { id: item.tmdbId } })} />
     );
 
     const handleCloseModal = () => {

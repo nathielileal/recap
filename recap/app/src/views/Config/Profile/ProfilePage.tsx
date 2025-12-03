@@ -1,5 +1,5 @@
 import { router, useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
-import { BookmarkSimpleIcon, CaretLeftIcon, CaretRightIcon, FilmStripIcon, HeartStraightIcon, PencilSimpleIcon, SignOutIcon, SwatchesIcon, UserIcon } from 'phosphor-react-native';
+import { ArchiveIcon, BookmarkSimpleIcon, CaretLeftIcon, CaretRightIcon, FilmScriptIcon, FilmStripIcon, HeartStraightIcon, PencilSimpleIcon, SignOutIcon, SwatchesIcon, UserIcon } from 'phosphor-react-native';
 import React, { useCallback, useMemo } from 'react';
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { ProfileModal } from '../../../components/Modal/Profile/ProfileModal';
@@ -75,7 +75,7 @@ export default function ProfilePage() {
         </TouchableOpacity>
       )}
 
-      <TouchableOpacity onPress={() => router.push({ pathname: "/catalog", params: { type: "Favoritos" } })} style={[styles.btn, { backgroundColor: theme.primary }]}>
+      <TouchableOpacity onPress={() => router.push({ pathname: "/(protected)/(app)/catalog", params: { type: "Favoritos" } })} style={[styles.btn, { backgroundColor: theme.primary }]}>
         <HeartStraightIcon color={theme.terciary} size={20} />
 
         <Text style={styles.optionText}>Favoritos</Text>
@@ -83,7 +83,7 @@ export default function ProfilePage() {
         <CaretRightIcon color={theme.terciary} size={20} />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.push({ pathname: "/catalog", params: { type: "Watchlist" } })} style={[styles.btn, { backgroundColor: theme.primary }]}>
+      <TouchableOpacity onPress={() => router.push({ pathname: "/(protected)/(app)/catalog", params: { type: "Watchlist" } })} style={[styles.btn, { backgroundColor: theme.primary }]}>
         <BookmarkSimpleIcon color={theme.terciary} size={20} />
 
         <Text style={styles.optionText}>Watchlist</Text>
@@ -91,13 +91,33 @@ export default function ProfilePage() {
         <CaretRightIcon color={theme.terciary} size={20} />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.push({ pathname: "/catalog", params: { type: "Assistidos" } })} style={[styles.btn, { backgroundColor: theme.primary }]}>
+      <TouchableOpacity onPress={() => router.push({ pathname: "/(protected)/(app)/catalog", params: { type: "Assistidos" } })} style={[styles.btn, { backgroundColor: theme.primary }]}>
         <FilmStripIcon color={theme.terciary} size={20} />
 
         <Text style={styles.optionText}>Assistidos</Text>
 
         <CaretRightIcon color={theme.terciary} size={20} />
       </TouchableOpacity>
+
+      {isCurrentUser && (
+        <TouchableOpacity onPress={() => router.push({ pathname: "/(protected)/(app)/review" })} style={[styles.btn, { backgroundColor: theme.primary }]}>
+          <FilmScriptIcon color={theme.terciary} size={20} />
+
+          <Text style={styles.optionText}>Minhas avaliações</Text>
+
+          <CaretRightIcon color={theme.terciary} size={20} />
+        </TouchableOpacity>
+      )}
+
+      {isCurrentUser && (
+        <TouchableOpacity onPress={() => router.push({ pathname: "/(protected)/(app)/history" })} style={[styles.btn, { backgroundColor: theme.primary }]}>
+          <ArchiveIcon color={theme.terciary} size={20} />
+
+          <Text style={styles.optionText}>Histórico de recomendações</Text>
+
+          <CaretRightIcon color={theme.terciary} size={20} />
+        </TouchableOpacity>
+      )}
 
       {isCurrentUser && (
         <TouchableOpacity onPress={handleLogout} style={[styles.btn, { backgroundColor: theme.secondary }]}>

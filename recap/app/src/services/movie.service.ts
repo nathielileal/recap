@@ -5,9 +5,7 @@ export const movieApi = createApiInstance('movies', true);
 
 movieApi.interceptors.request.use(
     applyUserIdHeader,
-    (error) => {
-        return Promise.reject(error);
-    }
+    (error) => { return Promise.reject(error); }
 );
 
 export const MovieService = {
@@ -24,6 +22,7 @@ export const MovieService = {
 
         return movies;
     },
+
     getMoviesById: async (id: number): Promise<Movie> => {
         const response = await movieApi.get<Movie>(`/movies/${id}`);
 

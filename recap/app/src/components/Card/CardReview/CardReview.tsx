@@ -13,13 +13,14 @@ import { useAuthUser } from "../../../context/useAuthUser";
 interface Props {
     data: Rating;
     username: string;
+    hasMovieName: boolean;
     onClosed: () => void,
 }
 
 const stars = Array.from({ length: 5 });
 const max_char = 220;
 
-export function CardReview({ data, username, onClosed }: Props) {
+export function CardReview({ data, username, onClosed, hasMovieName }: Props) {
     const { isExpanded, setIsExpanded, deleteRating, modal, handleModal } = useReviewViewModel(0);
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
@@ -82,13 +83,19 @@ export function CardReview({ data, username, onClosed }: Props) {
             </View>
 
             {isUser && (
-                <View style={styles.options}>
-                    <TouchableOpacity style={styles.option} onPress={handleModal}>
-                        <PencilSimpleIcon size={20} color={theme.terciary} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.option} onPress={handleDelete}>
-                        <TrashSimpleIcon size={20} color={theme.secondary} />
-                    </TouchableOpacity>
+                <View style={[styles.footer, { alignItems: hasMovieName ? 'flex-start' : 'flex-end', justifyContent: hasMovieName ? 'space-between' : 'flex-end' }]}>
+                    {hasMovieName && (
+                        <Text style={styles.movie}>Filme: '{data.movie}'</Text>
+                    )}
+
+                    <View style={styles.options}>
+                        <TouchableOpacity style={styles.option} onPress={handleModal}>
+                            <PencilSimpleIcon size={20} color={theme.terciary} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.option} onPress={handleDelete}>
+                            <TrashSimpleIcon size={20} color={theme.secondary} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
             )}
 

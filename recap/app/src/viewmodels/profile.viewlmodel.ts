@@ -97,9 +97,9 @@ export const useProfileViewModel = (id: string) => {
   const getRatings = async () => {
     try {
       const userId = id ?? await AuthService.getAuthIDUser();
-      const ratings = await RatingService.getUserRating(userId);
+      const response = await RatingService.getUserRating(userId);
 
-      setRatings(ratings.ratings.length);
+      setRatings(response.result?.ratings.length ?? 0);
     } catch (apiError: any) {
       setRatings(0);
     }

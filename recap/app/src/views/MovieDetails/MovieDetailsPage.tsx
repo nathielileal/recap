@@ -30,7 +30,7 @@ export default function MovieDetailsPage() {
     };
 
     const showReviews = ({ item }: { item: Rating }) => {
-        return (<CardReview data={item} username={item.username ?? 'usuário'} onClosed={closeModal}></CardReview>);
+        return (<CardReview data={item} username={item.username ?? 'usuário'} onClosed={closeModal} hasMovieName={false}></CardReview>);
     }
 
     const handleCatalog = async (tmdbId: number) => {

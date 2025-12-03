@@ -33,7 +33,7 @@ export function CamLenseScreen({ title, header, children, paddingVertical, paddi
 
             <View style={styles.headerItemRight}>
                 <View style={styles.functions}>
-                    <TouchableOpacity onPress={() => router.push({ pathname: "/notification" })}>
+                    <TouchableOpacity onPress={() => router.push({ pathname: "/(protected)/(app)/notification" })}>
                         <BellSimpleRingingIcon color={theme.terciary} size={25} weight="light" />
                     </TouchableOpacity>
 

@@ -44,14 +44,14 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         alignItems: "center",
     },
     blur: {
-        position: 'absolute', 
+        position: 'absolute',
         top: 0,
         bottom: 0,
         left: 0,
-        right: 0, 
-        justifyContent: 'center', 
+        right: 0,
+        justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 15, 
+        borderRadius: 15,
     },
     btn: {
         flexDirection: "row",
@@ -69,7 +69,7 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     more: {
         fontSize: 10,
         fontWeight: 'bold',
-        color: theme.terciary, 
+        color: theme.terciary,
     },
     description: {
         padding: 5,
@@ -77,8 +77,18 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         textAlign: "justify",
         color: theme.terciary,
     },
-    options: {
+    footer: {
         paddingTop: 5,
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    movie: {
+        fontSize: 8,
+        paddingInline: 5,
+        color: theme.terciary,
+        fontFamily: 'IBMPlexMono_400Regular'
+    },
+    options: {
         flexDirection: "row",
         alignItems: "flex-end",
         justifyContent: "flex-end",

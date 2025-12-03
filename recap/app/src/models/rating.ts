@@ -4,6 +4,7 @@ export interface Rating {
     userId?: string,
     username?: string;
     tmdbId?: number;
+    movie?: string;
     score: number;
     review: string;
     createdAt?: string;

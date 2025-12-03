@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { List } from "../models/list";
 import { AuthService } from "../services/auth.service";
 import { ListService } from "../services/list.service";
@@ -25,10 +25,6 @@ export const useListsViewModel = () => {
   const [searchMovies, setSearchMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
-    load(search);
-  }, [search]);
-
-  useEffect(() => {
     const applyFilter = async () => {
       const userId = await AuthService.getAuthIDUser();
       const result = lists.filter(list => {
@@ -45,7 +41,7 @@ export const useListsViewModel = () => {
     applyFilter();
   }, [lists, filter]);
 
-  const load = async (strsearch: string) => {
+  const load = useCallback(async (strsearch: string) => {
     setLoading(true);
     setEmpty(false);
 
@@ -66,7 +62,7 @@ export const useListsViewModel = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const loadMovies = async (listId: number) => {
     setLoadingMovies(true);
@@ -107,8 +103,9 @@ export const useListsViewModel = () => {
     setSearch(text);
 
     if (text.length > 2) {
-      // searchMovie(text);
+      load(text);
     } else {
+      load("");
       setSearchMovies([]);
     }
   };

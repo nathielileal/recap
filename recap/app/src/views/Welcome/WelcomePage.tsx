@@ -24,7 +24,7 @@ export default function WelcomePage() {
           <Text style={styles.subtitle}>Sua memória, seus filmes. Tudo em um só lugar.</Text>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={() => router.push('./(auth)/sign-in')}>
+        <TouchableOpacity style={styles.button} onPress={() => router.push('/(auth)/sign-in')}>
           <Text style={styles.text}>Continue</Text>
           <View style={styles.circle}>
             <Text style={styles.icon}>→</Text>

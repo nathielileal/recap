@@ -1,5 +1,5 @@
-import { router } from "expo-router";
-import React, { useMemo } from "react";
+import { router, useFocusEffect } from "expo-router";
+import React, { useCallback, useMemo } from "react";
 import { ActivityIndicator, Alert, FlatList, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { CamLenseScreen } from "../../components/CamLenseScreen/CamLenseScreen";
 import { ListCard } from "../../components/Card/ListCard";
@@ -15,6 +15,12 @@ const ListsPage = () => {
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
   const { lists, loading, search, setSearch, empty, isModalOpen, setIsModalOpen, deleteList, filter, setFilter, selectedList, setSelectedList, load, error } = useListsViewModel();
+
+  useFocusEffect(
+        useCallback(() => {
+            load(search);
+        }, [load, search]) 
+    );
 
   const handleListPress = (list: List) => {
     setSelectedList(list);
@@ -48,7 +54,7 @@ const ListsPage = () => {
   };
 
   const showMovies = (listId: number, name: string) => {
-    router.push({ pathname: "/movies-list", params: { listId: listId, name: name } });
+    router.push({ pathname: "/(protected)/(app)/movies-list", params: { listId: listId, name: name } });
   }
 
   const renderItem = ({ item }: { item: List }) => (

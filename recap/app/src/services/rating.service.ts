@@ -20,11 +20,15 @@ export const RatingService = {
         }
     },
 
-    getUserRating: async (userId: string): Promise<UserRating> => {
+    getUserRating: async (userId: string): Promise<ApiResponse<UserRating>> => {
         try {
             const response = await api.get<UserRating>(`/ratings/user/${userId}`);
 
-            return response.data;
+            if (response.status === 200 || response.status === 201) {
+                return { success: true, result: response.data }
+            }
+
+            return { success: false, error: 'Ocorreu um erro ao buscar avaliações'};
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 throw new Error(error.response?.data?.error || 'Erro ao buscar avaliações do usuário.');

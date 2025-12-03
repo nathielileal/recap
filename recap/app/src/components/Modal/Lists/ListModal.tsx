@@ -1,11 +1,12 @@
 import { MinusCircleIcon, MinusIcon, PlusCircleIcon, PlusIcon, XIcon } from "phosphor-react-native";
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { Alert, FlatList, Keyboard, Modal, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { useThemeContext } from "../../../provider/ThemeProvider";
 import { useListsViewModel } from "../../../viewmodels/list.viewmodel";
 import { stylesheet } from "./ListModal.styles";
 import { ListCard } from "../../Card/ListCard";
 import { List } from "../../../models/list";
+import { useFocusEffect } from "expo-router";
 
 interface Props {
     tmdbId: number,
@@ -16,6 +17,12 @@ export function ListModal({ tmdbId, onClosed }: Props) {
     const { lists, load, addMovieToList, deleteMovieFromList } = useListsViewModel();
     const { theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
+
+    useFocusEffect(
+        useCallback(() => {
+            load("");
+        }, [load])
+    );
 
     const handleAddMovie = async (listId: number) => {
         const result = await addMovieToList(listId, tmdbId);

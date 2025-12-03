@@ -22,7 +22,7 @@ export function ListCard({ data, onEditPress, onDeletePress, showInfo, children,
   const options = (
     <View style={styles.cardOptions}>
       <TouchableOpacity onPress={onEditPress}>
-        <PencilSimpleLineIcon size={20} color={theme.secondary} style={{ marginRight: 5 }} />
+        <PencilSimpleLineIcon size={20} color={theme.terciary} style={{ marginRight: 5 }} />
       </TouchableOpacity>
       <TouchableOpacity onPress={onDeletePress}>
         <TrashSimpleIcon size={20} color={theme.secondary} />

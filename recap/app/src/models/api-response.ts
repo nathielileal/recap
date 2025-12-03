@@ -4,6 +4,7 @@ export interface ApiResponse<T> {
   message?: string;
   error?: string;
   results?: T[];
+  result?: T;
   page?: number;
   total_pages?: number;
   total_results?: number;

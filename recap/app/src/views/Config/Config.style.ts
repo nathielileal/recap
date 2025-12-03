@@ -109,12 +109,12 @@ export const stylesheet = (theme: any) => StyleSheet.create({
   },
   section: {
     width: "100%",
-    marginTop: 40,
+    marginTop: 20,
   },
   btn: {
     borderWidth: 1,
     borderRadius: 25,
-    marginVertical: 10,
+    marginVertical: 5,
     paddingVertical: 15,
     flexDirection: "row",
     alignItems: "center",

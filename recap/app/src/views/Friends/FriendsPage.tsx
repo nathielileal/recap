@@ -64,7 +64,7 @@ export default function FriendsPage() {
     }
 
     return (
-      <TouchableOpacity onPress={() => router.push({ pathname: "/profile", params: { id: item.id } })} key={item.id}>
+      <TouchableOpacity onPress={() => router.push({ pathname: "/(protected)/(app)/profile", params: { id: item.id } })} key={item.id}>
         <View style={styles.card}>
           <UserCircleIcon size={35} color={theme.secondaryOpacity}></UserCircleIcon>
 
