@@ -2,46 +2,54 @@ import { Dimensions, StyleSheet } from "react-native";
 
 const { width } = Dimensions.get("window");
 
-export const styles = StyleSheet.create({
+export const stylesheet = (theme: any) => StyleSheet.create({
     container: {
         flex: 1,
         width: width,
-        backgroundColor: "#000000",
+        backgroundColor: theme.primary,
     },
     header: {
-        padding: 25,
-    },
-    title: {
-        marginTop: 30,
-        fontSize: 24,
-        lineHeight: 45,
-        color: '#ffffff',
+        width: "95%",
+        paddingBottom: 10,
     },
     input: {
-        backgroundColor: "#585858",
-        height: 42,
-        padding: 10,
-        borderRadius: 16,
-        marginTop: 24,
-        marginBottom: 20,
+        height: 40,
+        padding: 15,
+        marginTop: 5,
+        borderRadius: 25,
         alignItems: "center",
+        flexDirection: "row",
         justifyContent: "space-between",
-        flexDirection: "row"
+        backgroundColor: theme.darkGrey,
     },
     textInput: {
-        color: "#ffffff",
         width: "80%",
-        paddingLeft: 15,
+        paddingLeft: 5,
+        color: theme.terciary,
     },
     empty: {
-        color: "#ffffff",
         fontSize: 18,
         textAlign: "center",
-        marginVertical: 20,
+        color: theme.terciary,
+    },
+    title: {
+        fontSize: 20,
+        marginBottom: 10,
+        textAlign: "left",
+        fontWeight: "bold",
+        marginHorizontal: 50,
+        color: theme.terciary,
     },
     list: {
+        flex: 1,
         width: width,
-        alignItems: "center",
-        justifyContent: "center",
+        marginVertical: 20,
+    },
+    categoryTitle: {
+        fontSize: 20,
+        color: theme.terciary,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        marginTop: 20,
     }
 });

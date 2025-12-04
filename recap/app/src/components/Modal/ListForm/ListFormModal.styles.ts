@@ -1,0 +1,72 @@
+import { StyleSheet } from "react-native";
+
+export const stylesheet = (theme: any) => StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: theme.primaryOpacity,
+    },
+    modal: {
+        width: "90%",
+        padding: 24,
+        borderWidth: 2,
+        borderRadius: 16,
+        borderColor: theme.terciary,
+        backgroundColor: theme.primary,
+    },
+    header: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+    headerTitle: {
+        paddingTop: 10,
+        position: "absolute",
+        paddingLeft: 5,
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: "center",
+        color: theme.terciary,
+        left: 0,
+        right: 0,
+        paddingBottom: 5,
+        paddingHorizontal: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.terciary,
+    },
+    title: {
+        marginLeft: 5,
+        marginTop: 15,
+        color: theme.terciary,
+    },
+    input: {
+        minHeight: 40,
+        padding: 12,
+        marginTop: 5,
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 15,
+        flexDirection: "row",
+        alignItems: "center",
+        color: theme.terciary,
+        borderColor: theme.terciary,
+    },
+    btnView: {
+        marginTop: 20,
+        alignItems: "center",
+    },
+    btn: {
+        width: 100,
+        height: 30,
+        borderRadius: 8,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: theme.secondary,
+    },
+    btnText: {
+        fontWeight: "bold",
+        textAlign: "center",
+        color: theme.terciary,
+    },
+});

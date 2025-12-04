@@ -15,7 +15,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/recap-logo.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000"
       },
       "edgeToEdgeEnabled": true
     },
@@ -30,9 +30,10 @@
         {
           "image": "./assets/images/recap-logo.png",
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#000"
         }
-      ]
+      ],
+      "expo-font"
     ]
   }
 }

@@ -1,0 +1,5 @@
+import RecommendationPage from "../../src/views/Recommendation/RecommendationPage";
+
+export default function Recommendation() {
+  return <RecommendationPage />;
+}

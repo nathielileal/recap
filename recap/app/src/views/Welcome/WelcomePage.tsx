@@ -1,43 +1,36 @@
 import { useRouter } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { useMemo } from "react";
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import Svg, { Path } from "react-native-svg";
+import { useThemeContext } from "../../provider/ThemeProvider";
+import { stylesheet } from "./Welcome.styles";
 
 export default function WelcomePage() {
   const router = useRouter();
+  const { theme } = useThemeContext();
+  const styles = useMemo(() => stylesheet(theme), [theme]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#121212', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 24 }}>
-      <Text style={{ fontSize: 28, color: '#fff', fontWeight: 'bold', marginBottom: 40 }}>
-        Bem-vindo ao RECAP
-      </Text>
+    <View style={styles.page}>
+      <Image source={require('../../../../assets/images/recap-screen.png')} style={styles.image} resizeMode="contain" />
 
-      <TouchableOpacity
-        style={{
-          backgroundColor: '#E50914',
-          paddingVertical: 14,
-          paddingHorizontal: 32,
-          borderRadius: 8,
-          marginBottom: 16,
-          width: '100%',
-          alignItems: 'center',
-        }}
-        onPress={() => router.push("/(auth)/sign-up")}
-      >
-        <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Cadastrar</Text>
-      </TouchableOpacity>
+      <View style={styles.container}>
+        <Svg height="100%" width="100%" viewBox="0 0 100 100" style={styles.shape}>
+          <Path d="M0,50 C25,40 75,60 100,50 L100,100 L0,100 Z" fill={theme.primary} />
+        </Svg>
 
-      <TouchableOpacity
-        style={{
-          backgroundColor: '#333',
-          paddingVertical: 14,
-          paddingHorizontal: 32,
-          borderRadius: 8,
-          width: '100%',
-          alignItems: 'center',
-        }}
-        onPress={() => router.push("/(auth)/sign-in")}
-      >
-        <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold' }}>Já tenho conta</Text>
-      </TouchableOpacity>
-    </View>
+        <View style={styles.content}>
+          <Text style={styles.title}>Olá!</Text>
+          <Text style={styles.subtitle}>Sua memória, seus filmes. Tudo em um só lugar.</Text>
+        </View>
+
+        <TouchableOpacity style={styles.button} onPress={() => router.push('/(auth)/sign-in')}>
+          <Text style={styles.text}>Continue</Text>
+          <View style={styles.circle}>
+            <Text style={styles.icon}>→</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View >
   );
 }
