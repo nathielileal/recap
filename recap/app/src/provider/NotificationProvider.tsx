@@ -1,4 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { NotificatonService } from "../services/notification.service";
+import { useAuthContext } from "../context/AuthContext";
 
 interface NotificationCount {
     unreadCount: number;
@@ -18,17 +20,25 @@ export function useNotificationContext() {
     return useContext(NotificationContext);
 }
 
-const INTERVAL = 30000; 
+const INTERVAL = 3000;
 
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
     const [unreadCount, setUnreadCount] = useState(0);
+    const { isAuthenticated, isLoading } = useAuthContext();
 
     const fetchUnreadCount = async (): Promise<NotificationCount> => {
-        const dummyCount = Math.floor(Math.random() * 5); 
-        return { unreadCount: dummyCount }; 
+        const data = await NotificatonService.getNotificationByUserID();
+        let count = data.filter((notif) => notif.read === false).length
+
+        return { unreadCount: count };
     };
 
     const refreshCount = useCallback(async () => {
+        if (!isAuthenticated) {
+            setUnreadCount(0);
+            return;
+        }
+
         try {
             const data = await fetchUnreadCount();
             setUnreadCount(data.unreadCount);
@@ -36,17 +46,19 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
             console.error("Erro ao buscar contagem de notificações:", error);
             setUnreadCount(0);
         }
-    }, []);
+    }, [isAuthenticated]);
 
     useEffect(() => {
-        refreshCount(); 
-
-        const intervalId = setInterval(() => {
+        if (!isLoading) {
             refreshCount();
-        }, INTERVAL);
 
-        return () => clearInterval(intervalId);
-    }, [refreshCount]);
+            const intervalId = setInterval(() => {
+                refreshCount();
+            }, INTERVAL);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [refreshCount, isLoading]);
 
     const value = { unreadCount, refreshCount };
 

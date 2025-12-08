@@ -24,4 +24,14 @@ export const stylesheet = (theme: any) => StyleSheet.create({
         color: theme.terciary,
         fontFamily: 'IBMPlexMono_400Regular',
     },
+    empty: {
+        margin: 20,
+        fontSize: 16,
+        textAlign: "center",
+        color: theme.terciary,
+    },
+    container: {
+        flex: 1,
+        width: "90%", 
+    },
 });

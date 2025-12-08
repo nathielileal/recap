@@ -1,15 +1,15 @@
 export interface Notification {
     id: string;
+    userId: string;
     type: string;
     read: boolean;
-    userId: string;
+    data: NotificationData;
     createdAt: string;
-    data: NotificationType[];
 }
 
-export interface NotificationType {
+export interface NotificationData {
     message: string;
-    timestramp: string;
+    timestamp: string;
     followerId: string;
     followerName: string;
 }
