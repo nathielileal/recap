@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { AuthProvider } from './src/context/AuthContext';
 import { AuthRedirector } from './src/context/AuthRedirector';
 import { CustomThemeProvider } from './src/provider/ThemeProvider';
+import { NotificationProvider } from './src/provider/NotificationProvider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,7 +30,9 @@ export default function RootLayout() {
   return (
     <CustomThemeProvider>
       <AuthProvider>
-        <AuthRedirector />
+        <NotificationProvider>
+          <AuthRedirector />
+        </NotificationProvider>
       </AuthProvider>
     </CustomThemeProvider>
   );

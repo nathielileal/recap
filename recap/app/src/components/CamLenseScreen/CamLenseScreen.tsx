@@ -6,6 +6,7 @@ import { useThemeContext } from '../../provider/ThemeProvider';
 import { SessionExpiredScreen } from '../SessionExpired/SessionExpiredScreen';
 import { stylesheet } from './CamLenseScreen.styles';
 import { router } from 'expo-router';
+import { NotificationIcon } from '../Notification/NotificationIcon';
 
 interface Props {
     title?: string,
@@ -33,9 +34,10 @@ export function CamLenseScreen({ title, header, children, paddingVertical, paddi
 
             <View style={styles.headerItemRight}>
                 <View style={styles.functions}>
-                    <TouchableOpacity onPress={() => router.push({ pathname: "/(protected)/(app)/notification" })}>
+                    {/* <TouchableOpacity onPress={() => router.push({ pathname: "/(protected)/(app)/notification" })}>
                         <BellSimpleRingingIcon color={theme.terciary} size={25} weight="light" />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+                    <NotificationIcon/>
 
                     <TouchableOpacity onPress={toggleTheme}>
                         <SwatchesIcon color={theme.terciary} size={25} weight="light" />

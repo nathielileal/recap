@@ -34,7 +34,7 @@ export const AuthService = {
   async sighUp(data: { email: string; name: string; password: string }): Promise<ApiResponse<User>> {
     try {
       const response = await axios.post(`${AUTH_URL}/user/register`, data);
-      const { uid, email } = response.data;
+      const { id: uid, email } = response.data;
 
       await AsyncStorage.setItem('id_user', uid);
       await AsyncStorage.setItem('email_user', email);
@@ -52,7 +52,7 @@ export const AuthService = {
         return { success: false, error: errorMsg || 'Erro no cadastro. Tente novamente mais tarde.' };
       }
 
-      return { success: false, error: 'Ocorreu um erro desconhecido.' };
+      return { success: false, error: 'Ocorreu um erro desconhecido no cadastro.' };
     }
   },
 
@@ -64,7 +64,12 @@ export const AuthService = {
       await AsyncStorage.setItem('id_user', uid);
       await AsyncStorage.setItem('auth_token', token);
 
-      return { success: true, token };
+      // return { success: true, token };
+       if (response.status == 201 || response.status == 200) {
+        return { success: true, token };
+      }
+
+      return { success: false, token, error: 'Ocorreu um erro inesperado no login.' };
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const apiError = error.response?.data?.error || error.response?.data?.message;
@@ -73,7 +78,7 @@ export const AuthService = {
         return { success: false, error: errorMsg || 'Não foi possível acessar o sistema agora. Tente novamente mais tarde!' };
       }
 
-      return { success: false, error: 'Ocorreu um erro desconhecido.' };
+      return { success: false, error: 'Ocorreu um erro desconhecido no login.' };
     }
   },
 
