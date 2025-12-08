@@ -81,7 +81,7 @@ export const useAuthViewModel = () => {
     const signUpResult = await AuthService.sighUp({ email, name: username, password });
 
     if (!signUpResult?.success) {
-      setAuthError(signUpResult?.error || 'Não foi possível criar a conta. Tente novamente.');
+      setAuthError(signUpResult?.error || 'Não foi possível criar a conta. Tente novamente mais tarde.');
 
       setIsLoading(false);
 
@@ -93,7 +93,7 @@ export const useAuthViewModel = () => {
     const signInResult = await AuthService.signIn({ email, password });
 
     if (!signInResult?.success) {
-      setAuthError(signUpResult?.error || 'Não foi possível criar a conta. Tente novamente.');
+      setAuthError(signUpResult?.error || 'Não foi possível acessar a conta. Tente novamente mais tarde.');
 
       setIsLoading(false);
 

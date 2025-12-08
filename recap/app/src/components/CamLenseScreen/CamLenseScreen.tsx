@@ -48,7 +48,7 @@ export function CamLenseScreen({ title, header, children, paddingVertical, paddi
     return (
         <SafeAreaView style={styles.safeArea}>
                 {/* status bar do sistema operacional */}
-                <StatusBar barStyle={currentThemeKey === 'dark' ? 'light-content' : 'dark-content'} />
+                <StatusBar barStyle={currentThemeKey === 'dark' ? 'light-content' : 'dark-content'} backgroundColor={currentThemeKey === 'dark' ? theme.primary : 'white'}/>
 
                 {header || genericHeader}
 

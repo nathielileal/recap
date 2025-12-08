@@ -49,7 +49,7 @@ export const AuthService = {
         const apiError = error.response?.data?.error || error.response?.data?.message;
         const errorMsg = apiError ? translated(apiError) : null;
 
-        return { success: false, error: errorMsg || 'Erro no cadastro. Tente novamente.' };
+        return { success: false, error: errorMsg || 'Erro no cadastro. Tente novamente mais tarde.' };
       }
 
       return { success: false, error: 'Ocorreu um erro desconhecido.' };
@@ -70,7 +70,7 @@ export const AuthService = {
         const apiError = error.response?.data?.error || error.response?.data?.message;
         const errorMsg = apiError ? translated(apiError) : null;
 
-        return { success: false, error: errorMsg || 'Email ou senha incorretos.' };
+        return { success: false, error: errorMsg || 'Não foi possível acessar o sistema agora. Tente novamente mais tarde!' };
       }
 
       return { success: false, error: 'Ocorreu um erro desconhecido.' };
