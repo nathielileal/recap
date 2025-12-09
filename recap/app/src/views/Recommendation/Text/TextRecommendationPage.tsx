@@ -9,7 +9,7 @@ import { CardMovie } from "../../../components/Card/CardMovie/CardMovie";
 import { router } from "expo-router";
 
 export default function TextRecommendationPage() {
-  const { rec, loading, movie, hasRecommendations, search, setSearch, saveTextRec } = useRecommendationViewModel();
+  const { loading, textMovie, hasRecommendations, search, setSearch, saveTextRec } = useRecommendationViewModel();
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
 
@@ -55,19 +55,17 @@ export default function TextRecommendationPage() {
 
   return (
     <View style={[styles.container, { flex: 1, width: '100%' }]}>
-      {loading
-        ? <ActivityIndicator size="large" color={theme.secondary} style={{ marginTop: 50 }} />
-        : <FlatList
-          data={movie}
-          renderItem={renderMovie}
-          numColumns={3}
-          keyExtractor={(item, index) => `${item.tmdbId}-${index}`}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={header}
-          ListEmptyComponent={empty}
-          contentContainerStyle={{ padding: 2, alignItems: "center", justifyContent: "center" }}
-          columnWrapperStyle={{ justifyContent: 'flex-start', paddingHorizontal: 5 }}
-        />}
+      <FlatList
+        data={textMovie}
+        renderItem={renderMovie}
+        numColumns={3}
+        keyExtractor={(item, index) => `${item.tmdbId}-${index}`}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={header}
+        ListEmptyComponent={empty}
+        contentContainerStyle={{ padding: 2, alignItems: "center", justifyContent: "center" }}
+        columnWrapperStyle={{ justifyContent: 'flex-start', paddingHorizontal: 5 }}
+      />
     </View>
   );
 };

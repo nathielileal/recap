@@ -67,7 +67,7 @@ export default function NotificationPage() {
             </View>
         }>
             <View style={styles.container}>
-                {notif.length === 0 && !loading && (<Text style={styles.empty}>Você ainda não pediu nenhuma recomendação. Acesse a página de recomendações para descobrir novos filmes!</Text>)}
+                {notif.length === 0 && !loading && (<Text style={styles.empty}>Você não tem nenhuma notificação.</Text>)}
 
                 {loading && notif.length === 0 ? (
                     <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />

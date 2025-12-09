@@ -12,7 +12,7 @@ import { RecommendationType } from '../../models/recommendation';
 export default function HistoryPage() {
     const { toggleTheme, theme } = useThemeContext();
     const styles = useMemo(() => stylesheet(theme), [theme]);
-    const { rec, movie, get, loading, rate } = useRecommendationViewModel();
+    const { history, historyMovie, get, loading, rate } = useRecommendationViewModel();
 
     useFocusEffect(
         useCallback(() => {
@@ -21,7 +21,7 @@ export default function HistoryPage() {
     );
 
     const showRec = ({ item }: { item: RecommendationType }) => {
-        return (<CardRec data={item} movies={movie} rate={rate}></CardRec>);
+        return (<CardRec data={item} movies={historyMovie} rate={rate}></CardRec>);
     }
 
     return (
@@ -43,13 +43,13 @@ export default function HistoryPage() {
             </View>
         }>
             <View>
-                {rec.length === 0 && !loading && (<Text style={styles.empty}>Você ainda não pediu nenhuma recomendação. Acesse a página de recomendações para descobrir novos filmes!</Text>)}
+                {history.length === 0 && !loading && (<Text style={styles.empty}>Você ainda não pediu nenhuma recomendação. Acesse a página de recomendações para descobrir novos filmes!</Text>)}
 
-                {loading && rec.length === 0 ? (
+                {loading && history.length === 0 ? (
                     <ActivityIndicator size={50} color={theme.terciary} style={{ marginVertical: 20 }} />
-                ) : rec.length > 0 && (
+                ) : history.length > 0 && (
                     <FlatList
-                        data={rec}
+                        data={history}
                         style={{ flex: 1, marginVertical: 10 }}
                         renderItem={showRec}
                         keyExtractor={(item) => String(item.id)}

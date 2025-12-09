@@ -5,10 +5,19 @@ import { Movie } from '../models/movie';
 import { MovieService } from '../services/movie.service';
 
 export const useRecommendationViewModel = () => {
-    const [rec, setRec] = useState<RecommendationType[]>([]);
+    // rec perfil
+    const [rec, setRec] = useState<RecommendationType | null>(null);
+    const [movie, setMovie] = useState<Movie[]>([]);
+
+    // rec texto
+    const [textMovie, setTextMovie] = useState<Movie[]>([]);
+
+    // reqs usuario
+    const [history, setHistory] = useState<RecommendationType[]>([]);
+    const [historyMovie, setHistoryMovie] = useState<Movie[]>([]);
+
     const [filter, setFilter] = useState<"public" | "private" | "mine">("public");
     const [loading, setLoading] = useState(false);
-    const [movie, setMovie] = useState<Movie[]>([]);
     const [search, setSearch] = useState('');
     const [hasRecommendations, setHasRecommendations] = useState(true);
     const [like, setLike] = useState<boolean | null>(null);
@@ -21,13 +30,18 @@ export const useRecommendationViewModel = () => {
             const data = await RecommendationService.getRecommendationByUser();
 
             if (data.length === 0) {
-                setRec([]);
-                setMovie([]);
+                setHistory([]);
+                setHistoryMovie([]);
                 return;
             }
 
+            const hist = data.map(recommendation => ({
+                ...recommendation,
+                textPrompt: recommendation.textPrompt || 'Recomendação personalizada feita por IA' 
+            }));
+
             const movielist: Promise<Movie>[] = [];
-           
+
             data.forEach(recommendation => {
                 recommendation.movies?.forEach(item => {
                     if (item.tmdbId > 0) {
@@ -38,15 +52,15 @@ export const useRecommendationViewModel = () => {
 
             const movies = await Promise.all(movielist);
             const map = new Map();
-          
-            movies.forEach(movie => {map.set(movie.tmdbId, movie);});
-          
-            setRec(data);
-            setMovie(Array.from(map.values()));
+
+            movies.forEach(movie => { map.set(movie.tmdbId, movie); });
+
+            setHistory(hist);
+            setHistoryMovie(Array.from(map.values()));
             setHasRecommendations(data.length > 0);
         } catch (apiError: any) {
-            setRec([]);
-            setMovie([]);
+            setHistory([]);
+            setHistoryMovie([]);
             setHasRecommendations(false);
             console.error('Erro ao carregar recomendações:', apiError);
         } finally {
@@ -56,31 +70,39 @@ export const useRecommendationViewModel = () => {
 
     const load = async () => {
         setLoading(true);
-        setHasRecommendations(false);
 
         try {
-            const data = await RecommendationService.getRecommendation();
-            const recommendation = data?.[0]?.movies || [];
+            const data = await RecommendationService.saveRecommendation();
 
-            setHasRecommendations(recommendation.length > 0);
+            if (!data.success || !data.result) {
+                setRec(null);
+                setMovie([]);
+                setHasRecommendations(false);
+                setLoading(false);
+                return;
+            }
 
-            if (recommendation.length === 0) {
-                setRec([]);
+            const recommendation = data.result;
+            const recommendedMovies = recommendation.movies || [];
+            
+            setHasRecommendations(recommendedMovies.length > 0);
+
+            if (recommendedMovies.length === 0) {
+                setRec(null);
                 setMovie([]);
                 return;
             }
 
-            const moviePromises = recommendation
-                .filter(item => item.tmdbId > 0)
-                .map(item => MovieService.getMoviesById(item.tmdbId));
+            const moviePromises = recommendedMovies
+                .filter(item => (item.tmdbId ?? 0) > 0)
+                .map(item => MovieService.getMoviesById(item.tmdbId ?? 0));
 
             const movies = await Promise.all(moviePromises);
 
-            setRec(data);
-            setLike(data[0].liked ?? false);
+            setRec(recommendation);
             setMovie(movies);
         } catch (apiError: any) {
-            setRec([]);
+            setRec(null);
             setMovie([]);
             setHasRecommendations(false);
             console.error('Erro ao carregar recomendações:', apiError);
@@ -96,8 +118,7 @@ export const useRecommendationViewModel = () => {
             const data = await RecommendationService.saveTextRecommendation(text);
 
             if (!data.success || !data.results) {
-                setRec([]);
-                setMovie([]);
+                setTextMovie([]);
                 setHasRecommendations(false);
                 setLoading(false);
                 return;
@@ -107,8 +128,7 @@ export const useRecommendationViewModel = () => {
             setHasRecommendations(recommendation.length > 0);
 
             if (recommendation.length === 0) {
-                setRec([]);
-                setMovie([]);
+                setTextMovie([]);
                 return;
             }
 
@@ -118,11 +138,9 @@ export const useRecommendationViewModel = () => {
 
             const movies = await Promise.all(moviePromises);
 
-            setRec(recommendation);
-            setMovie(movies);
+            setTextMovie(movies);
         } catch (apiError: any) {
-            setRec([]);
-            setMovie([]);
+            setTextMovie([]);
             setHasRecommendations(false);
             console.error('Erro ao carregar recomendações:', apiError);
         } finally {
@@ -135,18 +153,17 @@ export const useRecommendationViewModel = () => {
         const result = await RecommendationService.rateRecommendation(id, liked);
 
         if (result.success) {
-            setRec(prevRec =>
-                prevRec.map(recommendation => {
-                    if (recommendation.id === id) {
-                        return { ...recommendation, liked: liked };
-                    }
-                    return recommendation;
-                })
-            );
+            setRec(prevRec => {
+                if (prevRec && prevRec.id === id) {
+                    return { ...prevRec, liked: liked };
+                }
+
+                return prevRec;
+            });
         }
 
         return result;
     };
 
-    return { rec, load, get, loading, filter, setFilter, movie, hasRecommendations, search, setSearch, saveTextRec, rate, like };
+    return { rec, history, load, get, loading, filter, setFilter, movie, textMovie, historyMovie, hasRecommendations, search, setSearch, saveTextRec, rate, like };
 };

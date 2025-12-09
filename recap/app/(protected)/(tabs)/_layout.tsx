@@ -7,6 +7,7 @@ const _Layout = () => {
     <Tabs tabBar={() => <TabBar />} screenOptions={{ headerShown: false }}>
       <Tabs.Screen name="index" />
       <Tabs.Screen name="lists" />
+      <Tabs.Screen name="feed" />
       <Tabs.Screen name="friends" />
       <Tabs.Screen name="config" />
       <Tabs.Screen name="recommendation" />

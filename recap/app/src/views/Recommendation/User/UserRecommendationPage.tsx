@@ -9,7 +9,7 @@ import { CardMovie } from "../../../components/Card/CardMovie/CardMovie";
 import { router } from "expo-router";
 
 export default function UserRecommendationPage() {
-  const { rec, load, loading, movie, hasRecommendations, rate, like } = useRecommendationViewModel();
+  const { rec, movie, load, loading, hasRecommendations, rate, like } = useRecommendationViewModel();
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
 
@@ -18,7 +18,7 @@ export default function UserRecommendationPage() {
   );
 
   const handleRate = async (liked: boolean | null) => {
-    await rate(rec[0].id ?? '', liked);
+    await rate(rec?.id ?? '', liked);
   }
 
   const header = (

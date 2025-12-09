@@ -17,7 +17,6 @@ export const useListsViewModel = () => {
   const [userLists, setUserLists] = useState<List[]>([]);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
-  const [filter, setFilter] = useState<"public" | "private" | "mine">("private");
   const [selectedList, setSelectedList] = useState<List | null>(null);
 
   // movie page
@@ -28,9 +27,7 @@ export const useListsViewModel = () => {
     const applyFilter = async () => {
       const userId = await AuthService.getAuthIDUser();
       const result = lists.filter(list => {
-        if (filter === "public") {
           return list.userId === userId;
-        }
 
         return true;
       });
@@ -39,7 +36,7 @@ export const useListsViewModel = () => {
     };
 
     applyFilter();
-  }, [lists, filter]);
+  }, [lists]);
 
   const load = useCallback(async (strsearch: string) => {
     setLoading(true);
@@ -111,7 +108,7 @@ export const useListsViewModel = () => {
   };
 
   return {
-    lists: userLists, empty, name, setName, loading, isModalOpen, setIsModalOpen, saveList, updateList, deleteList, filter, setFilter, selectedList, setSelectedList, load, error,
+    lists: userLists, empty, name, setName, loading, isModalOpen, setIsModalOpen, saveList, updateList, deleteList, selectedList, setSelectedList, load, error,
     movies, loadMovies, loadingMovies, addMovieToList, deleteMovieFromList, search, setSearch, searchMovies, onSearchChange
   };
 };

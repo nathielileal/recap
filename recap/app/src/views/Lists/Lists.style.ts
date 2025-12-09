@@ -72,6 +72,10 @@ export const stylesheet = (theme: any) => StyleSheet.create({
     marginBottom: 10,
     color: theme.terciary,
   },
+  options: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   cardItems: {
     fontSize: 12,
     color: theme.grey,

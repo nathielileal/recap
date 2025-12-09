@@ -20,17 +20,17 @@ export function useNotificationContext() {
     return useContext(NotificationContext);
 }
 
-const INTERVAL = 3000;
+const INTERVAL = 30000;
 
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
     const [unreadCount, setUnreadCount] = useState(0);
     const { isAuthenticated, isLoading } = useAuthContext();
 
     const fetchUnreadCount = async (): Promise<NotificationCount> => {
-        const data = await NotificatonService.getNotificationByUserID();
-        let count = data.filter((notif) => notif.read === false).length
+        const response = await NotificatonService.getNotificationByUserID();
+        let count = response.result?.filter((notif) => notif.read === false).length
 
-        return { unreadCount: count };
+        return { unreadCount: count ?? 0 };
     };
 
     const refreshCount = useCallback(async () => {

@@ -12,14 +12,14 @@ export const useNotificationViewModel = () => {
         try {
             const result = await NotificatonService.getNotificationByUserID();
 
-            const data = result.sort((a, b) => {
+            const data = result.result?.sort((a, b) => {
                 const dateA = new Date(a.createdAt).getTime();
                 const dateB = new Date(b.createdAt).getTime();
 
                 return dateB - dateA;
             });
 
-            setNotif(data);
+            setNotif(data ?? []);
         } catch (apiError: any) {
             setNotif([]);
             console.error('Erro ao carregar notificações:', apiError);

@@ -1,17 +1,18 @@
 import { usePathname, useRouter } from "expo-router";
-import { ChatCircleTextIcon, HouseIcon, RowsPlusBottomIcon, UserCircleGearIcon, UsersThreeIcon } from "phosphor-react-native";
-import { TouchableOpacity, View } from "react-native";
+import { AddressBookTabsIcon, BookmarkIcon, BookmarkSimpleIcon, BridgeIcon, BroadcastIcon, ChatCircleTextIcon, HouseIcon, RowsPlusBottomIcon, UserCircleGearIcon, UsersThreeIcon } from "phosphor-react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useThemeContext } from "../../provider/ThemeProvider";
 import { stylesheet } from "./TabBar.styles";
 import { useMemo } from "react";
 
 const tabs = [
-  { name: 'lists', route: '/lists', Icon: RowsPlusBottomIcon },
-  { name: 'recommendation', route: '/recommendation', Icon: ChatCircleTextIcon },
-  { name: 'index', route: '/', Icon: HouseIcon },
-  { name: 'friends', route: '/friends', Icon: UsersThreeIcon },
-  { name: 'config', route: '/config', Icon: UserCircleGearIcon },
+  { name: 'listas', route: '/lists', Icon: RowsPlusBottomIcon },
+  { name: 'recomendação', route: '/recommendation', Icon: ChatCircleTextIcon },
+  { name: 'página inicial', route: '/', Icon: HouseIcon },
+  { name: 'feed', route: '/feed', Icon: BroadcastIcon },
+  { name: 'amigos', route: '/friends', Icon: UsersThreeIcon },
+  { name: 'configurações', route: '/config', Icon: UserCircleGearIcon },
 ];
 
 export function TabBar() {
@@ -29,6 +30,7 @@ export function TabBar() {
             return (
               <TouchableOpacity key={name} onPress={() => router.push(route)} style={styles.tabButton}>
                 <Icon color={theme.secondaryOpacity} size={focused ? 30 : 22} weight="fill"/>
+                <Text style={{ color: theme.terciary, opacity: 0.8, fontSize: focused ? 9 : 7, marginTop: 3 }}>{name.charAt(0).toUpperCase() + name.slice(1)}</Text>
               </TouchableOpacity>
             );
           })}

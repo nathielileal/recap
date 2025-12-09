@@ -7,18 +7,24 @@ import { ApiResponse } from "../models/api-response";
 export const api = createApiInstance('notification');
 
 export const NotificatonService = {
-    getNotificationByUserID: async (): Promise<Notification[]> => {
+    getNotificationByUserID: async (): Promise<ApiResponse<Notification[]>> => {
         try {
             const userId = await AuthService.getAuthIDUser();
             const response = await api.get<Notification[]>(`/notifications/${userId}`);
 
-            return response.data;
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                throw new Error(error.response?.data?.error || 'Erro ao listar notificações.');
+             if (response.status == 201 || response.status == 200) {
+                return { success: true, result: response.data };
             }
 
-            throw new Error('Ocorreu um erro inesperado.');
+            return { success: false, error: 'Ocorreu um erro inesperado ao mostrar notificações.' };
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                const apiError = error.response?.data?.error || error.response?.data?.message;
+
+                return { success: false, error: apiError || 'Ocorreu um erro ao mostrar as notificações. Tente novamente mais tarde.' };
+            }
+
+            return { success: false, error: 'Ocorreu um erro desconhecido.' };
         }
     },
 

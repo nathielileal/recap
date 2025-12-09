@@ -36,6 +36,27 @@ export const RecommendationService = {
         }
     },
 
+    saveRecommendation: async (): Promise<ApiResponse<RecommendationType>> => {
+        try {
+            const userId = await AuthService.getAuthIDUser();
+            const response = await api.post<RecommendationType>('/recommendations/me', { userId: userId });
+
+            console.log(response.data);
+
+            if (response.status == 201 || response.status == 200) {
+                return { success: true, result: response.data || null };
+            }
+
+            return { success: false, error: 'Ocorreu um erro inesperado ao gerar recomendação.' };
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                throw new Error(error.response?.data?.error || 'Erro ao gerar recomendação.');
+            }
+
+            throw new Error('Ocorreu um erro desconhecido.');
+        }
+    },
+
     async saveTextRecommendation(text: string): Promise<ApiResponse<RecommendationType>> {
         try {
             const userId = await AuthService.getAuthIDUser();

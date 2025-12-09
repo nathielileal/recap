@@ -11,11 +11,9 @@ interface Props {
   onDeletePress?: () => void,
   showInfo?: boolean,
   children?: React.ReactNode,
-  imageSize?: number,
-  imageArea?: number,
 }
 
-export function ListCard({ data, onEditPress, onDeletePress, showInfo, children, imageSize, imageArea }: Props) {
+export function ListCard({ data, onEditPress, onDeletePress, showInfo, children }: Props) {
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
 
@@ -33,22 +31,14 @@ export function ListCard({ data, onEditPress, onDeletePress, showInfo, children,
   return (
     <View style={[styles.card, { width: "100%", marginBottom: 10 }]}>
       <View style={styles.cardContent}>
-        {data.image_path === null ? (
-          <View>
-            <Image source={{ uri: data.image_path, }} style={[styles.cardImage, { width: imageArea || 80, height: imageArea || 80 }]} ></Image>
-          </View>
-        ) : (
-          <View style={[styles.cardImage, { width: imageArea || 80, height: imageArea || 80 }]}>
-            <ImageSquareIcon size={imageSize || 20} color={theme.secondary} />
-          </View>
-        )}
-
         <View style={styles.cardText}>
           <Text style={styles.cardTitle}>{data.name}</Text>
-          {showInfo ?? <Text style={styles.cardDescription}>{data.description ?? 'Descrição da lista'}</Text>}
-          <Text style={styles.cardDescription}>{`${data.movies.length} ${data.movies.length === 1 ? 'filme' : 'filmes'}`}</Text>
 
-          {children || options}
+          <View style={styles.options}>
+            <Text style={styles.cardDescription}>{`${data.movies.length} ${data.movies.length === 1 ? 'filme' : 'filmes'}`}</Text>
+
+            {children || options}
+          </View>
         </View>
       </View>
     </View>

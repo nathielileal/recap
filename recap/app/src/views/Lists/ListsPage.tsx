@@ -14,7 +14,7 @@ import { ListFormModal } from "../../components/Modal/ListForm/ListFormModal";
 const ListsPage = () => {
   const { theme } = useThemeContext();
   const styles = useMemo(() => stylesheet(theme), [theme]);
-  const { lists, loading, search, setSearch, empty, isModalOpen, setIsModalOpen, deleteList, filter, setFilter, selectedList, setSelectedList, load, error } = useListsViewModel();
+  const { lists, loading, search, setSearch, empty, isModalOpen, setIsModalOpen, deleteList, selectedList, setSelectedList, load, error } = useListsViewModel();
 
   useFocusEffect(
         useCallback(() => {
@@ -65,8 +65,6 @@ const ListsPage = () => {
 
   return (
     <CamLenseScreen title="Listas">
-      <FilterTabs firstOption="Todas as listas" secondOption="Minhas listas" filter={filter} setFilter={setFilter} />
-
       <View style={styles.header}>
         <View style={styles.input}>
           <TextInput placeholder="Buscar" placeholderTextColor={theme.terciary} style={styles.textInput} value={search} onChangeText={setSearch} autoCapitalize="none" />
