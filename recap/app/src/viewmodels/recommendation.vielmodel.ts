@@ -74,7 +74,7 @@ export const useRecommendationViewModel = () => {
         try {
             const data = await RecommendationService.saveRecommendation();
 
-            if (!data.success || !data.result) {
+            if (!data.success || !data.result || !data.result.recommendations || data.result.recommendations.length === 0) {
                 setRec(null);
                 setMovie([]);
                 setHasRecommendations(false);
@@ -82,24 +82,23 @@ export const useRecommendationViewModel = () => {
                 return;
             }
 
-            const recommendation = data.result;
-            const recommendedMovies = recommendation.movies || [];
+            const recommendations = data.result.recommendations;
             
-            setHasRecommendations(recommendedMovies.length > 0);
+            setHasRecommendations(recommendations.length > 0);
 
-            if (recommendedMovies.length === 0) {
+            if (recommendations.length === 0) {
                 setRec(null);
                 setMovie([]);
                 return;
             }
 
-            const moviePromises = recommendedMovies
+            const moviePromises = recommendations
                 .filter(item => (item.tmdbId ?? 0) > 0)
                 .map(item => MovieService.getMoviesById(item.tmdbId ?? 0));
 
             const movies = await Promise.all(moviePromises);
 
-            setRec(recommendation);
+            setRec(recommendations[0]);
             setMovie(movies);
         } catch (apiError: any) {
             setRec(null);

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { User } from "../models/user";
 import { UserService } from "../services/user.service";
 import { Social } from "../models/social";
 import { AuthService } from "../services/auth.service";
+import { User } from "../models/User";
 
 export function useFriendsViewModel() {
     const [filter, setFilter] = useState<"public" | "private" | "mine">("mine");

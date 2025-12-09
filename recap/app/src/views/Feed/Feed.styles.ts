@@ -1,7 +1,10 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-const { width } = Dimensions.get("window");
-
 export const stylesheet = (theme: any) => StyleSheet.create({
-    
+    empty: {
+        margin: 15,
+        fontSize: 16,
+        textAlign: "center",
+        color: theme.terciary,
+    },
 });

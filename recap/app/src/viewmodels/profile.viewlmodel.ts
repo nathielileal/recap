@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
-import { User } from '../models/user';
 import { Social } from '../models/social';
 import { RatingService } from '../services/rating.service';
 import { CatalogService } from '../services/catalog.service';
+import { User } from '../models/User';
 
 export const useProfileViewModel = (id: string) => {
   const [user, setUser] = useState<User | null>(null);

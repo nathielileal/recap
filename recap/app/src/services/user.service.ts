@@ -1,8 +1,8 @@
 import axios from "axios";
 import { createApiInstance } from "./api.service";
-import { User } from "../models/user";
 import { ApiResponse } from "../models/api-response";
 import { Social } from "../models/social";
+import { User } from "../models/User";
 
 export const api = createApiInstance('user');
 

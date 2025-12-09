@@ -11,6 +11,7 @@ export const RecommendationService = {
         try {
             const response = await api.get<Recommendation>(`/recommendations/me`);
 
+            console.log(response.data.recommendations);
             return response.data.recommendations || [];
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -26,6 +27,7 @@ export const RecommendationService = {
             const userId = await AuthService.getAuthIDUser();
             const response = await api.get<Recommendation>(`/recommendations/${userId}`);
 
+            console.log(response.data.recommendations);
             return response.data.recommendations || [];
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -36,10 +38,10 @@ export const RecommendationService = {
         }
     },
 
-    saveRecommendation: async (): Promise<ApiResponse<RecommendationType>> => {
+    saveRecommendation: async (): Promise<ApiResponse<Recommendation>> => {
         try {
             const userId = await AuthService.getAuthIDUser();
-            const response = await api.post<RecommendationType>('/recommendations/me', { userId: userId });
+            const response = await api.post<Recommendation>('/recommendations/me', { userId: userId });
 
             console.log(response.data);
 
@@ -62,6 +64,7 @@ export const RecommendationService = {
             const userId = await AuthService.getAuthIDUser();
             const response = await api.post<Recommendation>('/recommendations/text', { userId: userId, text: text });
 
+            console.log(response.data.recommendations);
             if (response.status == 201 || response.status == 200) {
                 return { success: true, results: response.data.recommendations || [] };
             }

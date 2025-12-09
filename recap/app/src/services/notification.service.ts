@@ -12,12 +12,14 @@ export const NotificatonService = {
             const userId = await AuthService.getAuthIDUser();
             const response = await api.get<Notification[]>(`/notifications/${userId}`);
 
+            console.log(response.data);
              if (response.status == 201 || response.status == 200) {
                 return { success: true, result: response.data };
             }
 
             return { success: false, error: 'Ocorreu um erro inesperado ao mostrar notificações.' };
         } catch (error) {
+            console.log(error);
             if (axios.isAxiosError(error)) {
                 const apiError = error.response?.data?.error || error.response?.data?.message;
 
